@@ -1,0 +1,10 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+      <nb-card-header>{{popuptitle}}</nb-card-header><br>
+      <nb-card-body>{{ data }}</nb-card-body><br>
+      <nb-card-footer>
+        <button class="Pasbtn" (click)="ref.close()">Close</button> 
+      </nb-card-footer><br>
+    </nb-card>
+  </ng-template>
+  <button class="Pasbtn"(click)="open(dialog)">{{buttonName}}</button>

@@ -1,0 +1,81 @@
+.card {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 10px 20px rgba(199, 199, 199, 0.41);
+
+  .card-body {
+    padding: 10px 14px;
+  }
+
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font: normal normal normal 18px/22px Roboto;
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 0.5;
+  }
+
+  .InputName {
+    border: none;
+  }
+  .InputDept {
+    width: 220px;
+    background-color: white;
+    border: none;
+  }
+  .view-all {
+    font: normal normal medium 14px/25px Roboto;
+    letter-spacing: 0.7px;
+    color: #0c67ef;
+    opacity: 1;
+    margin-top: -11px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /*  :host{
+            padding-right: 2rem !important;
+                width: 294px !important;
+                background-color: white !important;
+                height: 29px i !important;
+                border: none !important;
+                color: gray !important;
+             } */
+}
+.ag-theme-alpine {
+  margin-left: 18px;
+}
+
+.search {
+  font: normal normal normal 24px/29px Roboto;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+
+::ng-deep
+  .nb-theme-default
+  nb-select.appearance-outline.status-basic
+  .select-button.placeholder {
+  font: normal normal normal 18px/22px Roboto !important;
+  letter-spacing: 0.02px !important;
+  color: #020202 !important;
+  opacity: 0.5 !important;
+}
+
+::ng-deep .nb-theme-default nb-checkbox.status-basic .custom-checkbox.checked {
+  background-color: black !important;
+  border: none;
+}
+.col-md-12 {
+  padding-left: 0px;
+}
+.iconSearch {
+  color: #020202;
+  opacity: 0.5;
+}
+.deletepopup{
+  height: 216px;
+  width: 458px;
+  border-radius: 10px;
+}

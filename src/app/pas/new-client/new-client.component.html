@@ -1,0 +1,237 @@
+<!-- <div class="emp-details">
+    <div class="container">
+      <div class="row">
+        <i
+          class="fa fa-2x fa-arrow-left pl-3 py-4"
+          style="color: black; cursor: pointer"
+          (click)="back()"
+        ></i
+      ><div class="col heading ">Add New Client</div>
+        <div class="col d-flex justify-content-end align-items-start mt-4">
+          <button  
+          type="button"
+        (click)="saveClient()"
+          class="btn btn-dark ">
+            <i class="fa fa-save"></i> Save
+          </button> 
+        </div>
+      </div>
+    </div>
+  <div class="emp-form-group"  [formGroup]="clientForm">
+      <div class="container">
+        <div class="row">
+          <div class="col-4 form-title"><b>Basic Information</b></div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col"> <mat-form-field appearance="legacy">
+                <input
+                  matInput
+                  placeholder="Business Name"
+                  formControlName="businessName"
+                  required
+                />
+              </mat-form-field></div>
+              <div class="col"> <mat-form-field appearance="legacy">
+                <input
+                  matInput
+                  placeholder="Legal/Trade Name"
+                  formControlName="tradeName"
+                  
+                />
+              </mat-form-field></div>
+             
+            </div>
+           
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4 form-title"><b>Postal Address </b></div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-8">
+                <mat-form-field appearance="legacy" class="address">
+                  <input
+                    matInput
+                    placeholder="Address"
+                    formControlName="address"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Zip Code"
+                    formControlName="zipCode"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Town/City"
+                    formControlName="city"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="State/Region"
+                    formControlName="state"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <mat-select placeholder="Country"
+                  formControlName="country" aria-required="emptype">
+                    <mat-option value="India">india</mat-option>
+                    <mat-option value="United Kingdom">UK</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4 form-title"><b>Primary Contact </b></div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="First Name"
+                    formControlName="firstName"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Middle Name"
+                    formControlName="middleName"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Last Name"
+                    formControlName="lastName"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="email"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Mobile Number"
+                    formControlName="mobileNumber"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Telephone"
+                    formControlName="telephone"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4 form-title"><b>Account Information </b></div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Email"
+                    formControlName="accountMail"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Password"
+                    type="password"
+                    formControlName="password"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field appearance="legacy">
+                  <input
+                    matInput
+                    placeholder="Confirm Password"
+                    type="password"
+                    formControlName="confrimPassword"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<ng-template #secondDialog>
+  <h2 matDialogTitle>Error Error !!!!</h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose (click)="closeDialog()">Dismiss</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #successDialog>
+  <h2 matDialogTitle>Save Successful !!!!</h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose (click)="navigateToDashBoard()">Navigate To DashBoard</button>
+  </mat-dialog-actions>
+</ng-template> -->

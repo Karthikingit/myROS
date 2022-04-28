@@ -1,0 +1,691 @@
+<div class="container">
+  <!-- Shift Calendar Heading, Tab and Filters -->
+  <div class="row d-flex justify-content-between">
+    <div class="left d-flex">
+      <h4 class="mr-5">Shift Calendar</h4>
+      <span>
+        <ngx-toggle-tab
+          firstTab="Employees"
+          secondTab="My Shifts"
+          (selectedTabEvent)="selectedTab($event)"
+        >
+        </ngx-toggle-tab>
+      </span>
+    </div>
+    <div class="right" >
+      <div *ngIf="tab == 'Employees'">
+      <ngx-date-range-picker></ngx-date-range-picker>
+    </div>
+      <div *ngIf="tab == 'My Shifts'">
+        <div class="col-12 col-md-6 ">
+          <div
+            class="btn-group ml-3"
+            style="border: black solid 1px; height: 28px; width: 250px; border-radius: 4px;"
+          >
+            <div
+              class="btn btn-default"
+              style="margin-top: -5px"
+              mwlCalendarPreviousView
+              [view]="view"
+              [(viewDate)]="viewDate"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="cursor: pointer"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-arrow-left-short"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+                />
+              </svg>
+            </div>
+        
+            <h3 style="font-size: small; margin-top: -5px">
+              {{ viewDate | calendarDate: view + "ViewTitle":"en" }}
+            </h3>
+        
+            <div
+              class="btn"
+              style="margin-top: -5px"
+              mwlCalendarNextView
+              [view]="view"
+              [(viewDate)]="viewDate"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style="cursor: pointer"
+                width="20"
+                height="20"
+                fill="currentColor"
+                class="bi bi-arrow-right-short"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div> 
+        </div>
+    </div>
+  </div>
+
+  <!-- Add schedule button -->
+  <div class="row d-flex justify-content-end" *ngIf="tab == 'Employees'">
+    <button class="btn btn-sm btn-dark px-3" routerLink="../shift-schedular">
+      <i class="fa fa-plus"></i> Add Schedule
+    </button>
+  </div>
+
+  <!-- AG grid Table for shift calendar schedules -->
+  <div class="row mt-4" *ngIf="tab == 'Employees'">
+    <ag-grid-angular
+      style="width: 100%"
+      class="ag-theme-alpine"
+      domLayout="autoHeight"
+      [rowData]="allShiftCalendar"
+      [suppressRowClickSelection]="true"
+      [paginationPageSize]="10"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+    >
+    </ag-grid-angular>
+  </div>
+
+  <!-- <button (click)="download()">Download</button> -->
+</div>
+
+<!-- my shift calendar -->
+<!-- events -->
+<ng-template
+  #weekViewEventTemplate
+  let-weekEvent="weekEvent"
+  let-locale="locale"
+>
+  <div
+    class="cal-event"
+    style="color: black"
+    [ngClass]="{
+      approved: weekEvent.event.status == true,
+      pending: weekEvent.event.status == false,
+      vacation:weekEvent.event.status != true && weekEvent.event.status != false
+    }"
+  >
+    <span class="startend" *ngIf=" weekEvent.event.status == true || weekEvent.event.status == false " >
+      <b>
+        {{ weekEvent.event.start | date: "h:mm a" }} -
+        {{ weekEvent.event.end | date: "h:mm a" }}</b
+      >
+    </span>
+    <span  *ngIf=" weekEvent.event.status != true && weekEvent.event.status != false ">
+      <b class="ml-5">Vacation</b>  <br>
+      <b class="ml-4" >
+        {{ weekEvent.event.start | date: "d-MMM" }} -
+        {{ weekEvent.event.end | date: "dd-MMM" }}</b
+      >
+    
+      </span>
+   
+    <div class="icon" *ngIf=" weekEvent.event.status == true || weekEvent.event.status == false ">
+
+      <i class="fas fa-pencil-alt mr-1"  (click)="editdate(weekEvent.event)"></i>
+      <i class="fas fa-trash" (click)="deleteshift(weekEvent.event.id)"></i>
+    </div>
+    <div class="icon" *ngIf=" weekEvent.event.status != true && weekEvent.event.status != false ">
+
+      <i class="fas fa-pencil-alt mr-1"   (click)="editvacations(weekEvent.event)"></i>
+      <i class="fas fa-trash" (click)="deleteshift(weekEvent.event.id)"></i>
+    </div>
+    <div *ngIf="weekEvent.event.status == true">
+      <i class="fa fa-check-circle circle"></i>
+    </div>
+  </div>
+</ng-template>
+<!-- week-view blocks -->
+<ng-template
+  #weekView
+  let-segment="segment"
+  let-locale="locale"
+  let-isTimeLabel="isTimeLabel"
+>
+  <div *ngIf="isTimeLabel">
+    <span class="cal-time ml-2">
+      {{ segment.date | calendarDate: "dayViewHour":locale }}
+    </span>
+  </div>
+  <div *ngIf="!isTimeLabel">
+    <div class="cal-hour position-relative">
+      <span class="only-show-on-hover"
+        ><i class="fa fa-plus-circle" (click)="adddata(segment)"></i
+      ></span>
+    </div>
+  </div>
+</ng-template>
+<div class="myshifts" *ngIf="tab == 'My Shifts'">
+<mwl-calendar-week-view
+  [viewDate]="viewDate"
+  [hourSegments]="hourSegments"
+  [eventTemplate]="weekViewEventTemplate"
+  [hourSegmentTemplate]="weekView"
+  [events]="event"
+
+>
+</mwl-calendar-week-view>
+</div>
+<!-- add -->
+<ng-template #add let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="addForm">
+      <div class="d-flex justify-content-between" *ngIf="ids">
+        <h5 class="">
+          <span (click)="modal.dismiss()" style="cursor: pointer">
+            <i class="fa fa-arrow-left arrow"></i>
+          </span>
+          <b class="m"> Add Shift </b> <br />
+          <small class="ml-3">{{ ids.date | date: "M/d/YY,h:mm a" }}</small>
+        </h5>
+        <br />
+        <span class="btn btn-sm tab" (click)=" addshift(); modal.dismiss(); shiftconfirmation(); ">
+          <i class="far fa-save"></i> Save</span
+        >
+      </div>
+      <span class="single ml-5">
+        <select
+          name="city"
+          id="city"
+          class="form-control dropdonw1 ml-5"
+          (change)="changeCity($event)"
+          formcontrolName="city"
+        >
+          <option selected [ngValue]="london">London</option>
+          <option [ngValue]="us">US</option>
+        </select>
+      </span>
+      <span class="multiple"
+        ><select
+          name="name"
+          id="name"
+          class="form-control dropdonw2 ml-5 mt-5"
+          formcontrolName="name"
+        >
+          <option selected value="empobj.empName">
+            {{ empobj.empName }}
+          </option>
+        </select></span
+      >
+      <label
+        for=""
+        name="department"
+        id="department"
+        class="ml-5"
+        formcontrolName="department"
+      >
+        Department:  {{ empobj.department }}</label
+      >
+
+      <input class="dropdonw1 ml-5 mt-3" type="text" placeholder="Title" />
+      <select
+        name="position"
+        id="position"
+        formcontrolName="position"
+        class="form-control dropdonw1 mt-5 ml-5"
+      >
+        <option selected value="waiter">
+          {{ empobj.basicInfo.deptDetails.position }}
+        </option>
+      </select>
+      <div class="ml-5 mt-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-5">
+            <label for="" class="">Shift Start time</label> <br />
+            <input
+            formControlName="start_time"
+              class="time"
+              id="start_time"
+              name="start_time"
+              type="time"
+            
+            />
+          </span>
+          <span class="">
+            <label for="">Shift end time</label> <br />
+            <input
+              required
+              formControlName="end_time"
+              class="time"
+              id="end_time"
+              name="end_time"
+              type="time"
+            
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="row d-flex ml-5 mt-5">
+        <div class="col-md-12 d-flex">
+          <b class="mt-2">Approve</b>
+          <nb-toggle
+            name="approve"
+            id="approve"
+            formcontrolName="approve"
+            class="toggleSmall"
+          ></nb-toggle>
+        </div>
+      </div>
+
+      <!-- <div class="row d-flex mt-3 ml-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-3">
+            <b>9:15-12:20</b> <br />
+            <small class="mb-3">punch clock</small>
+          </span>
+          <span class="mr-3">
+            <b>9:00-12:00</b> <br />
+            <small class="mb-3">original shift time</small>
+          </span>
+        </div>
+      </div> -->
+      <hr class="line mt-5 mb-3" />
+      <div class="sendchanges">
+        <div class="mt-3 ml-5">
+          <b>Send Changes</b>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" (click)="events()" />
+            <label for="sms">Send Sms </label>
+          </span>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms">Send Message </label>
+          </span>
+        </div>
+        <span class="mt-3 ml-5"
+          ><small
+            ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+            changing shift from one employee to another, both employees will
+            notify</small
+          ></span
+        >
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- edit -->
+<ng-template #edit let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="editForm">
+      <div class="d-flex justify-content-between" *ngIf="id">
+        <h5 class="">
+          <span (click)="modal.dismiss()" style="cursor: pointer">
+            <i class="fa fa-arrow-left arrow"></i>
+          </span>
+          <b class="m"> Edit Shift </b> <br />
+          <small class="ml-3">{{ id.start | date: mediumDate }}</small>
+        </h5>
+        <br />
+        <span class="btn btn-sm tab" (click)="editshift(); modal.dismiss(); shifteditconfirmation();">
+          <i class="far fa-save"></i> save</span
+        >
+      </div>
+      <br />
+      <span class="single ml-5">
+        <select
+          name="City"
+          id="City"
+          class="form-control dropdonw1 ml-5"
+        >
+          <option value="{{ empobj.basicInfo.empDetails.city }}">
+            {{ empobj.basicInfo.empDetails.city }}
+          </option>
+        </select>
+      </span>
+      <span class="multiple mt-5 ml-5"
+        ><select
+          name="Name"
+          id="Name"
+          class="form-control dropdonw2 ml-5"
+        >
+          <option [ngValue]="empobj.empName" >{{ empobj.empName }}</option>
+        </select></span
+      >
+      <label
+        for=""
+        name="Department"
+        id="Department"
+        class="ml-5"
+      >
+        Department: {{ empobj.department }}</label
+      >
+
+      <input class="dropdonw1 mt-4 ml-5" type="text" placeholder="Title" />
+
+      <select
+        name="Position"
+        id="Position"
+        class="form-control dropdonw1 mt-5 ml-5"
+      >
+        <option selected [ngValue]="empobj.basicInfo.deptDetails.position">
+          {{ empobj.basicInfo.deptDetails.position }}
+        </option>
+      </select>
+      <div class="ml-5 mt-5">
+        <div class="col-md-12 d-flex">
+          <span class="">
+            <label for="" class="">Shift Start time</label> <br />
+            <input
+            formControlName="start_Time"
+              class="time"
+              id="start_Time"
+              name="start_Time"
+              type="time"
+              value="{{ id.start | date: 'h:mm' }}"
+            />
+          </span>
+          <span class="ml-5">
+            <label for="">Shift end time</label> <br />
+            <input
+              required
+              formControlName="end_Time"
+              type="time"
+              class="time"
+              id="end_Time"
+              name="end_Time"
+              value="{{ id.end | date: 'hh:mm' }} "
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="row d-flex mt-5 ml-5">
+        <div class="col-md-12 d-flex">
+          <b class="mt-2" name="approve" id="approve"  
+            >Approve</b
+          >
+          <nb-toggle class="toggleSmall" formControlName="approve"></nb-toggle>
+        </div>
+      </div>
+      <div class="row d-flex mt-3 ml-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-3">
+            <b>{{ id.punchin }}-{{ id.punchout }} </b> <br />
+            <small class="mb-3">punch clock</small>
+          </span>
+          <span class="mr-3">
+            <b>{{ id.start | date: "h:mm " }}-{{ id.end | date: "h:mm" }} </b>
+            <br />
+            <small class="mb-3">original shift time</small>
+          </span>
+        </div>
+      </div>
+      <hr class="line" />
+      <div class="sendchanges">
+        <div class="mt-3 ml-5">
+          <b>Send Changes</b>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms">Send Sms </label>
+          </span>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms">Send Message </label>
+          </span>
+        </div>
+        <span class="mt-3 ml-5"
+          ><small
+            ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+            changing shift from one employee to another, both employees will
+            notify</small
+          ></span
+        >
+      </div>
+      </form>
+  </div>
+</ng-template>
+<!-- delete -->
+<ng-template #deleteContent let-data let-ref="dialogRef">
+  <div class="deletepopup card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div>
+        <i class="fa fa-trash fa-3x"></i>
+      </div>
+      <div class="">
+        <h6 class="mt-4 d-flex">Are you sure want to delete?</h6>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)="deleteshifts(); ref.close()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- edit vacation -->
+<ng-template #editvacation let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="editvacationForm"  >
+    <div class="d-flex justify-content-between" >
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>
+        <b class="m"> Add New Vacation </b>
+        <p class="ml-5">Account balance</p>
+      </h5>
+      <br />
+      <span class="btn btn-sm tab" (click)="editvacationshift(); modal.dismiss(); vacationedit()">
+        <i class="far fa-save"></i> Save</span
+      >
+    </div>
+    <div class="row d-flex ml-3 mb-5">
+      <div class="col-md-3">
+        <span class="">
+          <b>28</b> <br />
+          <small class="mb-3">Total holidays</small>
+        </span>
+      </div>
+      <div class="col-md-3">
+        <b>17</b> <br />
+        <small class=""> Holidays left</small>
+      </div>
+      <div class="col-md-3">
+        <b>11</b> <br />
+        <small class="">Used holidays</small>
+      </div>
+    </div>
+    <div class="mb-3">
+      <span class="shift ml-3"
+        ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> shifts that
+        conflict the vacation period will be set to open shifts</span
+      >
+    </div>
+    <hr class="line" />
+
+    <br />
+    <div>
+      <select
+        name="name"
+        id="name"
+        class="form-control dropdonw2 ml-5"
+        formControlName="names"
+      >
+        <option value="{{ empobj.empName }}">{{ empobj.empName }}</option>
+      </select>
+      <label
+        for=""
+        name="department"
+        id="department"
+        class="ml-5"
+      >
+        Department: {{ empobj.department }}</label
+      >
+    </div>
+      <span class="single ml-5">
+        <input type="radio" name="test" id="singles" value="Single" />
+        <label for="singles">Single day </label>
+      </span>
+      <span class="multiple ml-5">
+        <input
+          type="radio"
+          name="test"
+          id="multiples"
+          value="Multiple"
+          checked
+        />
+        <label for="multiples">Multiple</label></span
+      >
+      <br />
+      <br />
+      <br />
+      <span class="start ml-5">
+        <input
+          type="date"
+          name="starts"
+          id="starts"
+          formControlName="Starts"
+          class="startdate"
+        />
+      </span>
+      <span class="end ml-5">
+        <input
+          name="ends"
+          id="ends" type="date"
+          formControlName="Ends"
+          class="enddate"
+        />
+      </span>
+      <br />
+      <div class="comment ml-5">
+        <br />
+        <br />
+
+        <input
+          type="text"
+          name="approve"
+          id="approve"
+          formControlName="Approve"
+          class="comments"
+        />
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- shift add confirmation -->
+<ng-template #addConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center"  >
+      <div style="text-align: end" >
+        <i
+         class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i> 
+
+      </div>
+      <div>
+        <i class="fa fa-check-circle  fa-3x"></i>
+      </div>
+      <div class="">
+        <h6 class="mt-4 d-flex">shift is successfully added</h6>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)=" deleteshifts(); ref.close()"
+        >
+          view shifts
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- shift edit confirmation -->
+<ng-template #editConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center"  >
+      <div style="text-align: end" >
+        <i
+         class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i> 
+
+      </div>
+      <div>
+        <i class="fa fa-check-circle  fa-3x"></i>
+      </div>
+      <div class="">
+        <h6 class="mt-4 d-flex">shift is successfully edited</h6>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)=" deleteshifts(); ref.close()"
+        >
+          view shifts
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Vacation edit confirmation -->
+<ng-template #vacationeditConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center"  >
+      <div style="text-align: end" >
+        <i
+         class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i> 
+
+      </div>
+      <div>
+        <i class="fa fa-check-circle  fa-3x"></i>
+      </div>
+      <div class="">
+        <h6 class="mt-4 d-flex">vacation is successfully edited</h6>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)=" deleteshifts(); ref.close()"
+        >
+          view shifts
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,18 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+      <nb-card-header>{{popuptitle}}
+        <span class = "icon"> <i class="fa fa-times" (click)="ref.close()"></i> </span>
+      </nb-card-header>
+      <nb-card-body>
+        <label for="">Name</label>
+        <textarea class="form-control" placeholder="Textarea" rows="1" [(ngModel)]="str"></textarea>
+         <!--<input type="text" id="str" [(ngModel)]="str"/>-->
+        <div class ="space"> <button class="Pasbtn1" (click)="saveName();ref.close()" > <i class="fa fa-save"></i>  Save Report </button></div>
+      </nb-card-body>
+      
+      <!-- <nb-card-footer>
+        <button nbButton (click)="ref.close()">Close</button>
+      </nb-card-footer><br> -->
+    </nb-card>
+  </ng-template>
+  <button class="Pasbtn" (click)="open(dialog)">Submit</button>

@@ -1,0 +1,963 @@
+<div class="d-flex justify-content-between">
+  <h6 class="">
+    <span style="cursor: pointer">
+      <i
+        class="fa fa-arrow-left arrow"
+        (click)="closePermissions()"
+        id="closePermissions"
+        name="closePermissions"
+      ></i>
+    </span>
+    &nbsp; <b> Update User Permissions</b> <br />
+  </h6>
+  <span
+    ><button
+      (click)="savePermission()"
+      id="savePermission"
+      name="savePermission"
+      class="btn btn-sm btn-dark px-3 mx-2 my-1"
+    >
+      <i class="fas fa-save"></i> SAVE
+    </button></span
+  >
+</div>
+
+<!-- <div class="row mt-3"> -->
+<div class="d-flex justify-content-between mt-3">
+  <div
+    (click)="setActive('Accounting')"
+    [class.actives]="activeCards == 'Accounting'"
+    class="duration ml-4 col-md-2"
+    id="Accounting"
+    name="Accounting"
+  >
+    Accounting
+  </div>
+  <div
+    (click)="setActive('Employees')"
+    [class.actives]="activeCards == 'Employees'"
+    class="duration col-md-2"
+    id="Employees"
+    name="Employees"
+  >
+    HR Management
+  </div>
+  <div
+    *ngIf="
+     
+      this.userData?.role?.name == 'ROLE_ACCOUNTOFFICER' ||
+      this.userData?.role?.name == 'ROLE_SUPERADMIN'
+    "
+    (click)="setActive('Admistration')"
+    [class.actives]="activeCards == 'Admistration'"
+    class="duration col-md-2"
+    id="Admistration"
+    name="Admistration"
+  >
+    Administration
+  </div>
+  <div
+    (click)="setActive('Inventory')"
+    [class.actives]="activeCards == 'Inventory'"
+    class="duration col-md-2"
+    id="Inventory"
+    name="Inventory"
+  >
+    Inventory
+  </div>
+  <div
+    (click)="setActive('Reports and Analytics')"
+    [class.actives]="activeCards == 'Reports and Analytics'"
+    class="duration col-md-2"
+    id="Reports"
+    name="Reports"
+  >
+    Reports
+  </div>
+  <!-- <div
+      (click)="setActive('Forecasting')"
+      [class.actives]="activeCards == 'Forecasting'"
+      class="duration col-md-2"
+    >
+      Forecasting
+    </div> -->
+</div>
+<!-- </div> -->
+
+<div class="row d-flex ml-3 mb-5 mt-4">
+  <div class="col">
+    <!-- /************ACCOUNTING SECTION STARTS********************/ -->
+    <mat-tab-group *ngIf="activeCards == 'Accounting'" mat-align-tabs="center">
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="accountingCashUp.subtasks.length">
+                  {{ accountingCashUp.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="accountingCashUp.subtasks.length">
+                <mat-checkbox
+                  type="checkbox"
+                  (change)="setAll($event.checked)"
+                  [checked]="allComplete"
+                  [color]="accountingCashUp.color"
+                  [checked]="someCompleteCashUp()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of accountingCashUp.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteCashUp()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="accountingDeposit.subtasks.length">
+                  {{ accountingDeposit.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="accountingDeposit.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllDeposit($event.checked)"
+                  [checked]="allCompleteDeposit"
+                  [color]="accountingDeposit.color"
+                  [checked]="someCompleteDeposit()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of accountingDeposit.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteDeposit()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="accountingReconcilation.subtasks.length">
+                  {{ accountingReconcilation.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="accountingReconcilation.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllReconcilation($event.checked)"
+                  [checked]="allCompleteReconcilation"
+                  [color]="accountingReconcilation.color"
+                  [checked]="someCompleteReconcilation()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of accountingReconcilation.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteReconcilation()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- /************ACCOUNTING SECTION ENDS********************/ -->
+
+    <!-- /************EMPLOYEES SECTION STARTS********************/ -->
+    <mat-tab-group *ngIf="activeCards == 'Employees'" mat-align-tabs="center">
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeeMain.subtasks.length">
+                  {{ employeeMain.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeeMain.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployee($event.checked)"
+                  [checked]="allCompleteEmployee"
+                  [color]="employeeMain.color"
+                  [checked]="someCompleteEmployee()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeeMain.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployees()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeeShifts.subtasks.length">
+                  {{ employeeShifts.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeeShifts.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployeeShiftCalendar($event.checked)"
+                  [checked]="allCompleteEmployeeShiftCalendar"
+                  [color]="employeeShifts.color"
+                  [checked]="someCompleteEmployeeShiftCalendar()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeeShifts.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeeShiftCalendar()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeePublishedShifts.subtasks.length"> 
+                  {{ employeePublishedShifts.name }}  
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeePublishedShifts.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployeePublishedShift($event.checked)"
+                  [checked]="allCompleteemployeePublishedShifts"
+                  [color]="employeePublishedShifts.color"
+                  [checked]="someCompleteEmployeePublishedShift()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeePublishedShifts.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeePublishedShift()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeeAttendance.subtasks.length">
+                  {{ employeeAttendance.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeeAttendance.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllemployeeAttendances($event.checked)"
+                  [checked]="allCompleteEmployeeAttendances"
+                  [color]="employeeAttendance.color"
+                  [checked]="someCompleteEmployeeAttendances()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeeAttendance.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeeAttendances()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeeLeaves.subtasks.length">
+                  {{ employeeLeaves.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeeLeaves.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployeeLeaves($event.checked)"
+                  [checked]="allCompleteEmployeeLeaves"
+                  [color]="employeeLeaves.color"
+                  [checked]="someCompleteEmployeeLeaves()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeeLeaves.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeeLeaves()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeeRequests.subtasks.length">
+                  {{ employeeRequests.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeeRequests.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployeeRequests($event.checked)"
+                  [checked]="allCompleteEmployeeRequests"
+                  [color]="employeeRequests.color"
+                  [checked]="someCompleteEmployeeRequests()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeeRequests.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeeRequests()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="employeePayroll.subtasks.length">
+                  {{ employeePayroll.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="employeePayroll.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllEmployeePayroll($event.checked)"
+                  [checked]="allCompleteEmployeePayroll"
+                  [color]="employeePayroll.color"
+                  [checked]="someCompleteEmployeePayroll()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of employeePayroll.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteEmployeePayroll()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- /************EMPLOYEES SECTION ENDS********************/ -->
+
+    <!-- /************SUPPLIERS SECTION STARTS********************/ -->
+    <mat-tab-group *ngIf="activeCards == 'Inventory'" mat-align-tabs="center">
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="suppliers.subtasks.length">
+                  {{ suppliers.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="suppliers.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllSuppliers($event.checked)"
+                  [checked]="allCompleteSuppliers"
+                  [color]="suppliers.color"
+                  [checked]="someCompleteSuppliers()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of suppliers.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteSuppliers()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="suppliersStockManagement.subtasks.length">
+                  {{ suppliersStockManagement.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="suppliersStockManagement.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllSupplierStockManagement($event.checked)"
+                  [checked]="allCompleteSupplierStockManagement"
+                  [color]="suppliersStockManagement.color"
+                  [checked]="someCompleteSupplierStockManagement()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of suppliersStockManagement.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="
+                        updateAllCompleteSupplierStockManagement()
+                      "
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="suppliersPurchaseOrder.subtasks.length">
+                  {{ suppliersPurchaseOrder.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="suppliersPurchaseOrder.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllSupplierPurchaseOrders($event.checked)"
+                  [checked]="allCompleteSupplierPurchaseOrder"
+                  [color]="suppliersPurchaseOrder.color"
+                  [checked]="someCompleteSupplierPurchaseOrder()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of suppliersPurchaseOrder.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteSupplierPurchaseOrder()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="inventroyInvoice.subtasks.length">
+                  {{ inventroyInvoice.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="inventroyInvoice.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllInventroyInvoice($event.checked)"
+                  [checked]="allCompleteInventroyInvoice"
+                  [color]="inventroyInvoice.color"
+                  [checked]="someCompleteInventroyInvoice()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of inventroyInvoice.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteInventroyInvoice()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- /************SUPPLIERS SECTION ENDS********************/ -->
+
+    <!-- /************REPORTS SECTION STARTS********************/ -->
+    <mat-tab-group
+      *ngIf="activeCards == 'Reports and Analytics'"
+      mat-align-tabs="center"
+    >
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="reportsAccounting.subtasks.length">
+                  {{ reportsAccounting.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="reportsAccounting.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllReportsAccounting($event.checked)"
+                  [checked]="allCompleteReportsAccounting"
+                  [color]="reportsAccounting.color"
+                  [checked]="someCompleteReportsAccounting()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of reportsAccounting.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteReportsAccounting()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- /************REPORTS SECTION ENDS********************/ -->
+
+    <!-- /************FORECASTING SECTION STARTS********************/ -->
+    <mat-tab-group *ngIf="activeCards == 'Forecasting'" mat-align-tabs="center">
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="forecasrBudgetting.subtasks.length">
+                  {{ forecasrBudgetting.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="forecasrBudgetting.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllForecasrBudgetting($event.checked)"
+                  [checked]="allCompleteForecasrBudgetting"
+                  [color]="forecasrBudgetting.color"
+                  [checked]="someCompleteForecasrBudgetting()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of forecasrBudgetting.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteForecasrBudgetting()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- /************FORECASTING SECTION ENDS********************/ -->
+
+    <!-- /************ADMINISTRATION SECTION STARTS********************/ -->
+    <mat-tab-group
+      *ngIf="activeCards == 'Admistration'"
+      mat-align-tabs="center"
+    >
+      <mat-tab label="Basic Information">
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="administrationClient.subtasks.length">
+                  {{ administrationClient.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="administrationClient.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllAdministrationClient($event.checked)"
+                  [checked]="allCompleteAdministrationClient"
+                  [color]="administrationClient.color"
+                  [checked]="someCompleteAdministrationClient()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of administrationClient.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteAdministrationClient()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="administrationRestaurant.subtasks.length">
+                  {{ administrationRestaurant.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="administrationRestaurant.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllAdministrationRestaurant($event.checked)"
+                  [checked]="allCompleteAdministrationRestaurant"
+                  [color]="administrationRestaurant.color"
+                  [checked]="someCompleteAdministrationRestaurantt()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of administrationRestaurant.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="
+                        updateAllCompleteAdministrationRestaurant()
+                      "
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="administrationUser.subtasks.length">
+                  {{ administrationUser.name }}
+                </strong>
+              </div>
+              <div class="col-md-6" *ngIf="administrationUser.subtasks.length">
+                <mat-checkbox
+                  (change)="setAllAdministrationUser($event.checked)"
+                  [checked]="allCompleteAdministrationUser"
+                  [color]="administrationUser.color"
+                  [checked]="someCompleteAdministrationUser()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of administrationUser.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="updateAllCompleteAdministrationUser()"
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+        <section class="example-section">
+          <span class="list-group-item">
+            <div class="row">
+              <div class="col-md-6">
+                <strong *ngIf="administrationSubscription.subtasks.length">
+                  {{ administrationSubscription.name }}
+                </strong>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="administrationSubscription.subtasks.length"
+              >
+                <mat-checkbox
+                  (change)="setAllAdministrationSubscription($event.checked)"
+                  [checked]="allCompleteAdministrationSubscription"
+                  [color]="administrationSubscription.color"
+                  [checked]="someCompleteAdministrationSubscription()"
+                >
+                </mat-checkbox>
+              </div>
+            </div>
+          </span>
+          <span class="example-list-section">
+            <ul class="list-group">
+              <li
+                *ngFor="let subtask of administrationSubscription.subtasks"
+                class="list-group-item"
+              >
+                <div class="row">
+                  <div class="col-md-6">{{ subtask.name }}</div>
+                  <div class="col-md-6">
+                    <mat-checkbox
+                      (ngModelChange)="
+                        updateAllCompleteAdministrationSubscription()
+                      "
+                      [(ngModel)]="subtask.completed"
+                      [color]="subtask.color"
+                    >
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </span>
+        </section>
+      </mat-tab>
+    </mat-tab-group>
+    <!-- /************ADMINISTRATION SECTION ENDS********************/ -->
+  </div>
+</div>

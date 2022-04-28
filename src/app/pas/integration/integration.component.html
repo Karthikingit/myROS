@@ -1,0 +1,304 @@
+<div class="container">
+  <div class="row d-flex justify-content-between">
+    <h4 class="text-nowrap" style="font-size: 28pt; font-weight: 500">
+      Good Morning, Super Admin
+    </h4>
+
+    <h4 class="text-nowrap" style="font-size: 20pt; font-weight: 500">
+      {{ myDate | date: "hh:mm" }},&nbsp;&nbsp;&nbsp;{{
+        myDate | date: "dd MMM yyyy"
+      }}
+    </h4>
+  </div>
+  <div class="row">
+    <div class="col-3">
+      <div class="accounts card" [class.active]="activeCard == 'Client'"  (click)="setActiveCard('Client')">
+        <div class="card-body"  >
+          <h5  class="number">45</h5>
+          <span  class="text-secondary">Total Clients</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class=" accounts card" [class.active]="activeCard == 'Restaurants'"  (click)="setActiveCard('Restaurants')">
+        <div class="card-body"  >
+          <h5 class="number">100</h5> 
+          <span class="text-secondary">Total Restaurants</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="accounts card"   [class.active]="activeCard == 'Users'"  (click)="setActiveCard('Users')">
+        <div class="card-body" >
+          <h5  class="number">200</h5> 
+          <span  class="text-secondary">Total Users</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="accounts card"  [class.active]="activeCard == 'Team'"  (click)="setActiveCard('Team')">
+        <div class="card-body" >
+          <h5  class="number">50</h5>
+          <span  class="text-secondary">ROS Team</span>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="row">
+    <div class="col">
+      <button
+      type="button"
+      (click)="addNew()"
+      class="addnew btn btn-sm btn-dark ml-2 mt-4">
+      <i class="fa fa-plus mr-1"></i> ADD NEW
+    </button>
+    <div *ngIf="activeCard == 'Users' " class="nav-item m-auto mt-4" style="float: right;">
+      <select
+      class=" drop mt-4 mr-3"
+        name=""
+        id="sel_restaurant"
+        #selRes
+      >
+        <option>
+          Cafe 1 
+        </option>
+        <option>
+          Cafe 2
+        </option>
+        <!-- <option value="ABT Cafeteria LTD">ABT Cafeteria LTD</option>
+        <option value="Creams Cafe">Creams Cafe</option>
+        <option value="Cafe 2">Cafe 2</option> -->
+      </select>
+    </div>
+    <div *ngIf="activeCard == 'Restaurants' || activeCard == 'Users'" class="nav-item m-auto mt-4" style="float: right;">
+      <select
+      class=" drop mt-4 mr-3"
+        name=""
+        id="sel_restaurant"
+        #selRes
+      >
+        <option>
+          Creams Cafe
+        </option>
+        <!-- <option value="ABT Cafeteria LTD">ABT Cafeteria LTD</option>
+        <option value="Creams Cafe">Creams Cafe</option>
+        <option value="Cafe 2">Cafe 2</option> -->
+      </select>
+    </div>
+    </div>
+  </div> <br> <br>
+
+ 
+<div  *ngIf="activeCard == 'Client'"class="row">
+  <div class="col-md-3">
+    <div class="client card"><div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="" alt="">
+        </div>
+        <div class="col-md-8" >
+          Creams Cafe <br>
+          <small style="  color: #8A96A0;
+          ">accounts@creamcafe.com</small> <br>
+         <span style="  color: #8A96A0;
+         "> london, UK</span>
+        </div>
+      </div>
+      <hr class="mt-2">
+      <div class="row ">
+        <div class="col">
+          <span>
+            <i  class="fa fa-pencil-alt ml-3 mr-5 " 
+            style="cursor: pointer"></i>
+            <i class="fa fa-eye mr-5 " aria-hidden="true"  style="cursor: pointer"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="cursor: pointer" fill="currentColor" class="bi bi-x-circle-fill mr-5 " viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg"style="cursor: pointer" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right " viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+              <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+ 
+<div *ngIf="activeCard == 'Users'" class="row">
+  <div class="col-md-3">
+    <div class="client card"><div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="" alt="">
+        </div>
+        <div class="col-md-8" >
+          William smith <br>
+          <small style="  color: #8A96A0;
+          ">william@pasaccount.com</small> <br>
+         <span style="  color: #8A96A0;
+         "> Assistant Manager</span>
+        </div>
+      </div>
+      <hr class="mt-2">
+      <div class="row ">
+        <div class="col-md-6">
+          {{ myDate | date: "dd MMM yyyy"}} <br> <small>User Since</small>
+        </div>
+        <div class="col-mg-6">
+          <span>
+            <i  class="fa fa-pencil-alt mr-4 " 
+            style="cursor: pointer"></i>
+            <i (click)="requestdate()" class="fas fa-lock mr-4 " 
+            style="cursor: pointer"></i>
+            <i  class="fa fa-trash mr-4 " 
+            style="cursor: pointer"></i>
+          </span>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+</div>
+
+<ng-template #addField  let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between"    >
+      <h6 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>&nbsp;
+        <b> Update User Permissions</b> <br>
+      </h6>  
+      <span><button class="btn btn-sm btn-dark px-3 mx-2 my-1"  (click)="modal.dismiss()">
+        <i class="fas fa-save"></i> save
+      </button></span>
+    </div>
+    <div class="row mt-3">
+      <div class="d-flex">
+        <div
+          class="duration  ml-4 col-md-3"
+          [class.actives]="activeCards == 'Accounting'"  (click)="setActive('Accounting')"
+        >
+          Accounting
+        </div>
+        <div
+          class="duration col-md-3"
+          [class.actives]="activeCards == 'Employees'"  (click)="setActive('Employees')"
+        >
+          Employees
+        </div>
+        <div
+          class="duration col-md-3"
+          [class.actives]="activeCards == 'Suppliers'"  (click)="setActive('Suppliers')"
+        >
+          Suppliers
+        </div>
+        <div
+          class="duration col-md-3"
+          [class.actives]="activeCards == 'Admistration'"  (click)="setActive('Admistration')"
+        >
+          Admistration
+        </div>
+    </div>
+    </div>
+    <div class="row d-flex ml-3 mb-5 mt-4">
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Basic Information">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>CASH UP</strong><mat-checkbox class="Item"  name="list_name2" value="m3" (change)="checkUncheckAllDetails1()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Read<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Edit<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Delete<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             View<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>DEPOSIT</strong><mat-checkbox class="Item"  name="list_name3" value="m4" (change)="checkUncheckAllDetails2()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Read<mat-checkbox class="Item"  name="list_name1" value="ch" (change)="isAllSelectedDetails2()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Edit<mat-checkbox class="Item"  name="list_name1" value="ch" (change)="isAllSelectedDetails2()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Delete<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             View<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>REPORTS</strong><mat-checkbox class="Item"  name="list_name4" value="m5" (change)="checkUncheckAllDetails3()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Read<mat-checkbox class="Item"  name="list_name1" value="ch" (change)="isAllSelectedDetails3()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Create<mat-checkbox class="Item"  name="list_name1" value="ch" (change)="isAllSelectedDetails3()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Download<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             View<mat-checkbox class="Item"  name="list_name2" value="ch" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>RECONCILATION</strong><mat-checkbox class="Item" name="list_name4" value="m6" (change)="checkUncheckAllDetails4()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             View<mat-checkbox class="Item"  name="list_name4" value="ch" (change)="isAllSelectedDetails4()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" >
+             Reconcile<mat-checkbox class="Item"  name="list_name4" value="ch" (change)="isAllSelectedDetails4()"></mat-checkbox>
+            </li>
+          </ul>
+        </mat-tab>
+       
+      </mat-tab-group>
+    </div>
+  </div>
+  </ng-template>

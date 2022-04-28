@@ -1,0 +1,679 @@
+<div class="row mb-3">
+  <div class="col-12 col-md-6 d-flex">
+    <h4 class="mr-5">Leaves</h4>
+    <ngx-toggle-tab
+      firstTab="Employees"
+      secondTab="My Leaves"
+      (selectedTabEvent)="setTab($event)"
+      (click)="upcoming()"
+    ></ngx-toggle-tab>
+  </div>
+
+  <div class="col-12 col-md-6 d-flex justify-content-end">
+    <div *ngIf="tab == 'My Leaves'">
+      <button class="btn btn-sm bg-dark text-white" (click)="requestdate()">
+        REQUEST VACATION
+      </button>
+    </div>
+    <div *ngIf="tab == 'Employees'">
+      <button class="btn btn-sm bg-dark text-white" (click)="addvacations()">
+        <i class="fa fa-plus"></i> ADD VACATION
+      </button>
+    </div>
+    <div
+      class="btn-group ml-3"
+      style="border: rgb(160, 159, 159) solid 1px; height: 30px; width: 200px; border-radius: 4px;"
+    >
+      <div
+        class="btn btn-default"
+        style="margin-top: -5px"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          style="cursor: pointer"
+          width="20"
+          height="20"
+          fill="currentColor"
+          class="bi bi-arrow-left-short"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+          />
+        </svg>
+      </div>
+
+      <h3 style=" color: black; font-size: small; margin-top: -5px">
+        {{ viewDate | calendarDate: view + "ViewTitle":"en" }}
+      </h3>
+
+      <div
+        class="btn"
+        style="margin-top: -5px"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          style="cursor: pointer"
+          width="20"
+          height="20"
+          fill="currentColor"
+          class="bi bi-arrow-right-short"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="tab == 'My Leaves'">
+  <div class="row d-flex">
+    <div class="col-md-6 d-flex">
+      <span class="mr-3">
+        <b>28</b> <br />
+        <small class="mb-3">Total Holidays</small>
+      </span>
+      <span class="mr-3">
+        <b>17</b> <br />
+        <small class="mb-3">Remaining Holidays</small>
+      </span>
+      <span class="mr-3">
+        <b>11</b> <br />
+        <small class="mb-3">Used Holidays</small>
+      </span>
+    </div>
+    <div class="col-md-6">
+      <span style="float: right"
+        ><b>Upcoming Leave:</b>  {{ this.dates | date: 'd MMM yyyy' }}
+    </span>
+    </div>
+  </div>
+</div>
+<br />
+
+<!-- my leaves -->
+<ng-template
+  #customThirdTemplate
+  ngFor
+  let-day="day"
+  let-events="events"
+  let-locale="locale"
+>
+  <div
+    class="cal-cell-top position-relative"
+    [style.background-color]="
+      day.isToday ? 'rgba(255,255,255)' : 'rgb(255,255,255)'
+    "
+  >
+    <span class="cal-day-number">{{
+      day.date | calendarDate: "monthViewDayNumber":locale
+    }}</span>
+    <div class="today" *ngIf="day.isToday">Today</div>
+    <span class="only-show-on-hover" *ngIf="hoverevent(day.date, day.events)"
+      ><i class="fa fa-plus-circle" (click)="requestdate()"></i
+    ></span>
+    <div
+      *ngIf="day.events.length >= 1"
+      class="abc"
+      [ngClass]="{
+        approved: day.events[0].status == 'Approved',
+        pending: day.events[0].status == 'Pending',
+        rejected: day.events[0].status == 'Rejected'
+      }"
+    >
+      <div class="cal-state" *ngIf="day.events.length == 1">
+        <i class="{{ day.events[0].icon }} ml-1"></i> &nbsp;
+        <span> <b> {{ day.events[0].status }}</b></span>
+      </div>
+      <div class="options">
+        <i class="{{ day.events[0].edit }} mr-2 " style="color: black; height: 10px; width: 8px;" (click)="editdate(day)"></i>
+        <i
+          class="{{ day.events[0].delete }} ml-1 mr-1" style="color: black; height: 10px; width: 8px;"
+          (click)="deleteBanking()"
+        ></i>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<div *ngIf="tab == 'My Leaves'">
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [cellTemplate]="customThirdTemplate"
+  >
+  </mwl-calendar-month-view>
+</div>
+<!-- Employees -->
+<ng-template #customCELLTemplate let-day="day" let-locale="locale">
+  <div
+    class="cal-cell-top position-relative"
+    [style.background-color]="
+      day.isToday ? 'rgba(255,255,255)' : 'rgb(255,255,255)'
+    "
+  >
+    <span class="cal-day-number">{{
+      day.date | calendarDate: "monthViewDayNumber":locale
+    }}</span>
+    <div class="today" *ngIf="day.isToday"><h6>TODAY</h6></div>
+    <span class="only-show-on-hover" *ngIf="hoverevent(day.date, day.events)"
+      ><i class="fa fa-plus-circle" (click)="requestdate()"></i
+    ></span>
+    <div
+      *ngIf="day.events.length >= 1"
+      class="abc"
+      [ngClass]="{
+        event: day.events
+      }"
+    >
+      <span
+        class="cal-data"
+        *ngIf="day.badgeTotal > 0"
+        style="margin-left: 5px; margin-right: 5px"
+      >
+        <small *ngFor="let item of day.events">
+          <b class="nameFont"
+            *ngFor="
+              let items of item.people | slice: 0:(showAll ? undefined : 2)
+            "
+          >
+            {{ items.name }},
+          </b>
+          <span *ngIf="item.people.length > 2">
+            <a class="nameFont" style="cursor: pointer; color: blue" (click)="open(item)">
+              more
+            </a>
+          </span>
+        </small>
+      </span>
+    </div>
+  </div>
+</ng-template>
+<div *ngIf="tab == 'Employees'">
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="event"
+    [cellTemplate]="customCELLTemplate"
+  >
+  </mwl-calendar-month-view>
+</div>
+<!-- more -->
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between" *ngIf="people">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>
+        <b> Employees on Leaves </b>
+        <div class="presentdate ml-5">
+          {{ people.start | date: "mediumDate" }}
+        </div>
+      </h5>
+      <span
+        class="btn btn-sm tab"
+        data-dismiss="content"
+        data-toggle="addvacation"
+        data-target="addvacation"
+        (click)="addvacations(); modal.dismiss()"
+        ><i class="fa fa-plus"></i> ADD VACATION</span
+      >
+    </div>
+    <br />
+    <div *ngFor="let item of people.people">
+      <div class="row">
+        <div class="col-md-1 ml-4">
+          <img
+            class="rounded-circle"
+            width="30"
+            height="30"
+            alt="10x10"
+            src="{{ item.picture }}"
+            data-holder-rendered="true"
+          />
+        </div>
+        <div class="col-md-2">
+          {{ item.name }}
+        </div>
+        <div class="col-md-2">
+          {{ item.roll }}
+        </div>
+        <div class="col-md-3">
+          {{ item.role }}
+        </div>
+        <div class="col-md-3">
+          <i class="fas fa-calendar-alt ml-3 mr-3"></i>
+          <i class="fas fa-pencil-alt mr-3"></i>
+          <i class="fas fa-trash mr-3"></i>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</ng-template>
+<!-- edit -->
+<ng-template #edit let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="editform">
+    <div class="d-flex justify-content-between" *ngIf="id">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>
+        <b class="m"> Request vacation </b>
+        <p class="ml-5">Account balance</p>
+      </h5>
+      <br />
+      <span class="btn btn-sm tab" (click)="modal.dismiss();  vacationedit();  edits()">
+        <i class="far fa-save"></i> SAVE</span
+      >
+    </div>
+    <div class="row d-flex ml-3 mb-5">
+      <div class="col-md-3">
+        <span class="">
+          <b>28</b> <br />
+          <small class="th mb-3" >Total Holidays</small>
+        </span>
+      </div>
+      <div class="col-md-3">
+        <b>17</b> <br />
+        <small class="th"> Holidays Left</small>
+      </div>
+      <div class="col-md-3">
+        <b>11</b> <br />
+        <small class="th">Used Holidays</small>
+      </div>
+    </div>
+    <div class="mb-3">
+      <span class="shift ml-3"
+        ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> Shifts that
+        conflict the Vacation period will be set to Open Shifts</span
+      >
+    </div>
+    <hr class="line" />
+
+    <br />
+      <span class="single ml-5">
+        <input type="radio" name="test" id="singles" value="Single" />
+        <label for="singles">Single Day </label>
+      </span>
+      <span class="multiple ml-5">
+        <input
+          type="radio"
+          name="test"
+          id="multiples"
+          value="Multiple"
+          checked
+        />
+        <label for="multiples">Range</label></span
+      >
+      <br />
+      <br />
+      <br />
+      <span class="start ml-5">
+        <input
+        formControlName="startdate"
+          type="date"
+          name="startdate"
+          id="startdate"
+          class="startdate"
+        />
+      </span>
+      <span class="end ml-5">
+        <input
+        formControlName="enddate"
+          type="date"
+          name="enddate"
+          id="enddate"
+          class="enddate"
+        />
+      </span>
+      <br />
+      <div class="comment ml-5">
+        <br />
+        <br />
+        <input
+        formControlName="comment"
+          type="text"
+          name="comment"
+          id="comment"
+          class="comments"
+          placeholder="Comments"
+        />
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- request    -->
+<div id="vacation">
+  <ng-template #request let-modal>
+    <div class="modal-body">
+      <form class="example-form" [formGroup]="requestForm">
+      <div class="d-flex justify-content-between">
+        <h5 class="">
+          <span (click)="modal.dismiss()" style="cursor: pointer">
+            <i class="fa fa-arrow-left arrow"></i>
+          </span>
+          <b> Request vacation </b> <br />
+          <p class="ml-5">Account balance</p>
+        </h5>
+        <span class="btn btn-sm tab" (click)="modal.dismiss(); vacationadd();  requets()">
+          <i class="far fa-save"></i> SAVE</span
+        >
+      </div>
+      <div class="row d-flex ml-3 mb-5">
+        <div class="col-md-3">
+          <span class="">
+            <b>28</b> <br />
+            <small class="mb-3">Total holidays</small>
+          </span>
+        </div>
+        <div class="col-md-3">
+          <b>17</b> <br />
+          <small class=""> holidays left</small>
+        </div>
+        <div class="col-md-3">
+          <b>11</b> <br />
+          <small class="">Used holidays</small>
+        </div>
+      </div>
+      <div>
+        <span class="shift ml-3 mb-3"
+          ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> shifts
+          that conflict the vacation period will be set to open shifts</span
+        >
+      </div>
+      <hr class="line" />
+
+      <br />
+    
+        <span class="single ml-5">
+          <input type="radio" name="test" id="singles" value="Single" />
+          <label for="singles">Single day </label>
+        </span>
+        <span class="multiple ml-5">
+          <input
+            type="radio"
+            name="test"
+            id="multiples"
+            value="Multiple"
+            checked
+          />
+          <label for="multiples">Range</label></span
+        >
+        <br />
+        <br />
+        <span class="start ml-5">
+          <input
+          formControlName="starttime"
+            type="date"
+            name="starttime"
+            id="starttime"
+            class="startdate"
+            placeholder="start date"
+          />
+        </span>
+        <span class="end ml-5">
+          <input
+          formControlName="endtime"
+            type="date"
+            name="endtime"
+            id="endtime"
+            class="enddate"
+            placeholder="end date"
+          />
+        </span>
+        <br />
+        <div class="comment ml-5">
+          <br />
+          <br />
+
+          <input
+          formControlName="comment"
+            type="text"
+            name="comment"
+            id="comment"
+            class="comments"
+            placeholder="comments"
+          />
+        </div>
+        
+      </form>
+    </div>
+  </ng-template>
+</div>
+<!-- delete -->
+<ng-template #deleteContent let-data let-ref="dialogRef">
+  <div class="deletepopup card p-3">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end ">
+        <i
+          class="fa fa-times "
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class="">
+       <div class="d-flex align-items-center mt-3">
+          <i class="fa fa-exclamation-circle fa-3x ">  </i> <span class="delete" > Are you sure about
+            cancelling your vacation?</span> </div>
+        <br /> 
+        <div class="text-left mt-4">Reason  <br>
+           <input
+          type="text"
+          style="border: hidden; border-bottom: 2px solid black; width: 100%"
+        />
+
+      </div>
+      </div>
+      <br />
+
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in; float: right"
+          (click)="ref.close()"
+        >
+          CANCEL VACATION
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- add vacation -->
+<ng-template #addvacation let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>
+        <b class="m"> Add New Vacation </b>
+        <p class="ml-5">Account balance</p>
+      </h5>
+      <br />
+      <span class="btn btn-sm tab" (click)="modal.dismiss(); vacationsadd()">
+        <i class="far fa-save"></i> SAVE</span
+      >
+    </div>
+    <div class="row d-flex ml-3 mb-5">
+      <div class="col-md-3">
+        <span class="">
+          <b>28</b> <br />
+          <small class="mb-3">Total holidays</small>
+        </span>
+      </div>
+      <div class="col-md-3">
+        <b>17</b> <br />
+        <small class=""> Holidays left</small>
+      </div>
+      <div class="col-md-3">
+        <b>11</b> <br />
+        <small class="">Used holidays</small>
+      </div>
+    </div>
+    <div class="mb-3">
+      <span class="shift ml-3"
+        ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> Shifts that
+        conflict the vacation period will be set to open shifts</span
+      >
+    </div>
+    <hr class="line" />
+
+    <br />
+    <div>
+      <select
+        name="name"
+        id="name"
+        class="form-control dropdonw2 ml-5"
+        formcontrolName="name"
+      >
+        <option value="john deo">john deo</option>
+      </select>
+      <label
+        for=""
+        name="department"
+        id="department"
+        class="ml-5"
+        formcontrolName="department"
+      >
+        Department: Management</label
+      >
+    </div>
+    <form action="" class="mt-5">
+      <span class="single ml-5">
+        <input type="radio" name="test" id="singles" value="Single" />
+        <label for="singles">Single day </label>
+      </span>
+      <span class="multiple ml-5">
+        <input
+          type="radio"
+          name="test"
+          id="multiples"
+          value="Multiple"
+          checked
+        />
+        <label for="multiples">Range</label></span
+      >
+      <br />
+      <br />
+      <br />
+      <span class="start ml-5">
+        <input
+          type="date"
+          name=""
+          id=""
+          class="startdate"
+          placeholder="start date"
+        />
+      </span>
+      <span class="end ml-5">
+        <input
+          type="date"
+          name=""
+          id=""
+          class="enddate"
+          placeholder="end date"
+        />
+      </span>
+      <br />
+      <div class="comment ml-5">
+        <br />
+        <br />
+
+        <input
+          type="text"
+          name=""
+          id=""
+          class="comments"
+          placeholder="comments"
+        />
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- vacation request confirmation -->
+<ng-template #vacationaddConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center"  >
+      <div class="">
+        <h6 class="mt-4 d-flex">Vacation request has been made</h6>
+        <div *ngIf = "start == end" >
+          <b> {{this.start | date: 'dd MMM yyyy'}} </b>
+        </div>
+        <div *ngIf = "start != end">
+          <b> {{this.start | date: 'dd MMM yyyy'}} To {{this.end | date: 'dd MMM yyyy'}}</b>
+        </div>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2.5in"
+          (click)="  ref.close()"
+        >
+          VIEW VACATION CALENDAR
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- vacation add confirmation -->
+<ng-template #addConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center"  >
+      <div class="">
+        <h6 class="mt-4 d-flex">Successfully vacation is added</h6>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2.5in"
+          (click)="  ref.close()"
+        >
+        VIEW VACATION CALENDAR
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- vacation request confirmation -->
+<ng-template #vacationeditConfirmation let-data="data" let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center" *ngIf="id"  >
+      <div class="">
+        <h6 class="mt-4 d-flex">Vacation request has been made</h6>
+        <div *ngIf = "starts == ends" >
+          <b> {{this.starts | date: 'dd MMM yyyy'}} </b>
+        </div>
+        <div *ngIf = "starts != ends">
+          <b> {{this.starts | date: 'dd MMM yyyy'}} To {{this.ends | date: 'dd MMM yyyy'}}</b>
+        </div>
+        <br />
+      </div>
+      <br />
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2.5in"
+          (click)="  ref.close()"
+        >
+        VIEW VACATION CALENDAR
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

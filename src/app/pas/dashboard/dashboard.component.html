@@ -1,0 +1,509 @@
+<div class="dashboard-content">
+  <div class="container">
+    <div class="row d-flex justify-content-between">
+      <h4 class="text-nowrap" style="font-size: 600; font-weight: 500">
+        Good Morning, Restaurant Manager
+      </h4>
+
+      <h5 class="text-nowrap" style="font-size: 600; font-weight: 500">
+        {{ myDate | date: "shortTime" }},&nbsp;&nbsp;&nbsp;{{
+          myDate | date: "mediumDate"
+        }}
+      </h5>
+    </div>
+
+    <!-- Net Sales -->
+    <div class="row">
+      <div class="col col-sm-12 col-md-5">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between flex-column">
+            <div class="d-flex justify-content-between">
+              <div
+                class="left-header"
+                (click)="goToCashup('ALL')"
+                style="cursor: pointer"
+              >
+                <div class="Heading">Net Sales</div>
+                <div class="subHeading"><small>Progress</small></div>
+                <div>
+                  <div class="bar"></div>
+                </div>
+              </div>
+              <div class="right-header">
+                <div class="d-flex">
+                  <div
+                    class="duration"
+                    (click)="reset_net_sales('D')"
+                    [class.active]="net_sales_filter == 'D'"
+                  >
+                    D
+                  </div>
+                  <div
+                    class="duration"
+                    (click)="reset_net_sales('W')"
+                    [class.active]="net_sales_filter == 'W'"
+                  >
+                    W
+                  </div>
+                  <div
+                    class="duration"
+                    (click)="reset_net_sales('M')"
+                    [class.active]="net_sales_filter == 'M'"
+                  >
+                    M
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between align-items-end">
+              <div class="w-25 mr-3 text-nowrap">
+                <div><b>Today</b></div>
+                <div class="text-muted">
+                  <small>{{ myDate | date: "mediumDate" }}</small>
+                </div>
+              </div>
+              <div class="w-50 mr-3">
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: 25%"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div>
+                  <small class="text-muted"
+                    ><i>+ 36 % less than yesterday</i></small
+                  >
+                </div>
+              </div>
+              <div class="w-25 h5" style="font-weight: 600">
+                {{ 120 | currency: "GBP" }}
+              </div>
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between align-items-end">
+              <div class="w-25 mr-3 text-nowrap">
+                <div><b>Yesterday</b></div>
+                <div class="text-muted">
+                  <small>{{ prevDate | date: "mediumDate" }}</small>
+                </div>
+              </div>
+              <div class="w-50 mr-3">
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: 85%"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+                <div>
+                  <small class="text-muted"
+                    ><i>+ 13 % more than yesterday</i></small
+                  >
+                </div>
+              </div>
+              <div class="w-25 h5" style="font-weight: 600">
+                {{ 120 | currency: "GBP" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-sm-12 col-md-2">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between flex-column">
+            <div class="d-flex justify-content-between">
+              <div
+                class="left-header"
+                (click)="goToCashup('DEPOSITS')"
+                style="cursor: pointer"
+              >
+                <div class="Heading">Deposits</div>
+                <div class="subHeading"><small>Pending</small></div>
+
+                <div>
+                  <div class="bar"></div>
+                </div>
+              </div>
+              <div class="right-header">
+                <div class="floating-value">12</div>
+              </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-between align-items-end">
+              <div class="w-30 align-items-start">
+                <div class="text-nowrap">
+                  <div
+                    class="h5 d-flex justify-content-start text-nowrap"
+                    style="font-weight: 600"
+                  >
+                    {{ 100 | currency: "GBP" }}
+                  </div>
+                  <small class="text-muted">Value</small>
+                </div>
+              </div>
+            </div>
+            <div
+              class="banking d-flex justify-content-center bluelink"
+              (click)="goToCashup('BANKED')"
+            >
+              <b>CREATE <br />BANKING</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-sm-12 col-md-5">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between flex-column">
+            <div class="d-flex justify-content-between">
+              <div class="left-header">
+                <div class="Heading">Cash Up Variance</div>
+                <div class="subHeading">
+                  <small>Difference to be Reconciled</small>
+                </div>
+                <div>
+                  <div class="bar1"></div>
+                </div>
+              </div>
+              <div class="right-header">
+                <div class="d-flex">
+                  <div
+                    class="duration"
+                    (click)="reset_cashup('D')"
+                    [class.active]="cashup_filter == 'D'"
+                  >
+                    D
+                  </div>
+                  <div
+                    class="duration"
+                    (click)="reset_cashup('W')"
+                    [class.active]="cashup_filter == 'W'"
+                  >
+                    W
+                  </div>
+                  <div
+                    class="duration"
+                    (click)="reset_cashup('M')"
+                    [class.active]="cashup_filter == 'M'"
+                  >
+                    M
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between align-items-end">
+              <div class="w-30 border-right align-items-start">
+                <div class="pr-2 text-nowrap">
+                  <div class="h5" style="font-weight: 600">
+                    {{ 150 | currency: "GBP" }}
+                  </div>
+                  <div class="text-muted">
+                    <small>Total Amount</small>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="w-100 align-items-start d-flex justify-content-around"
+              >
+                <div class="differences">
+                  <div class="h6" style="font-weight: 600">
+                    {{ 100 | currency: "GBP" }}
+                  </div>
+                  <div class="text-muted">
+                    <small>Cash</small>
+                  </div>
+                </div>
+                <div class="differences">
+                  <div class="h6" style="font-weight: 600">
+                    {{ 20 | currency: "GBP" }}
+                  </div>
+                  <div class="text-muted">
+                    <small>Card</small>
+                  </div>
+                </div>
+                <div class="differences">
+                  <div class="h6" style="font-weight: 600">
+                    {{ 30 | currency: "GBP" }}
+                  </div>
+                  <div class="text-muted">
+                    <small>Third Party</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <!-- Purchase orders block -->
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between flex-column">
+            <div class="d-flex justify-content-between">
+              <div class="left-header">
+                <div class="Heading">Purchase Orders</div>
+                <div class="subHeading"><small>Status</small></div>
+                <div>
+                  <div class="bar1"></div>
+                </div>
+              </div>
+              <div class="right-header">
+                <div class="viewAll bluelink"><b>VIEW ALL</b></div>
+              </div>
+            </div>
+
+            <!-- Cards - Drafts, Approvals, Approved -->
+            <div
+              class="d-flex justify-content-around mt-2 mb-3"
+              *ngIf="purchase_orders_filter == 'default'"
+            >
+              <div
+                class="box"
+                (click)="set_purchase_orders('drafts')"
+                style="cursor: pointer"
+              >
+                <div class="floating-value">12</div>
+                <div class="px-2"><small>Drafts</small></div>
+                <div class="px-2 number">21</div>
+                <div class="px-2 py-1 text-muted">Items</div>
+                <div class="px-2 py-1">
+                  <b>{{ 240 | currency: "GBP" }}</b>
+                </div>
+                <div class="px-2 py-1 text-muted">Value</div>
+              </div>
+              <div class="box">
+                <div class="floating-value">10</div>
+                <div class="px-2"><small>Pending Approvals</small></div>
+                <div class="px-2 number">21</div>
+                <div class="px-2 py-1 text-muted">Items</div>
+                <div class="px-2 py-1">
+                  <b>{{ 240 | currency: "GBP" }}</b>
+                </div>
+                <div class="px-2 py-1 text-muted">Value</div>
+              </div>
+              <div class="box">
+                <div class="floating-value">5</div>
+                <div class="px-2"><small>Approved</small></div>
+                <div class="px-2 number">21</div>
+                <div class="px-2 py-1 text-muted">Items</div>
+                <div class="px-2 py-1">
+                  <b>{{ 240 | currency: "GBP" }}</b>
+                </div>
+                <div class="px-2 py-1 text-muted">Value</div>
+              </div>
+            </div>
+
+            <!-- Drafts -->
+
+            <div
+              class="staff_requests my-2"
+              style="position: relative"
+              *ngIf="purchase_orders_filter == 'drafts'"
+            >
+              <div class="container-fluid custom-scroll scroll">
+                <small>
+                  <div class="row font-weight-bold">
+                    <div class="col">
+                      <i
+                        class="fa fa-arrow-left fa-2x mr-2"
+                        (click)="set_purchase_orders('default')"
+                      ></i>
+                      Supplier Name
+                    </div>
+                    <div class="col">Value</div>
+                    <div class="col">Pending Since</div>
+                    <div class="col col-auto">Reject/ Submit</div>
+                  </div>
+                </small>
+                <div
+                  class="row staff_requests_row"
+                  *ngFor="let r of staff_requests"
+                >
+                  <div class="col">
+                    <img
+                      src="{{ r.img }}"
+                      alt=""
+                      class="staff_requests_img mr-2"
+                    />
+                    {{ r.name }}
+                  </div>
+                  <div class="col">{{ 140 | currency: "GBP" }}</div>
+                  <div class="col">12 hrs</div>
+                  <div class="col col-auto">
+                    <i class="fa fa-times text-danger mr-2"></i>
+                    <i class="fa fa-check text-success"></i>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                  staff_requests_arrow
+                "
+              >
+                <i class="fa fa-angle-down fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- staff requests block -->
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between flex-column">
+            <div class="d-flex justify-content-between">
+              <div class="left-header">
+                <div class="Heading">Staff Request</div>
+                <div>
+                  <div class="bar2"></div>
+                </div>
+              </div>
+              <div class="right-header">
+                <div class="viewAll bluelink"><b>VIEW ALL</b></div>
+              </div>
+            </div>
+
+            <div class="staff_requests my-2" style="position: relative">
+              <div class="container-fluid custom-scroll scroll my-2">
+                <div
+                  class="row staff_requests_row"
+                  *ngFor="let r of staff_requests"
+                >
+                  <div class="col">
+                    <img
+                      src="{{ r.img }}"
+                      alt=""
+                      class="staff_requests_img mr-2"
+                    />
+                    {{ r.name }}
+                  </div>
+                  <div class="col">{{ r.request_type }}</div>
+                  <div class="col-auto">
+                    <i class="fa fa-times text-danger mr-2 reject"></i>
+                    <i class="fa fa-check text-success approved"></i>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                  staff_requests_arrow
+                "
+              >
+                <i class="fa fa-angle-down fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <!-- schedule block -->
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between">
+            <div class="leftData border-right">
+              <div class="d-flex justify-content-between">
+                <div class="left-header">
+                  <div class="Heading">Today's Schedule</div>
+                  <div>
+                    <div class="bar3"></div>
+                  </div>
+                </div>
+                <div class="right-header">
+                  <div
+                    class="viewAttendance bluelink"
+                    routerLink="../../emp-management/attendance"
+                  >
+                    <b>VIEW ATTENDANCE</b>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container-fluid ipos-table">
+                <!-- table-heading -->
+                <div class="row ipos-heading font-weight-bold">
+                  <div class="col">START TIME</div>
+                  <div class="col">END TIME</div>
+                  <div class="col">ON DUTY</div>
+                  <div class="col">OFF DUTY</div>
+                  <div class="col">LEAVES</div>
+                  <div class="col">LATE</div>
+                </div>
+
+                <!-- table data -->
+                <div class="row p-1">
+                  <div class="container-fluid">
+                    <div class="row ipos-data mb-1">
+                      <div class="col">09:00</div>
+                      <div class="col">09:00</div>
+                      <div class="col">08</div>
+                      <div class="col">08</div>
+                      <div class="col">01</div>
+                      <div class="col">01</div>
+                    </div>
+                    <div class="row ipos-data mb-1">
+                      <div class="col">13:00</div>
+                      <div class="col">13:00</div>
+                      <div class="col">19</div>
+                      <div class="col">19</div>
+                      <div class="col">-</div>
+                      <div class="col">01</div>
+                    </div>
+                    <div class="row ipos-data mb-1">
+                      <div class="col">17:00</div>
+                      <div class="col">17:00</div>
+                      <div class="col">12</div>
+                      <div class="col">12</div>
+                      <div class="col">03</div>
+                      <div class="col">-</div>
+                    </div>
+                    <div class="row ipos-data mb-1">
+                      <div class="col">09:00</div>
+                      <div class="col">09:00</div>
+                      <div class="col">08</div>
+                      <div class="col">08</div>
+                      <div class="col">01</div>
+                      <div class="col">01</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rightData">
+              <div class="container-fluid">
+                <ngx-dashboard-calendar></ngx-dashboard-calendar>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- schedule block -->
+        <!-- <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body d-flex justify-content-between flex-column">
+
+
+                    </div>
+                </div>
+            </div> -->
+      </div>
+    </div>
+  </div>
+</div>

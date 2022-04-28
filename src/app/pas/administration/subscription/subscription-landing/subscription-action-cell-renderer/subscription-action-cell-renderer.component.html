@@ -1,0 +1,94 @@
+<div class="row d-flux justify-content-around align-items-center mx-1 mt-2">
+  <!-- <i class="fa fa-pencil-alt" (click)="edit()"> </i> -->
+  <!-- <i class="fa fa-trash ml-2" aria-hidden="true" (click)="delete()"></i> -->
+
+  <mat-icon
+    class="material-icons-outlined edit"
+    (click)="edit()"
+    id="edit"
+    name="edit"
+    matTooltip="Edit"
+    matTooltipPosition="below"
+  >
+    edit
+  </mat-icon>
+  <mat-icon
+    class="material-icons-outlined lock"
+    (click)="configureSub()"
+    id="configureSub"
+    name="configureSub"
+    matTooltip="Configure"
+    matTooltipPosition="below"
+    >lock</mat-icon
+  >
+  <!-- <mat-icon class="material-icons-outlined"> check_circle_outline </mat-icon> -->
+  <mat-icon
+    class="material-icons-outlined cancel"
+    (click)="openDialog()"
+    id="openDialog"
+    name="openDialog"
+    matTooltip="Activate/Deactivate"
+    matTooltipPosition="below"
+  >
+    <!-- <mat-icon [ngClass]="isActiveStatus? material-icons-outlined cancel : material-icons-outlined cancel" (click)="isActive()"></mat-icon> -->
+    cancel
+  </mat-icon>
+</div>
+
+<ng-template #ConfirmActivationDialog>
+  <h5 class="logo" matDialogTitle>
+    Are you sure you want to activate the subscription?
+  </h5>
+  <p matDialogContent>You can deactivate it again anytime</p>
+  <mat-dialog-actions align="end" style="padding-left: 22rem">
+    <button
+      (click)="navigateToDashBoard()"
+      id="navigateToDashBoard"
+      name="navigateToDashBoard"
+      class="btn btn-sm btn-dark px-3 mx-2 my-1"
+      matDialogClose
+    >
+      CANCEL
+    </button>
+    &nbsp;
+    <button
+      (click)="isActive(); navigateToDashBoard()"
+      id="activate"
+      name="activate"
+      class="btn btn-sm btn-dark px-3 mx-2 my-1"
+      matDialogClose
+    >
+      ACTIVATE
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #ConfirmDeactivationDialog>
+  <h5 class="logo" matDialogTitle>
+    Are you sure you want to deactivate the subscription?
+  </h5>
+  <p matDialogContent>You can activate it again anytime</p>
+  <mat-dialog-actions align="end" style="padding-left: 22rem">
+    <button
+      (click)="navigateToDashBoard()"
+      id="navigateToDashBoard2"
+      name="navigateToDashBoard2"
+      class="btn btn-sm btn-dark px-3 mx-2 my-1"
+      matDialogClose
+    >
+      CANCEL
+    </button>
+    &nbsp;
+    <button
+      (click)="isActive(); navigateToDashBoard()"
+      id="deactivate"
+      name="deactivate"
+      class="btn btn-sm btn-dark px-3 mx-2 my-1"
+      matDialogClose
+    >
+      DEACTIVATE
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- matTooltip="Edit Subscription" matTooltipPosition="below" -->

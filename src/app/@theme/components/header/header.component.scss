@@ -1,0 +1,181 @@
+// @import '~bootstrap/scss/mixins/breakpoints';
+// @import '~@nebular/theme/styles/global/breakpoints';
+// @import '../../styles/themes';
+
+// @include nb-install-component() {
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+
+//   .logo-container {
+//     display: flex;
+//     align-items: center;
+//     width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+//   }
+
+//   nb-action {
+//     height: auto;
+//     display: flex;
+//     align-content: center;
+//   }
+
+//   nb-user {
+//     cursor: pointer;
+//   }
+
+//   ::ng-deep nb-search button {
+//     padding: 0!important;
+//   }
+
+//   .header-container {
+//     display: flex;
+//     align-items: center;
+//     width: auto;
+
+//     .sidebar-toggle {
+//       @include nb-ltr(padding-right, 1.25rem);
+//       @include nb-rtl(padding-left, 1.25rem);
+//       text-decoration: none;
+//       color: nb-theme(text-hint-color);
+//       nb-icon {
+//         font-size: 1.75rem;
+//       }
+//     }
+
+//     .logo {
+//       padding: 0 1.25rem;
+//       font-size: 1.75rem;
+//       @include nb-ltr(border-left, 1px solid nb-theme(divider-color));
+//       @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
+//       white-space: nowrap;
+//       text-decoration: none;
+//     }
+//   }
+
+//   @include media-breakpoint-down(sm) {
+//     .control-item {
+//       display: none;
+//     }
+//     .user-action {
+//       border: none;
+//       padding: 0;
+//     }
+//   }
+
+//   @include media-breakpoint-down(is) {
+//     nb-select {
+//       display: none;
+//     }
+//   }
+// }
+$topnav-background-color: #fff;
+
+::ng-deep .nb-theme-default nb-layout-header nav {
+  height: 4.5rem;
+}
+
+:host {
+  .navbar {
+    .ROS_Logo {
+      width: 118px;
+      transform: translateX(-20px);
+    }
+    // background-color: darken($topnav-background-color, 5%);
+    background-color: $topnav-background-color;
+    //box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.153);
+    box-shadow: 0px 20px 80px #00000011;
+
+    .navbar-brand {
+      padding: 1px;
+      color: #222;
+    }
+
+    .nav-item > a {
+      color: #999;
+
+      &:hover {
+        color: #222;
+      }
+
+      .nav-link {
+        padding: 0.5rem 0.2rem;
+      }
+
+      .dropdown-menu {
+        left: auto;
+        right: 0;
+      }
+    }
+
+    #sel_restaurant {
+      padding: 5px 8px;
+      border: 1px solid #8a96a0;
+      border-radius: 4px;
+      opacity: 1;
+      font: normal normal normal 13px/20px Roboto;
+      letter-spacing: 0px;
+      color: #4d4f5c;
+      opacity: 1;
+      width: 165px;
+      height: 30px;
+    }
+
+    .img-container {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 50%;
+    }
+
+    .vl {
+      height: 30px;
+      border-right: 2px solid #ebebf2;
+      opacity: 50%;
+      margin-top: 5px;
+    }
+
+    .avatar-img {
+      background-image: url("../../../../assets/images/avatar.jpg");
+    }
+
+    .restaurant-img {
+      // background-image: url('../../../../assets/images/cupcake.jpg');
+      transform: scale(0.8, 0.8);
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+  }
+}
+
+// .messages {
+//   width: 300px;
+
+//   .media {
+//     border-bottom: 1px solid #ddd;
+//     padding: 5px 10px;
+
+//     &:last-child {
+//       border-bottom: none;
+//     }
+//   }
+
+//   .media-body {
+//     h5 {
+//       font-size: 13px;
+//       font-weight: 600;
+//     }
+
+//     .small {
+//       margin: 0;
+//     }
+
+//     .last {
+//       font-size: 12px;
+//       margin: 0;
+//     }
+//   }
+// }

@@ -1,0 +1,31 @@
+<div class="d-flex">
+  <div
+    class="duration"
+    (click)="reset_filter('W')"
+    [class.active]="filter_string == 'W'"
+  >
+    W
+  </div>
+  <div
+    class="duration"
+    (click)="reset_filter('M')"
+    [class.active]="filter_string == 'M'"
+  >
+    M
+  </div>
+  <div
+    class="duration"
+    (click)="reset_filter('Y')"
+    [class.active]="filter_string == 'Y'"
+  >
+    Y
+  </div>
+  <div class="dateRangeCalendar ml-2">
+    <span class="material-icons "  style="cursor: pointer;" autocomplete="off" bsDaterangepicker  
+    [bsConfig]="{ rangeInputFormat : 'MMMM Do YYYY', dateInputFormat: 'MMMM Do YYYY', showWeekNumbers: false }" (bsValueChange)="dateRangeCreated($event)"> event 
+    </span>
+  </div>
+</div>
+<div *ngIf ="custom_date" class="selectedDatewrapper"  >
+ <b class="selectedDate"> {{ this.range.start_date | date: 'dd MMM yyyy' }} - {{ this.range.end_date | date: 'dd MMM yyyy'}}</b> 
+</div>

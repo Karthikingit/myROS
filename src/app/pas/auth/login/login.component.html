@@ -1,0 +1,419 @@
+<div class="container">
+  <div id="bg">
+    <img [src]="myimage" alt="" />
+  </div>
+  <div class="overlay"></div>
+  <!--Login Card-->
+  <div class="card" *ngIf="showDiv.login">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px; font-weight: bolder"> Welcome to </span>
+          <img
+            src="../../../../assets/images/ROS_FINAL-07.png"
+            style="
+              margin-top: -5px;
+              width: 85px;
+              height: 50px;
+              margin-left: -14px;
+            "
+          />
+        </p>
+      </div>
+      <div class="Logo" style="text-align: center">
+        <img
+          src="../../../../assets/images/ROS_FINAL-05.png"
+          style="width: 100%; margin-left: -14px; margin-top: -18px"
+        /><br />
+      </div>
+      <!-- <button class="btn btn-primary" (click)="loginToMicro()">Login</button> -->
+      <!--Login Form-->
+      <form>
+        <div class="login-form">
+          <!-- <mat-form-field appearance="legacy">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Enter your email" #login_email />
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              placeholder="Enter your password"
+              type="password"
+              #login_password
+            />
+          </mat-form-field> -->
+        </div>
+        <br />
+        <!--Login Button-->
+        <div class="mt-2" style="text-align: center">
+          <button
+            type="button"
+            class="btn btn-sm btn-dark"
+            style="width: 120px"
+            (click)="loginToMicro()"
+          >
+            LOGIN
+          </button>
+        </div>
+      </form>
+
+      <!-- <div class="forgot-password" style="text-align: center">
+        <a
+          id="forget"
+          class="forgot-password-link"
+          (click)="showDiv.forgot = !showDiv.forgot; showDiv.login = false"
+          style="
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+            font: var(--unnamed-font-style-normal) normal normal 12px/14px
+              var(--unnamed-font-family-roboto);
+            color: var(--unnamed-color-000000);
+            font: normal normal normal 12px/14px Roboto;
+            letter-spacing: 0px;
+            color: #000000;
+            opacity: 0.5;
+          "
+        >
+          <i class="fas fa-question-circle mr-1 mt-2"></i>Forgot password?</a
+        >
+      </div> -->
+      <br /><br /><br />
+
+      <!-- <div class="sign-up">
+        <p style="text-align: start">
+          <small>Don't have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="register()"
+          >
+            SIGN UP
+          </button>
+        </p>
+      </div> -->
+    </div>
+  </div>
+
+  <!--Forgot Password Card-->
+  <div class="card" *ngIf="showDiv.forgot">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px; font-weight: bolder"> Welcome to </span>
+          <img
+            src="../../../../assets/images/ROS_FINAL-07.png"
+            style="
+              margin-top: -5px;
+              width: 85px;
+              height: 50px;
+              margin-left: -14px;
+            "
+          />
+        </p>
+      </div>
+      <div class="Logo" style="text-align: center">
+        <img
+          src="../../../../assets/images/ROS_FINAL-05.png"
+          style="width: 100%; margin-left: -14px; margin-top: -18px"
+        /><br />
+      </div>
+      <!--Login Form-->
+      <div class="login-form">
+        <mat-form-field appearance="legacy">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Enter your email" />
+        </mat-form-field>
+      </div>
+      <br /><br />
+      <!--Reset Password Button-->
+      <div class="mt-2" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark reset"
+          style="width: 150px"
+          (click)="
+            showDiv.password = !showDiv.password;
+            showDiv.login = false;
+            showDiv.forgot = false
+          "
+        >
+          RESET PASSWORD
+        </button>
+      </div>
+      <!--Login Button-->
+      <div class="mt-2" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 150px"
+          (click)="dashboard()"
+        >
+          LOGIN
+        </button>
+      </div>
+      <br /><br /><br /><br />
+
+      <div class="sign-up">
+        <p style="text-align: start">
+          <small>Don't have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="register()"
+          >
+            SIGN UP
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!--Password Request Card-->
+  <div class="card" *ngIf="showDiv.password">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px; font-weight: bolder"> Welcome to </span>
+          <img
+            src="../../../../assets/images/ROS_FINAL-07.png"
+            style="
+              margin-top: -5px;
+              width: 85px;
+              height: 50px;
+              margin-left: -14px;
+            "
+          />
+        </p>
+      </div>
+      <div class="Logo" style="text-align: center">
+        <img
+          src="../../../../assets/images/ROS_FINAL-05.png"
+          style="width: 100%; margin-left: -14px; margin-top: -18px"
+        /><br /><br />
+      </div>
+
+      <div class="login-form">
+        <p style="text-align: center">
+          <b>Password reset</b>
+        </p>
+      </div>
+      <div>
+        <p style="text-align: center">
+          <b>instructions has been </b>
+        </p>
+      </div>
+      <div>
+        <p style="text-align: center">
+          <b>sent to your email</b>
+        </p>
+      </div>
+      <div>
+        <p style="text-align: center">
+          <b>address</b>
+        </p>
+      </div>
+      <br />
+
+      <!--change password Button-->
+      <div class="mt-4" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 160px"
+          (click)="
+            showDiv.reset = !showDiv.reset;
+            showDiv.login = false;
+            showDiv.forgot = false;
+            showDiv.password = password
+          "
+        >
+          CHANGE PASSWORD
+        </button>
+      </div>
+      <br /><br />
+
+      <div class="sign-up">
+        <p style="text-align: start">
+          <small>Don't have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="register()"
+          >
+            SIGN UP
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!--Reset Password Card-->
+  <div class="card" *ngIf="showDiv.reset">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px; font-weight: bolder"> Welcome to </span>
+          <img
+            src="../../../../assets/images/ROS_FINAL-07.png"
+            style="
+              margin-top: -5px;
+              width: 85px;
+              height: 50px;
+              margin-left: -14px;
+            "
+          />
+        </p>
+      </div>
+      <div class="Logo" style="text-align: center">
+        <img
+          src="../../../../assets/images/ROS_FINAL-05.png"
+          style="width: 100%; margin-left: -14px; margin-top: -18px"
+        /><br />
+      </div>
+      <!--Login Form-->
+      <div class="login-form">
+        <mat-form-field appearance="legacy">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Enter your email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput placeholder="Enter your password" />
+        </mat-form-field>
+      </div>
+      <br /><br />
+      <!--Change password Button-->
+      <div class="mt-2" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 160px"
+          (click)="
+            showDiv.confirm = !showDiv.confirm;
+            showDiv.login = false;
+            showDiv.forgot = false;
+            showDiv.password = password;
+            showDiv.reset = false
+          "
+        >
+          CHANGE PASSWORD
+        </button>
+      </div>
+      <br /><br /><br />
+
+      <div class="sign-up">
+        <p style="text-align: start">
+          <small>Don't have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="register()"
+          >
+            SIGN UP
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!--Password change confirmation card-->
+  <div class="card" *ngIf="showDiv.confirm">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px; font-weight: bolder"> Welcome to </span>
+          <img
+            src="../../../../assets/images/ROS_FINAL-07.png"
+            style="
+              margin-top: -5px;
+              width: 85px;
+              height: 50px;
+              margin-left: -14px;
+            "
+          />
+        </p>
+      </div>
+      <div class="Logo" style="text-align: center">
+        <img
+          src="../../../../assets/images/ROS_FINAL-05.png"
+          style="width: 100%; margin-left: -14px; margin-top: -18px"
+        /><br /><br />
+      </div>
+
+      <div class="login-form">
+        <p style="text-align: center">
+          <b>Your password has been</b>
+        </p>
+      </div>
+      <div class="login-form">
+        <p style="text-align: center">
+          <b>updated</b>
+        </p>
+      </div>
+      <div class="login-form">
+        <p style="text-align: center">
+          <b>successfully</b>
+        </p>
+      </div>
+      <br />
+
+      <!--change password Button-->
+      <div class="mt-2" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 150px"
+          (click)="dashboard()"
+          (click)="
+            showDiv.update = !showDiv.update;
+            showDiv.login = false;
+            showDiv.forgot = false;
+            showDiv.password = password;
+            showDiv.reset = false;
+            showDiv.confirm = false
+          "
+        >
+          LOGIN
+        </button>
+      </div>
+
+      <div class="forgot-password mt-2" style="text-align: center">
+        <a
+          id="forget"
+          class="forgot-password-link"
+          style="
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+            font: var(--unnamed-font-style-normal) normal normal 12px/14px
+              var(--unnamed-font-family-roboto);
+            color: var(--unnamed-color-000000);
+            font: normal normal normal 12px/14px Roboto;
+            letter-spacing: 0px;
+            color: #000000;
+            opacity: 0.5;
+          "
+        >
+          <i class="fas fa-question-circle mr-1"></i>Forgot password?</a
+        >
+      </div>
+      <br /><br /><br />
+
+      <div class="sign-up">
+        <p style="text-align: start">
+          <small>Don't have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="register()"
+          >
+            SIGN UP
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

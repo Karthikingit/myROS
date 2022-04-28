@@ -1,0 +1,44 @@
+.card {
+  border: none;
+  padding: 20px;
+  display: inline-block;
+  margin: 1rem;
+  position: relative;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: rgba(255, 255, 255, 1) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px rgba(199, 199, 199, 0.41);
+  border-radius: 10px;
+  &:hover {
+    box-shadow: 0 14px 22px rgba(199, 199, 199, 0.41),
+      0 10px 10px rgba(199, 199, 199, 0.41);
+  }
+}
+
+.summary_box {
+  height: 540px;
+
+  min-width: 274px;
+  overflow-y: auto;
+
+  .summary-text {
+    font-size: 0.8rem;
+  }
+
+  .mat-accordion .mat-expansion-panel {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background: rgba(254, 252, 252, 1) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 10px 20px rgba(199, 199, 199, 0.41);
+    border-radius: 10px;
+
+    &:hover {
+      box-shadow: 0 8px 12px rgba(199, 199, 199, 0.41),
+        0 8px 10px rgba(199, 199, 199, 0.41);
+    }
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 10px;
+  }
+}

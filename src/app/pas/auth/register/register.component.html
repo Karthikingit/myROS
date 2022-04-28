@@ -1,0 +1,290 @@
+<div class="container">
+  <div id="bg1">
+    <img [src]="myimage" alt="" />
+  </div>
+  <div class="overlay"></div>
+  <div class="card" *ngIf="showDiv.signup">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px;font-weight:bolder;"> Welcome to </span>
+          <img src="../../../../assets/images/ROS_FINAL-07.png" style="margin-top: -5px;width: 85px;height: 50px;margin-left: -14px;"/>
+        </p>
+      </div><br />
+      
+      <!--Sign-up Form-->
+      <div class="signup-form">
+        <mat-form-field appearance="legacy" style="margin-left: 16px;">
+          <mat-label>First Name</mat-label>
+          <input matInput placeholder="Enter your First Name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" style="margin-left: 120px;">
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Enter your Last Name" />
+        </mat-form-field>
+      </div>
+
+      <div class="sign-up-form">
+        <mat-form-field appearance="legacy" style="margin-left: 16px;">
+          <mat-label>Business Name</mat-label>
+          <input matInput placeholder="Enter your Business Name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" style="margin-left: 120px;">
+          <mat-label>Country</mat-label>
+          <mat-select style="margin-bottom: -18px;">
+            <mat-option value="one">USA</mat-option>
+            <mat-option value="two">Europe</mat-option>
+            <mat-option value="three">UK</mat-option>
+            <mat-option value="four">England</mat-option>
+            <mat-option value="five">India</mat-option>
+            <mat-option value="six">Canada</mat-option>
+            <mat-option value="seven">Australia</mat-option>
+            <mat-option value="eight">Africa</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="sign-up-form">
+        <mat-form-field appearance="legacy" style="margin-left: 16px;">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Enter your email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" style="margin-left: 120px;">
+          <mat-label>Phone Number</mat-label>
+          <input matInput placeholder="Enter your Phone Number" />
+        </mat-form-field>
+      </div>
+      <br />
+<!--Select Modules-->
+      <div class="select">
+        <p style="text-align: center">
+          <b>Select Modules for Demo</b>
+        </p>
+      </div>
+      <div class="modules pt-2 pr-5">
+        <div class="row">
+        <div class="col-md-3" style="text-align: center;">
+        <svg class="a" xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+          <g id="Group_1196" data-name="Group 1196" transform="translate(-129 -442)" opacity="0.5">
+          <g id="Group_1195" data-name="Group 1195" transform="translate(138 454)">
+          <rect id="Rectangle_236" data-name="Rectangle 236" width="20" height="15" rx="2" transform="translate(5.193 5)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Path_258" data-name="Path 258" d="M22.984,10.346V7.855A2.855,2.855,0,0,0,20.129,5H5.855A2.855,2.855,0,0,0,3,7.855v8.565a2.855,2.855,0,0,0,2.855,2.855H8.306" transform="translate(-3 -5)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          </g>
+          <path id="Icon_metro-dollar2" data-name="Icon metro-dollar2" d="M15.406,9.123a2.222,2.222,0,0,1-.581,1.539,2.508,2.508,0,0,1-1.51.8v1.022a.18.18,0,0,1-.187.187H12.34a.189.189,0,0,1-.187-.187V11.459a3.681,3.681,0,0,1-.745-.181,3.586,3.586,0,0,1-1.025-.54,3.328,3.328,0,0,1-.272-.219q-.073-.07-.1-.105A.177.177,0,0,1,10,10.174l.6-.788a.182.182,0,0,1,.134-.07.145.145,0,0,1,.14.053l.012.012a3.049,3.049,0,0,0,1.419.73,2.04,2.04,0,0,0,.432.047,1.416,1.416,0,0,0,.832-.251.818.818,0,0,0,.359-.712.592.592,0,0,0-.088-.309,1.094,1.094,0,0,0-.2-.245A1.6,1.6,0,0,0,13.3,8.42q-.234-.12-.385-.187t-.467-.19L12.092,7.9q-.131-.053-.359-.155t-.365-.181q-.137-.079-.33-.207a2.056,2.056,0,0,1-.312-.248,3.64,3.64,0,0,1-.254-.286,1.429,1.429,0,0,1-.207-.339,2.342,2.342,0,0,1-.123-.388,2.027,2.027,0,0,1-.05-.455,2,2,0,0,1,.572-1.413,2.672,2.672,0,0,1,1.489-.782V2.39A.189.189,0,0,1,12.34,2.2h.788a.18.18,0,0,1,.187.187V3.418a3.248,3.248,0,0,1,.645.134,3.741,3.741,0,0,1,.508.2,2.814,2.814,0,0,1,.371.219q.175.123.228.169t.088.082a.169.169,0,0,1,.029.222l-.473.853a.159.159,0,0,1-.134.093.186.186,0,0,1-.158-.041q-.018-.018-.085-.07t-.228-.155a3.014,3.014,0,0,0-.342-.187,2.608,2.608,0,0,0-.435-.152,1.948,1.948,0,0,0-.5-.067,1.518,1.518,0,0,0-.905.251.785.785,0,0,0-.3.928.657.657,0,0,0,.172.242,2.573,2.573,0,0,0,.231.193,2.057,2.057,0,0,0,.327.181q.219.1.353.158t.409.161q.309.117.473.184t.444.2a3.528,3.528,0,0,1,.441.248,3.728,3.728,0,0,1,.362.292,1.512,1.512,0,0,1,.309.371,2.116,2.116,0,0,1,.184.447,1.926,1.926,0,0,1,.076.549Z" transform="translate(141.987 459.719)"/>
+          <g id="Ellipse_19" data-name="Ellipse 19" transform="translate(129 442)" fill="none" stroke="#000" stroke-width="2">
+          <circle cx="22" cy="22" r="22" stroke="none"/>
+          <circle cx="22" cy="22" r="21" fill="none"/>
+          </g>
+          </g>
+          </svg>
+          <p class="icons">Cash Management</p>
+        </div>
+
+        <div class="col-md-3" style="text-align: center;">
+            <svg class="a"  xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+              <g id="Group_1197" data-name="Group 1197" transform="translate(-130 -443)" opacity="0.5">
+              <g id="Ellipse_19" data-name="Ellipse 19" transform="translate(130 443)" fill="none" stroke="#000" stroke-width="2">
+              <circle cx="22" cy="22" r="22" stroke="none"/>
+              <circle cx="22" cy="22" r="21" fill="none"/>
+              </g>
+              <g id="Group_1200" data-name="Group 1200" transform="translate(140 453)">
+              <path id="Path_259" data-name="Path 259" d="M0,0H24V24H0Z" fill="none"/>
+              <circle id="Ellipse_20" data-name="Ellipse 20" cx="4" cy="4" r="4" transform="translate(5 3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <path id="Path_260" data-name="Path 260" d="M3,21V19a4,4,0,0,1,4-4h4a4,4,0,0,1,4,4v2" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <path id="Path_261" data-name="Path 261" d="M16,3.13a4,4,0,0,1,0,7.75" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <path id="Path_262" data-name="Path 262" d="M21,21V19a4,4,0,0,0-3-3.85" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              </g>
+              </g>
+            </svg>
+            <p class="icons">HR Management</p>
+        </div>
+
+          <div class="col-md-3" style="text-align: center;">
+            <svg class="a" xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+              <g id="Group_1198" data-name="Group 1198" transform="translate(-130 -443)" opacity="0.5">
+              <g id="Ellipse_19" data-name="Ellipse 19" transform="translate(130 443)" fill="none" stroke="#000" stroke-width="2">
+              <circle cx="22" cy="22" r="22" stroke="none"/>
+              <circle cx="22" cy="22" r="21" fill="none"/>
+              </g>
+              <g id="Group_1201" data-name="Group 1201" transform="translate(140 453)">
+              <path id="Path_263" data-name="Path 263" d="M0,0H24V24H0Z" fill="none"/>
+              <path id="Path_264" data-name="Path 264" d="M12,3l8,4.5v9L12,21,4,16.5v-9L12,3" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <line id="Line_66" data-name="Line 66" y1="4.5" x2="8" transform="translate(12 7.5)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <line id="Line_67" data-name="Line 67" y2="9" transform="translate(12 12)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <line id="Line_68" data-name="Line 68" x1="8" y1="4.5" transform="translate(4 7.5)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <line id="Line_69" data-name="Line 69" x1="8" y2="4.5" transform="translate(8 5.25)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              </g>
+              </g>
+            </svg>
+            <p class="icon">Inventory Management</p>
+          </div>
+
+          <div class="col-md-3" style="text-align: center;">
+            <svg class="a" xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+              <g id="Group_1199" data-name="Group 1199" transform="translate(-130 -443)" opacity="0.5">
+              <g id="Ellipse_19" data-name="Ellipse 19" transform="translate(130 443)" fill="none" stroke="#000" stroke-width="2">
+              <circle cx="22" cy="22" r="22" stroke="none"/>
+              <circle cx="22" cy="22" r="21" fill="none"/>
+              </g>
+              <g id="Group_1202" data-name="Group 1202" transform="translate(140 453)">
+              <path id="Path_265" data-name="Path 265" d="M0,0H24V24H0Z" fill="none"/>
+              <rect id="Rectangle_237" data-name="Rectangle 237" width="6" height="8" rx="1" transform="translate(3 12)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <rect id="Rectangle_238" data-name="Rectangle 238" width="6" height="12" rx="1" transform="translate(9 8)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <rect id="Rectangle_239" data-name="Rectangle 239" width="6" height="16" rx="1" transform="translate(15 4)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              <line id="Line_70" data-name="Line 70" x2="14" transform="translate(4 20)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+              </g>
+              </g>
+              </svg>
+              <p class="icons">Reports & Analysis</p>
+          </div>
+        
+      </div>
+
+
+      </div><br />
+      <!--Get OTP Button-->
+      <div class="mt-2" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 120px"
+          (click)="showDiv.otp = !showDiv.otp; showDiv.signup = false"
+        >
+          GET OTP
+        </button>
+      </div><br><br>
+
+    <!--Login Button-->
+      <div class="sign-up">
+        <p style="text-align: center">
+          <small>Have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="login()"
+          >
+            LOGIN
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!--OTP Screen-->
+  <div class="card" *ngIf="showDiv.otp">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px;font-weight:bolder;"> Welcome to </span>
+          <img src="../../../../assets/images/ROS_FINAL-07.png" style="margin-top: -5px;width: 85px;height: 50px;margin-left: -14px;"/>
+        </p>
+      </div>
+      
+      <!--Enter your OTP-->
+      <div class="otp">
+        <p style="text-align: center">
+          <b>Enter OTP</b>
+        </p>
+      </div>
+      <div class="enter-otp d-flex">
+        <!-- <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)"  [config]="config"></ng-otp-input>
+        <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span> -->
+        <input class="input" type="text">
+        <input class="input" type="text">
+        <input class="input" type="text">
+        <input class="input" type="text">
+      </div>
+
+      <br />
+      <!--Verify Button-->
+      <div class="verify" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 120px"
+          (click)="showDiv.verify = !showDiv.veirfy; showDiv.signup = false; showDiv.otp = false"
+        >
+          VERIFY
+        </button>
+      </div><br><br>
+     <!--Login Button-->
+      <div class="login">
+        <p style="text-align: center">
+          <small>Have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="login()"
+          >
+            LOGIN
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!--Sign-UP successful Screen-->
+  <div class="card" *ngIf="showDiv.verify">
+    <div class="card-body">
+      <br />
+      <div class="heading" style="text-align: center; font-weight: normal">
+        <p style="font-size: 24px">
+          <span style="font-size: 25px;font-weight:bolder;"> Welcome to </span>
+          <img src="../../../../assets/images/ROS_FINAL-07.png" style="margin-top: -5px;width: 85px;height: 50px;margin-left: -14px;"/>
+        </p>
+      </div>
+      
+      
+      <div class="otp">
+        <p style="text-align: center">
+          <b>You have successfully registered for ROS
+          </b>
+        </p>
+      </div>
+      <div>
+        <p style="text-align: center;">
+        <b>
+          Portal. Please wait till your representatives
+        </b>
+        </p>
+      </div>
+      <div>
+        <p style="text-align: center;">
+        <b>
+        contact you.
+        </b>
+        </p>
+      </div>
+
+      <br />
+      <!--Home Button-->
+      <div class="back" style="text-align: center">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 160px"
+          (click)="login()"
+        >
+          BACK TO HOME
+        </button>
+      </div><br><br>
+     <!--Login Button-->
+      <div class="home">
+        <p style="text-align: center">
+          <small>Have an account?</small>
+          <button
+            class="btn btn-sm btn-dark ml-2"
+            style="width: 85px"
+            (click)="login()"
+          >
+            LOGIN
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+</div>

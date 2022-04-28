@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg fixed-top container-fluid">
+  <a class="col col-auto navbar-brand" (click)="getUser()">
+    <!-- <img src="../../../../assets/images/pas accountants image.ico" /> -->
+    <img
+      src="../../../assets/images/ROS_FINAL-07.png"
+      class="ROS_Logo"
+      alt="ROS Logo"
+    />
+  </a>
+
+  <div class="col container-fluid">
+    <div class="row ml-auto pull-right">
+      <div class="m-auto d-flex">
+        <div class="vl ml-sm-3 mr-sm-2"></div>
+        <div
+          class="user_setting"
+          ngbDropdown
+          display="dynamic"
+          placement="bottom-right"
+        >
+          <!-- <div
+          class="img-container cursor-pointer"
+          title="{{ AzureName }}"
+          id="user_setting_dropdown"
+          src="../../../assets/images/ROS_FINAL-07.png"
+          ngbDropdownToggle
+          alt=""
+          ></div> -->
+          <img
+          *ngIf="profile?.userProfile.imageURL == 'string' || profile?.userProfile.imageURL == ''"
+      src="../../../assets/images/profile.png"
+      class="img-container cursor-pointer"
+      title="{{ AzureName }}"
+      id="user_setting_dropdown"
+      alt="ROS Logo"
+      ngbDropdownToggle
+          alt=""
+    />
+    <img
+          *ngIf="profile?.userProfile.imageURL != 'string' && profile?.userProfile.imageURL != ''"
+      src="{{profile?.userProfile.imageURL}}"
+      class="img-container cursor-pointer"
+      title="{{ AzureName }}"
+      id="user_setting_dropdown"
+      alt="ROS Logo"
+      ngbDropdownToggle
+          alt=""
+    />
+          <div ngbDropdownMenu aria-labelledby="user_setting_dropdown">
+            <!-- <button ngbDropdownItem>Change Password</button>
+            <button ngbDropdownItem>Settings</button> -->
+            <button ngbDropdownItem (click)="$event.preventDefault(); logout()">
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

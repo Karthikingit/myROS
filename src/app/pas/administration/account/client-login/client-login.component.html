@@ -1,0 +1,960 @@
+<div class="container">
+  <div class="row d-flex justify-content-between">
+    <h4 class="text-nowrap ml-3" style="font-size: 28pt; font-weight: 500">
+      <i
+        *ngIf="this.userDepartment?.role.name != 'ROLE_CLIENTADMIN'"
+        class="fa fa-arrow-left fa-sm"
+        style="color: black; cursor: pointer"
+        (click)="back()"
+        id="back"
+        name="back"
+      ></i>
+      <span *ngIf="clientCountryName != 'UK'" class="ml-3">
+        <img
+          alt=""
+          src="../../../../assets/images/noData.png"
+          style="width: 76px"
+        />
+      </span>
+      <span *ngIf="clientCountryName == 'UK'">
+        <img
+          alt=""
+          src="../../../../assets/images/noData.png"
+          style="width: 76px"
+        />
+      </span>
+      &nbsp;&nbsp;
+      <span *ngIf="activeCard == 'Users'">
+        {{ resname }}
+      </span>
+      <span *ngIf="activeCard != 'Users'">
+        {{ clientName }}
+      </span>
+    </h4>
+
+    <h4 class="text-nowrap" style="font-size: 20pt; font-weight: 500">
+      {{ time | date: "hh:mm: ss a" }},&nbsp;&nbsp;&nbsp;{{
+        myDate | date: "dd MMM yyyy"
+      }}
+    </h4>
+  </div>
+
+  <div class="row">
+    <!-- total restaurant -->
+    <div class="col-3" *ngxPermissionsOnly="['ADM_RES_VCR']">
+      <div
+        (click)="setActiveCard('Restaurants')"
+        [class.active]="activeCard == 'Restaurants'"
+        class="accounts card"
+        id="totalRestaurants"
+        name="totalRestaurants"
+      >
+        <div class="card-body ml-2 mt-2">
+          <h5 class="number">{{ restaurantData?.length }}</h5>
+          <span class="text-secondary">Total Restaurants</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3" *ngxPermissionsOnly="['ADM_USR_VAU']">
+      <div
+        (click)="setActiveCard('Users'); setResturantNames('Users')"
+        [class.active]="activeCard == 'Users'"
+        class="accounts card"
+        id="totalUsers"
+        name="totalUsers"
+      >
+        <div class="card-body ml-2 mt-2">
+          <h5 class="number">{{ usersData?.length }}</h5>
+          <span class="text-secondary">Total Users</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div
+        (click)="setActiveCard('Subscription')"
+        [class.active]="activeCard == 'Subscription'"
+        class="account card"
+        id="totalSubscription"
+        name="totalSubscription"
+      >
+        <div class="row">
+          <div class="col-5">
+            <div class="card-body ml-2 mt-2">
+              <h5 class="number">{{ subscriptionData?.length }}</h5>
+              <span class="text-secondary">Subscriptions</span>
+            </div>
+          </div>
+          <div class="col-7">
+            <div
+              class="card-body mt-2"
+              style="border-left: rgba(0, 0, 0, 0.233) 2px solid"
+            >
+              <h5 class="numbers">
+                {{ subscriptionData[0]?.expiryDate | date: "dd/MM/yyyy" }}
+              </h5>
+              <span class="text-secondary">Earliest expiring subscription</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ng-container *ngxPermissionsOnly="['ADM_USR_ADD']">
+        <button
+          *ngIf="activeCard != 'Users' && activeCard != 'Subscription'"
+          (click)="addNewUSer()"
+          class="addnew btn btn-sm btn-dark ml-2 mt-4"
+          type="button"
+          id="addNewUser"
+          name="addNewUser"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD USER
+        </button>
+      </ng-container>
+
+      <ng-container *ngxPermissionsOnly="['ADM_USR_ADD']">
+        <button
+          *ngIf="activeCard == 'Users'"
+          (click)="addNew()"
+          class="addnew btn btn-sm btn-dark ml-2 mt-4"
+          type="button"
+          id="addNew"
+          name="addNew"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD NEW
+        </button>
+      </ng-container>
+      <ng-container *ngxPermissionsOnly="['ADM_RES_ADD']">
+        <button
+          *ngIf="activeCard == 'Restaurants'"
+          (click)="addNew()"
+          class="addnew btn btn-sm btn-dark ml-2 mt-4"
+          type="button"
+          id="addRestaurant"
+          name="addRestaurant"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD RESTAURANT
+        </button>
+      </ng-container>
+
+      <ng-container *ngxPermissionsOnly="['ADM_RES_SEA']">
+        <div *ngIf="activeCard == 'Restaurants'" class="addnew ml-2 mt-4">
+          <input
+            class="selectDropdown"
+            (keyup)="searchRestaurants($event)"
+            name="search"
+            placeholder="Search Restaurants"
+            style="height: 32px"
+            id="searchRestaurants"
+            name="searchRestaurants"
+            type="text"
+          />
+        </div>
+      </ng-container>
+      <ng-container>
+        <mat-form-field *ngIf="activeCard == 'Restaurants'" class="addnew mr-2 mt-2" >
+          <input matInput [matDatepicker]="picker" (ngModelChange)="dateChange($event)" placeholder="Choose a date to filter" [ngModel]="selectDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> 
+      </ng-container>
+      <ng-container *ngxPermissionsOnly="['ADM_USR_SEA']">
+        <div *ngIf="activeCard == 'Users'" class="addnew ml-2 mt-4">
+          <input
+            class="selectDropdown"
+            (keyup)="searchUsers($event)"
+            name="search"
+            placeholder="Search User..."
+            style="height: 32px"
+            type="text"
+            id="searchUsers"
+            name="searchUsers"
+          />
+        </div>
+      </ng-container>
+      <ng-container *ngxPermissionsOnly="['ADM_USR_FIL']">
+        <div *ngIf="activeCard == 'Users'" style="float: right">
+          <form [formGroup]="usersForm">
+            <mat-form-field class="mt-1" appearance="none" style="width: 250px">
+              <mat-select
+                disableOptionCentering
+                class="addnew selectDropdown ml-2 mb-2 lg-2"
+                (selectionChange)="viewUsers($event.value)"
+                [(value)]="selected"
+                formControlName="restaurantNames"
+                id="selectDropdown"
+                name="selectDropdown"
+                placeholder="All"
+              >
+                <mat-option
+                  (click)="setResturantNames('All')"
+                  [value]="All"
+                  id="restaurantNames"
+                  name="restaurantNames"
+                >
+                  All
+                </mat-option>
+                <mat-option
+                  *ngFor="let restaurant of restaurantData"
+                  (click)="setResturantNames(restaurant.id)"
+                  [value]="restaurant.id"
+                  id="restaurantNames"
+                  name="restaurantNames"
+                >
+                  {{ restaurant.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <!-- Restaurant filter -->
+  <!-- <div class="row mt-4" *ngIf="activeCard == 'Subscription'">
+    <div class="col d-flex justify-content-end">
+      <select
+      class="selectDropdown"
+      #resDrop
+      name="user"
+      id="user"
+      (change)="changeRes(resDrop.value)"
+    >
+      <option value="ALL" selected>All Restaurants</option>
+      <option [value]="user.id" *ngFor="let user of restTemp">
+        {{ user.name }}
+      </option>
+    </select>
+    </div>
+  </div> -->
+  <br />
+  <br />
+
+  <!-- View all Users Starts-->
+  <div *ngxPermissionsOnly="['ADM_USR_VAU']">
+    <div *ngIf="activeCard == 'Users'" class="row">
+      <div *ngFor="let data of usersData" class="col-md-3">
+        <div class="client card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <img
+                  alt=""
+                  src="../../../../assets/images/avatar.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+              <div class="col-md-9">
+                <!-- {{ data?.userProfile?.firstName }}&nbsp;
+                {{ data?.userProfile?.lastName | slice: 0:8
+                }}{{ data?.userProfile?.lastName?.length > 8 ? "..." : "" }}
+                {{data?.userProfile?.firstName.length + data?.userProfile?.lastName?.length }} -->
+                <span
+                  matTooltip=" {{
+                    data?.userProfile?.firstName +
+                      ' ' +
+                      data?.userProfile?.lastName
+                  }}"
+                  matTooltipPosition="right"
+                >
+                  {{
+                    data?.userProfile?.firstName +
+                      " " +
+                      data?.userProfile?.lastName | slice: 0:16
+                  }}
+                  {{
+                    data?.userProfile?.firstName.length +
+                      data?.userProfile?.lastName?.length >
+                    16
+                      ? "..."
+                      : ""
+                  }}
+                </span>
+                <br />
+                <small
+                  style="color: #8a96a0"
+                  matTooltip=" {{ data.username }}"
+                  matTooltipPosition="right"
+                >
+                  {{ data.username | slice: 0:15
+                  }}{{ data.username?.length > 15 ? "..." : "" }}
+                </small>
+                <br />
+                <span
+                  matTooltip=" {{ data.role?.name }}"
+                  matTooltipPosition="below"
+                >
+                  {{ data.role?.name | slice: 0:13
+                  }}{{ data.role?.name?.length > 13 ? "..." : "" }}
+                </span>
+              </div>
+            </div>
+            <hr class="mt-2" />
+            <div class="row">
+              <!-- <div class="col-5">
+                <div style="font-size: small" *ngIf="data.createdDate"><b>{{data.createdDate | date: "dd MMM yyyy"}}</b></div>
+                <div style="font-size: small" *ngIf="!data.createdDate"><b>NA</b></div>
+                <div class="text-muted" style="font-size: smaller">
+                  User Since
+                </div> -->
+              <!-- <div class="col-md-6">
+                {{
+                  data.accountSubscription.activatedDate | date: "dd MMM yyyy"
+                }}
+                <br />
+                <small class="text-muted">User Since</small>
+              </div> -->
+              <div
+                class="col-md-6"
+                *ngIf="!data.modifiedBy || data.modifiedBy == 'string'"
+              >
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length < 12
+                  "
+                  matTooltip=" {{ data.recordCreatedBy }}"
+                  matTooltipPosition="above"
+                  ><b>{{ data.recordCreatedBy }}</b>
+                </span>
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length > 11
+                  "
+                  matTooltip=" {{ data.recordCreatedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.recordCreatedBy | slice: 0:8
+                    }}{{ data.recordCreatedBy.length > 8 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.recordCreatedBy"><b>NA</b> </span>
+                <div style="font-size: small" *ngIf="data.createdDate">
+                  <b>{{ data.createdDate | date: "dd MMM yyyy" }} </b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.createdDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Created By
+                </div>
+              </div>
+              <div
+                class="col-md-6"
+                *ngIf="data.modifiedBy && data.modifiedBy != 'string'"
+              >
+                <span *ngIf="data.modifiedBy && data.modifiedBy.length <= 12"
+                  ><b>{{ data.modifiedBy }}</b>
+                </span>
+                <span
+                  *ngIf="data.modifiedBy && data.modifiedBy.length > 12"
+                  matTooltip=" {{ data.modifiedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.modifiedBy | slice: 0:9
+                    }}{{ data.modifiedBy.length > 9 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.modifiedBy || data.modifiedBy == 'string'"
+                  ><b>NA</b>
+                </span>
+                <div style="font-size: small" *ngIf="data.lastModifiedDate">
+                  <b>{{ data.lastModifiedDate | date: "dd MMM yyyy" }} </b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.lastModifiedDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Modified By
+                </div>
+              </div>
+              <div class="col-mg-6" style="padding-top: 5%">
+                <span class="">
+                  <span
+                    matTooltip="Edit User"
+                    matTooltipPosition="below"
+                    *ngxPermissionsOnly="['ADM_USR_EDI']"
+                  >
+                    <i
+                      (click)="navigateToEditUser(data)"
+                      class="fa fa-pencil-alt mr-3"
+                      style="cursor: pointer; font-size: 1.2em"
+                      id="editUser"
+                      name="editUser"
+                    ></i
+                  ></span>
+                  <span
+                    matTooltip="User Configuration"
+                    matTooltipPosition="below"
+                    *ngxPermissionsOnly="['ADM_USR_CON']"
+                  >
+                    <i
+                      (click)="requestAddUserConfig(data)"
+                      class="fas fa-lock mr-3"
+                      style="cursor: pointer; font-size: 1.2em"
+                      id="userConfig"
+                      name="userConfig"
+                    ></i
+                  ></span>
+                  <!-- <i
+                    class="far fa-check-circle mr-3"
+                    style="cursor: pointer; font-size: 1.2em"
+                  ></i> -->
+                  <span
+                    *ngIf="
+                      data?.role?.name != 'ROLE_ACCOUNTOFFICER' &&
+                      data?.role?.name != 'ROLE_CLIENTADMIN'
+                    "
+                  >
+                    <!-- <span
+                    (click)="openDelUser(data)"
+                    
+                    matTooltip="Delete User"
+                    matTooltipPosition="below"
+                  >
+                    <i
+                      class="fa fa-trash mr-3"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span> -->
+                    <!-- Activate - Deactivate Client  -->
+                    <ng-container *ngxPermissionsOnly="['ADM_USR_DEA']">
+                      <span
+                        (click)="openDeactivateUser(data)"
+                        *ngIf="data?.userStatus == 'ACTIVE'"
+                        matTooltip="Deactivate User"
+                        matTooltipPosition="below"
+                        id="deactivateUser"
+                        name="deactivateUser"
+                      >
+                        <svg
+                          class="bi bi-x-circle-fill mr-5 mb-1"
+                          fill="currentColor"
+                          height="18"
+                          style="cursor: pointer"
+                          viewBox="0 0 16 16"
+                          width="18"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                          />
+                        </svg>
+                      </span>
+                    </ng-container>
+                    <ng-container *ngxPermissionsOnly="['ADM_USR_ACT']">
+                      <span
+                        (click)="openDeactivateUser(data)"
+                        *ngIf="data?.userStatus == 'INACTIVE'"
+                        matTooltip="Activate User"
+                        matTooltipPosition="below"
+                        id="activateUser"
+                        name="activateUser"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                          class="bi bi-check-circle-fill mr-5 mb-1"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                          />
+                        </svg>
+                      </span>
+                    </ng-container>
+                  </span>
+
+                  <span *ngIf="data?.role?.name == 'ROLE_ACCOUNTOFFICER'">
+                    <!-- Activate - Deactivate Client  -->
+                    <ng-container *ngxPermissionsOnly="['ADM_USR_DEA']">
+                      <span
+                        (click)="openDeactivateUser(data)"
+                        *ngIf="data?.userStatus == 'ACTIVE'"
+                        matTooltip="Deactivate User"
+                        matTooltipPosition="below"
+                        id="deactivateUser"
+                        name="deactivateUser"
+                      >
+                        <svg
+                          class="bi bi-x-circle-fill mr-3 mb-1"
+                          fill="currentColor"
+                          height="18"
+                          style="cursor: pointer"
+                          viewBox="0 0 16 16"
+                          width="18"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                          />
+                        </svg>
+                      </span>
+                    </ng-container>
+                    <ng-container *ngxPermissionsOnly="['ADM_USR_ACT']">
+                      <span
+                        (click)="openDeactivateUser(data)"
+                        *ngIf="data?.userStatus == 'INACTIVE'"
+                        matTooltip="Activate User"
+                        matTooltipPosition="below"
+                        id="activateUser"
+                        name="activateUser"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          fill="currentColor"
+                          class="bi bi-check-circle-fill mr-3 mb-1"
+                          style="cursor: pointer"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                          />
+                        </svg>
+                      </span>
+                    </ng-container>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngxPermissionsOnly="['ADM_RES_VCR']">
+    <div
+      *ngIf="activeCard == 'Restaurants' && restaurantData?.length > 0"
+      class="row"
+    >
+      <div class="col-5">
+        <div *ngIf="restaurantData.length > 0" style="height: 100%" class="row">
+          <div class="col-12 client">
+            <span style="font-size: larger">Restaurants</span><br />
+            <div class="clients-container" id="style-1">
+              <div
+                *ngFor="let data of restaurantData; let i = index"
+                class="clients col-12 mt-3"
+                [class.active]="selectedIndex === i"
+                (click)="setIndex(i); setRestId(data.id)"
+              >
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-2">
+                      <span *ngIf="data.physicalAddress?.countryName != 'UK'">
+                        <img
+                          alt=""
+                          src="../../../../assets/images/restaurant.png"
+                          style="width: 60px"
+                        />
+                      </span>
+                      <span *ngIf="data.physicalAddress?.countryName == 'UK'">
+                        <img
+                          alt=""
+                          src="../../../../assets/images/restaurant.png"
+                          style="width: 60px"
+                        />
+                      </span>
+                    </div>
+                    <div class="col-7" style="margin-top: 10px">
+                      {{ data.name }} <br />
+                      <small style="color: #8a96a0">
+                        {{ data.contactInformation?.contactEmail | slice: 0:15
+                        }}{{
+                          data.contactInformation?.contactEmail?.length > 15
+                            ? "..."
+                            : ""
+                        }}
+                      </small>
+                      <span style="color: #8a96a0">
+                        {{ data.physicalAddress?.city }} &nbsp;
+                        {{ data.physicalAddress?.countryName }}</span
+                      >
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <span class="col">
+                      <span
+                        matTooltip="Edit Restaurant"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_EDI']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToEditRestaurant(data)"
+                        >
+                          EDIT
+                        </button>
+                      </span>
+
+                      <span
+                        matTooltip="View Restaurant"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_VIE']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToViewRestaurant(data)"
+                        >
+                          VIEW
+                        </button>
+                      </span>
+
+                      <span
+                        matTooltip="Restaurant Configuration"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_CON']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToRestConfig(data)"
+                        >
+                          CONFIGURE
+                        </button>
+                      </span>
+
+                      <span
+                        matTooltip="Login to Restaurant"
+                        matTooltipPosition="below"
+                      >
+                        <a href="https://app.uat.restaurantonesolution.com/">
+                          <button mat-stroked-button class="positive-btn">
+                            <svg
+                              class="bi bi-box-arrow-in-right"
+                              fill="currentColor"
+                              height="16"
+                              style="cursor: pointer; margin-bottom: 2px"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
+                                fill-rule="evenodd"
+                              />
+                              <path
+                                d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                            &nbsp;&nbsp;LOGIN AS ADMIN
+                          </button>
+                        </a>
+                      </span>
+                      <i
+                        aria-hidden="true"
+                        class="bi bi-box-arrow-in-right mr-1"
+                        style="cursor: pointer"
+                      ></i>
+                    </span>
+                  </div>
+                </div>
+                <hr
+                  class="mt-2 hrl"
+                  *ngIf="
+                    i != restaurantData.length - 1 &&
+                    i != selectedIndex &&
+                    i != selectedIndex - 1
+                  "
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-7">
+        <div class="row">
+          <div class="col-12">
+            <div class="card client">
+              <div class="card-body">
+                <ngx-chartjs-bar
+                  [restaID]="sendRestId"
+                  [selectDate]="selectDate"
+                  [currencySymbolChart]="currency"
+                ></ngx-chartjs-bar>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-6">
+            <div class="card client">
+              <div class="card-body">
+                <ngx-charts [restaID]="sendRestId" [selectDate]="selectDate"></ngx-charts>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card client">
+              <div class="card-body">
+                <h4>
+                  Labour<span style="float: right; font-size: x-large"
+                    >{{ currency }}{{ sumLabour }}</span
+                  >
+                </h4>
+                <div class="row mt-2" style="text-align: center">
+                  <div class="col" style="padding: 0px">
+                    <h5 class="text-green" style="font-size: x-large">0%</h5>
+                    <p class="text-muted" style="font-size: small">vs BUD</p>
+                  </div>
+                  <div class="col" style="padding: 0px">
+                    <h5 class="text-red" style="font-size: x-large">0%</h5>
+                    <p class="text-muted" style="font-size: small">vs FCST</p>
+                  </div>
+                  <div class="col"></div>
+                </div>
+                <br />
+                <chart type="bar" [data]="data" [options]="options"></chart>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- view all Subscription  -->
+  <div *ngIf="activeCard == 'Subscription'" class="row">
+    <div *ngFor="let data of subscriptionData" class="col-md-3 cardPadding">
+      <div class="client card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="ml-2">
+                <span style="font-weight: bold">
+                  {{ data?.subscription.name }}
+                </span>
+                <br />
+                <small style="color: #8a96a0">
+                  Ends on {{ data?.expiryDate | date: "dd/MM/yyyy" }}
+                </small>
+                <br />
+                <small style="font-weight: bold">
+                  {{
+                    data?.subscription.subscriptionPackageSpecification
+                      .userCount
+                  }}
+                  Users
+                </small>
+              </div>
+            </div>
+          </div>
+          <hr class="mt-2" />
+          <div class="row">
+            <div class="col-6">
+              <span class="ml-2" style="font-weight: bold; font-size: 14px">
+                {{ data?.activatedDate | date: "dd MMM YYYY" }} <br />
+                <small class="ml-2" style="color: #8a96a0"> Start Date </small>
+              </span>
+            </div>
+            <div class="col -6">
+              <span class="ml-2">
+                <span matTooltip="View Subscription" matTooltipPosition="below">
+                  <i
+                    aria-hidden="true"
+                    class="fa fa-eye mr-5 ml-1"
+                    style="cursor: pointer"
+                    (click)="viewsubscription()"
+                    id="viewsubscription"
+                    name="viewsubscription"
+                  ></i
+                ></span>
+                <!-- <span 
+                matTooltip="Activate Subscription"
+                matTooltipPosition="below"
+              >
+              <i class="fas fa-check-circle text-muted"></i></span> -->
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #userViewPermissionModal let-modal>
+  <div class="modal-body">
+    <!-- /*** Calling User-Permissions Component *****/ -->
+    <ngx-view-subscription
+      (closeEvnt)="closePerms($event)"
+      id="userViewPermissionModal"
+      name="userViewPermissionModal"
+    ></ngx-view-subscription>
+  </div>
+</ng-template>
+<ng-template #userPermissionModal let-modal>
+  <div class="modal-body">
+    <!-- /*** Calling User-Permissions Component *****/ -->
+    <ngx-user-permissions
+      (closeEvnt)="closePerms($event)"
+      id="userPermissionModal"
+      name="userPermissionModal"
+    ></ngx-user-permissions>
+  </div>
+</ng-template>
+
+<ng-template #userDelConfirmation>
+  <div matDialogContent>
+    <h5 class="mt-2">Are you sure you want to delete the user?</h5>
+
+    <div class="d-flex justify-content-center p-3">
+      <button
+        type="button"
+        class="btn btn-sm bg-dark text-white mr-3 px-3"
+        (click)="deleteUser()"
+        id="userDelConfirmation"
+        name="userDelConfirmation"
+      >
+        YES
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm bg-dark text-white px-4"
+        (click)="dismissAll()"
+        id="dismissAll"
+        name="dismissAll"
+      >
+        NO
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #secondDialog>
+  <h3 matDialogTitle>Error !</h3>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      type="button"
+      (click)="dismissAll()"
+      mat-raised-button
+      matDialogClose
+      id="dismiss"
+      name="dismiss"
+    >
+      Dismiss
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #successDialog>
+  <div class="p-3">
+    <div class="d-flex justify-content-end">
+      <i
+        class="fa fa-times"
+        (click)="dismissAll()"
+        id="successDialogDismiss"
+        name="successDialogDismiss"
+      ></i>
+    </div>
+    <h3
+      class="mt-2 text-center"
+      matDialogTitle
+      [innerHTML]="dialogMessage"
+    ></h3>
+    <!-- <p matDialogContent>{{ dialogMessage }}</p> -->
+    <div class="d-flex justify-content-center mt-5">
+      <button
+        class="btn btn-sm bg-dark text-white mr-4"
+        (click)="dismissAll()"
+        id="Close"
+        name="Close"
+      >
+        Close
+      </button>
+      <button
+        class="btn btn-sm bg-dark text-white"
+        (click)="dismissAll()"
+        id="viewUsers"
+        name="viewUsers"
+      >
+        View Users
+      </button>
+    </div>
+  </div>
+  <!-- <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button (click)="navigateToRestaurants()" mat-raised-button matDialogClose>
+      Navigate To Restaurants
+    </button>
+  </mat-dialog-actions> -->
+</ng-template>
+
+<ng-template #deactivateUser>
+  <div class="">
+    <div class="d-flex justify-content-end">
+      <i
+        style="cursor: pointer"
+        class="fa fa-times fa-1x"
+        (click)="dismissAll()"
+        id="dismissDeactivateUser"
+        name="dismissDeactivateUser"
+      ></i>
+    </div>
+  </div>
+  <div matDialogContent class="text-center" style="width: 300px">
+    <div>
+      <i class="fa-close fa-2x"></i>
+    </div>
+    <div class="d-flex justify-content-center flex-column p-4">
+      <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+      <div>Deactivate USER?</div>
+      <br />
+      <div>
+        <button
+          class="btn bg-dark text-white"
+          (click)="deactivateuser(); dismissAll()"
+          id="deactivateuser"
+          name="deactivateuser"
+        >
+          DEACTIVATE
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #activateUser>
+  <div class="">
+    <div class="d-flex justify-content-end">
+      <i
+        style="cursor: pointer"
+        class="fa fa-times fa-1x"
+        (click)="dismissAll()"
+        id="dismissActivateUser"
+        name="dismissActivateUser"
+      ></i>
+    </div>
+  </div>
+  <div matDialogContent class="text-center" style="width: 300px">
+    <div>
+      <i class="fa-close fa-2x"></i>
+    </div>
+    <div class="d-flex justify-content-center flex-column p-4">
+      <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+      <div>Activate USER?</div>
+      <br />
+
+      <button
+        class="btn bg-dark text-white"
+        (click)="deactivateuser(); dismissAll()"
+        id="deactivateuser"
+        name="deactivateuser"
+      >
+        ACTIVATE
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,1256 @@
+<div class="cashup-container">
+  <div class="cashup-sidebar">
+    <ngx-configuration-sidebar
+      [tab_name]="tab_name"
+      [checker]="checker"
+      [checkerNew]="checkerNew"
+      (tabName)="setFormTab($event)"
+    ></ngx-configuration-sidebar>
+  </div>
+  <div class="newcashup-content">
+    <div class="container">
+      <div class="d-flex justify-content-between mt-4">
+        <h4
+          id="resForm"
+          name="resForm"
+          class="text-nowrap"
+          style="font-size: 600; font-weight: 500"
+          (click)="resForm()"
+        >
+          <!-- <i
+            class="fa fa-arrow-left py-4 ml-1 mr-2"
+            style="color: black; cursor: pointer"
+            (click)="back()"
+          ></i> -->
+          {{ restaurantHeader }} - {{ tab_name }} Settings
+        </h4>
+        <button
+          id="saveAndUpdateRestConfig"
+          name="saveAndUpdateRestConfig"
+          st
+          [hidden]="tab_name != 'Accounting'"
+          class="btn btn-sm btn-dark ml-4 mt-4 mb-4"
+          (click)="saveAndUpdateRestConfig()"
+        >
+          <i class="fa fa-save">&nbsp;</i>SAVE
+        </button>
+      </div>
+    </div>
+
+    <div class="row" st [hidden]="tab_name != 'Accounting'">
+      <div class="col col-sm-12">
+        <div [formGroup]="restaurantConfigurationForm" class="emp-form-group">
+          <div class="container">
+            <div class="row">
+              <div class="col-4 form-title"><b>Cashup Interval</b></div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <mat-select
+                        id="cashupInterval"
+                        name="cashupInterval"
+                        aria-required="emptype"
+                        formControlName="cashupInterval"
+                        placeholder="AM & PM"
+                        (selectionChange)="onSelect($event.value)"
+                        [value]="selected"
+                      >
+                        <mat-option value="AM">AM</mat-option>
+                        <mat-option value="PM">PM</mat-option>
+                        <mat-option value="AMPM">AM & PM</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="flg == 1 || flg == 3">
+                  <div class="col-2 form-title">AM</div>
+                  <div class="col">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="startTimeAM"
+                        name="startTimeAM"
+                        type="time"
+                        formControlName="startTimeAM"
+                        matInput
+                        placeholder="Start Time"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="endTimeAM"
+                        name="endTimeAM"
+                        type="time"
+                        formControlName="endTimeAM"
+                        matInput
+                        placeholder="End Time"
+                        (ngModelChange)="onStartTimeChange()"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="dateValid ml-3 mt-n2" *ngIf="dateValid">
+                    End Time should be greater than Start Time
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="flg == 2 || flg == 3">
+                  <div class="col-2 form-title">PM</div>
+                  <div class="col">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="startTimePM"
+                        name="startTimePM"
+                        type="time"
+                        formControlName="startTimePM"
+                        matInput
+                        placeholder="Start Time"
+                        required
+                        (ngModelChange)="onStartTimeChangePM()"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="endTimePM"
+                        name="endTimePM"
+                        type="time"
+                        formControlName="endTimePM"
+                        matInput
+                        placeholder="End Time"
+                        (ngModelChange)="onStartTimeChangePM()"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="dateValid ml-3" *ngIf="dateValidPM">
+                    <div>End Time should be greater than Start Time</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+
+            <div class="row" *ngIf="editRes">
+              <div class="col-4 form-title"><b>Currency</b></div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <!-- <mat-select
+                        id="currencyType"
+                        name="currencyType"
+                        aria-required="emptype"
+                        formControlName="currencyType"
+                        placeholder="Currency"
+                      >
+                        <mat-option
+                          *ngFor="let currency of currencyTypeList"
+                          [value]="currency.currencyType"
+                          >{{ currency.currencyType }}</mat-option
+                        >
+                      </mat-select> -->
+                      <input
+                        id="currencyType"
+                        name="currencyType"
+                        readonly
+                        matInput
+                        placeholder="Currency"
+                        formControlName="currencyType"
+                      />
+                      <mat-hint>Non Editable field</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="!editRes">
+              <div class="col-4 form-title"><b>Currency</b></div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <mat-select
+                        id="currencyType"
+                        name="currencyType"
+                        aria-required="emptype"
+                        formControlName="currencyType"
+                        placeholder="Currency"
+                      >
+                        <mat-option
+                          *ngFor="let currency of currencyTypeList"
+                          [value]="currency.currencyType"
+                          >{{ currency.currencyType }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-4 form-title"><b>Cash & PDQ</b></div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2 form-title">Petty Cash</div>
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="pettyCash"
+                        name="pettyCash"
+                        [(ngModel)]="inputValue"
+                        [value]="inputValue"
+                        #pettyCash
+                        formControlName="pettyCash"
+                        matInput
+                        placeholder="Add pettyCash*"
+                      />
+                      <mat-error *ngIf="pettyCashWrong">
+                        *Field Required</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 form-title"></div>
+                  <button
+                    id="addSelectedPettyCash"
+                    name="addSelectedPettyCash"
+                    type="button"
+                    (click)="addSelectedPettyCash(pettyCash.value)"
+                    class="addnew btn btn-sm btn-dark ml-4 mt-4"
+                  >
+                    <i class="fa fa-plus mr-1"></i> ADD NEW
+                  </button>
+                </div>
+
+                <div class="col-md-3 mx-1" *ngFor="let d of selectedPettyCash">
+                  <p class="value">
+                    {{ d }}
+                    <button
+                      type="button"
+                      id="removePettyCash"
+                      name="removePettyCash"
+                      class="close"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true" (click)="removePettyCash(d)">
+                        &times;
+                      </span>
+                    </button>
+                  </p>
+                </div>
+
+                <hr />
+                <div class="row">
+                  <div class="col-2 form-title">Tills</div>
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="till"
+                        name="till"
+                        [(ngModel)]="inputValue2"
+                        [value]="inputValue2"
+                        #till
+                        formControlName="till"
+                        matInput
+                        placeholder="Add Till Name*"
+                      />
+                      <mat-error *ngIf="tillsWrong"> *Field Required</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 form-title"></div>
+                  <button
+                    id="addSelectedTill"
+                    name="addSelectedTill"
+                    type="button"
+                    (click)="addSelectedTill(till.value)"
+                    class="addnew btn btn-sm btn-dark ml-4 mt-4"
+                  >
+                    <i class="fa fa-plus mr-1"></i> ADD NEW
+                  </button>
+                </div>
+
+                <div class="col-md-3 mx-1" *ngFor="let s of selectedTill">
+                  <p class="value">
+                    {{ s }}
+                    <button
+                      id="removeTill"
+                      name="removeTill"
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true" (click)="removeTill(s)">
+                        &times;
+                      </span>
+                    </button>
+                  </p>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-2 form-title">PDQs</div>
+                  <!-- <div class="col-4">
+                  <mat-form-field appearance="legacy">
+                    <mat-select
+                      #pdqs
+                      aria-required="emptype"
+                      formControlName="pdqs"
+                      placeholder="Choose PDQ"
+                      required
+                    >
+                      <mat-option
+                        *ngFor="let pdqs of pdqsList"
+                        [value]="pdqs"
+                        >{{ pdqs }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="pdqs"
+                        name="pdqs"
+                        [(ngModel)]="inputValue4"
+                        [value]="inputValue4"
+                        #pdqs
+                        formControlName="pdqs"
+                        matInput
+                        placeholder="Add pdq Machine*"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 form-title"></div>
+                  <button
+                    id="addPDQS"
+                    name="addPDQS"
+                    type="button"
+                    (click)="addPDQS(pdqs.value)"
+                    class="addnew btn btn-sm btn-dark ml-4 mt-4"
+                  >
+                    <i class="fa fa-plus mr-1"></i> ADD NEW
+                  </button>
+                </div>
+                <div class="dateValid ml-5" *ngIf="pdqvalid">
+                  <div>select Machine form the list</div>
+                </div>
+                <div class="col-md-3 mx-1">
+                  <div class="row">
+                    <table class="table table-borderless">
+                      <tr class="">
+                        <th></th>
+
+                        <th class="px-2">Name</th>
+
+                        <th class="px-2" *ngFor="let cards of pdqCardsList">
+                          {{ cards }}
+                        </th>
+                      </tr>
+                      <tr *ngFor="let pdqMachine of PDQMaster; let i = index">
+                        <td>
+                          <button
+                            id="removePDQS"
+                            name="removePDQS"
+                            type="button"
+                            class="close"
+                            [value]="i"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true" (click)="removePDQS(i)">
+                              &times;
+                            </span>
+                          </button>
+                        </td>
+
+                        <td>{{ pdqMachine.title }}</td>
+
+                        <td
+                          *ngFor="let card of pdqMachine.pdqCard; let j = index"
+                        >
+                          <!-- <input
+                          type="text"
+                          formControlName="name"
+                          hidden="true"
+                          class="dont-show"
+                        /> -->
+
+                          <input
+                            id="pdqMachine"
+                            name="pdqMachine"
+                            type="checkbox"
+                            [(ngModel)]="card.value"
+                            [ngModelOptions]="{ standalone: true }"
+                            value="false"
+                          />
+                        </td>
+
+                        <!-- <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp;
+                      <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp;
+                      <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp; -->
+                      </tr>
+                    </table>
+                  </div>
+                  <!-- <div class="row">
+                  <table>
+                    <tr>
+                      <th></th>
+                      &nbsp;
+                      <th>Name</th>
+                      &nbsp;&nbsp;
+                      <th>Visa</th>
+                      &nbsp;
+                      <th>Master</th>
+                      &nbsp;
+                      <th>Amex</th>
+                      &nbsp;
+                    </tr>
+                    <tr *ngFor="let q of selectedPDQS; let i = index">
+                      <td>
+                        <button
+                          type="button"
+                          class="close"
+                          [value]="q"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true" (click)="removePDQS(q)">
+                            &times;
+                          </span>
+                        </button>
+                      </td>
+                      &nbsp;
+                      <td>{{ q }}</td>
+                      &nbsp;
+                      <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp;
+                      <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp;
+                      <td>
+                        <input type="checkbox" value="false" />
+                      </td>
+                      &nbsp;
+                    </tr>
+                  </table>
+                </div> -->
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-4 form-title"><b>Third Party</b></div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2 form-title">Third Party Name</div>
+                  <div class="col-4">
+                    <mat-form-field appearance="legacy">
+                      <input
+                        id="thirdParty"
+                        name="thirdParty"
+                        [(ngModel)]="inputValue3"
+                        [value]="inputValue3"
+                        #thirdParty
+                        formControlName="thirdParty"
+                        matInput
+                        placeholder="Add ThirdParty Name*"
+                      />
+                      <mat-error *ngIf="thridPartWrong">
+                        *Field Required</mat-error
+                      >
+                      <!-- <mat-select
+                      #thirdParty
+                      aria-required="emptype"
+                      formControlName="thirdParty"
+                      placeholder="Choose Third Party"
+                    >
+                      <mat-option
+                        *ngFor="let thirdParty of thirdPartyList"
+                        [value]="thirdParty"
+                        >{{ thirdParty }}</mat-option
+                      >
+                    </mat-select> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 form-title"></div>
+                  <button
+                    id="addSelectedThirParty"
+                    name="addSelectedThirParty"
+                    type="button"
+                    (click)="addSelectedThirParty(thirdParty.value)"
+                    class="addnew btn btn-sm btn-dark ml-4 mt-4"
+                  >
+                    <i class="fa fa-plus mr-1"></i> ADD NEW
+                  </button>
+                </div>
+
+                <div class="col-md-3 mx-1" *ngFor="let t of selectedThirdParty">
+                  <p class="value">
+                    {{ t }}
+                    <button
+                      type="button"
+                      class="close"
+                      aria-label="Close"
+                      id="removeThirdParty"
+                      name="removeThirdParty"
+                    >
+                      <span aria-hidden="true" (click)="removeThirdParty(t)">
+                        &times;
+                      </span>
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="" st [hidden]="tab_name != 'Shifts'">
+      <div class="d-flex justify-content-between" style="margin-bottom: 10px">
+        <h4
+          id="resForm1"
+          name="resForm1"
+          class="text-nowrap"
+          style="font-size: 500; font-weight: 500"
+          (click)="resForm()"
+        >
+          <!-- <i
+        class="fa fa-arrow-left py-4 ml-1 mr-2"
+        style="color: black; cursor: pointer"
+        (click)="back()"
+      ></i> -->
+          Shift Types
+        </h4>
+        <button
+          id="addnew"
+          name="addnew"
+          style="height: 30px"
+          type="button"
+          (click)="addnew()"
+          class="btn btn-sm btn-dark pull-right"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD
+        </button>
+      </div>
+      <ag-grid-angular
+        style="width: 100%; color: white"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="allSafesummary"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="5"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="'multiple'"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="" st [hidden]="tab_name != 'Department'">
+      <div class="d-flex justify-content-between" style="margin-bottom: 10px">
+        <h4
+          id="resForm2"
+          name="resForm2"
+          class="text-nowrap"
+          style="font-size: 500; font-weight: 500"
+          (click)="resForm()"
+        >
+          <!-- <i
+      class="fa fa-arrow-left py-4 ml-1 mr-2"
+      style="color: black; cursor: pointer"
+      (click)="back()"
+    ></i> -->
+          Department Types
+        </h4>
+        <button
+          id="addnewDepartment"
+          name="addnewDepartment"
+          style="height: 30px"
+          type="button"
+          (click)="addnewDepartment()"
+          class="btn btn-sm btn-dark pull-right"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD
+        </button>
+      </div>
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="allDepartments"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="5"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="'multiple'"
+        [columnDefs]="depcolumnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
+
+<ng-template #secondDialog>
+  <h3 matDialogTitle>Error !</h3>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      (click)="closeDialog()"
+      id="closeDialog"
+      name="closeDialog"
+      mat-raised-button
+      matDialogClose
+    >
+      Dismiss
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #successDialog>
+  <h2 matDialogTitle class="d-flex justify-content-center mt-2">
+    Save Successful !!!!
+  </h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions class="d-flex justify-content-around mb-1">
+    <button
+      (click)="navigateToRestaurants()"
+      id="navigateToRestaurants"
+      name="navigateToRestaurants"
+      mat-raised-button
+      matDialogClose
+    >
+      Navigate To Restaurants
+    </button>
+    <button (click)="closeDialog()" mat-raised-button matDialogClose>
+      Close
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #backDialog>
+  <h5 class="logo" matDialogTitle>Do you want to Exit without Saving??</h5>
+  <p matDialogContent></p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      id="navigateToDashBoard"
+      name="navigateToDashBoard"
+      (click)="navigateToDashBoard()"
+      mat-raised-button
+      matDialogClose
+      class="btn btn-dark"
+    >
+      Yes
+    </button>
+    &nbsp;
+    <button
+      id="closeDialog6"
+      name="closeDialog6"
+      (click)="closeDialog()"
+      mat-raised-button
+      matDialogClose
+      class="btn btn-dark"
+    >
+      No
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- add shift type    -->
+<div id="vacation">
+  <ng-template #request let-modal>
+    <div class="modal-body">
+      <form class="example-form mt-3" [formGroup]="safeFG">
+        <div class="d-flex justify-content-between">
+          <h5 class="">
+            <span
+              id="closeDialog7"
+              name="closeDialog7"
+              (click)="modal.dismiss()"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-arrow-left arrow"></i>
+            </span>
+            <b class="ml-3">Add New Shift Type </b>
+          </h5>
+          <!-- <button
+            class="btn btn-sm btn-dark pull-right tab"
+            (click)="submitForm(); modal.dismiss()"
+          >
+            <i class="far fa-save"></i> SUBMIT
+          </button> -->
+          <button
+            id="postShiftTypes"
+            name="postShiftTypes"
+            type="button"
+            class="btn btn-sm btn-dark push-right mr-3 mb-4"
+            (click)="postShiftTypes(); modal.dismiss()"
+            [disabled]="!safeFG.valid"
+          >
+            <i class="fas fa-save mr-1"></i> SAVE
+          </button>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Name</mat-label>
+              <input
+                id="Name"
+                name="Name"
+                matInput
+                type="text"
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field style="width: 30vw" appearance="legacy">
+              <input
+                id="description"
+                name="description"
+                matInput
+                type="text"
+                maxlength="50"
+                formControlName="description"
+                placeholder="Description"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Break Hours in Minutes</mat-label>
+              <input
+                id="break"
+                name="break"
+                matInput
+                type="number"
+                placeholder="Break Hours in Minutes"
+                formControlName="break"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="booking"
+              name="booking"
+              class="mr-1"
+              formControlName="booking"
+            >
+            </mat-checkbox>
+            Allow Booking
+          </div>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="payroll"
+              name="payroll"
+              class="mr-1"
+              formControlName="payroll"
+            >
+            </mat-checkbox>
+            Count Hours in Payroll
+          </div>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="Schedule"
+              name="Schedule"
+              class="mr-1"
+              formControlName="Schedule"
+            >
+            </mat-checkbox>
+            Inculde in Schedule
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+<!-- edit shift type    -->
+<div id="vacation">
+  <ng-template #editSafe let-modal>
+    <div class="modal-body">
+      <form class="example-form mt-3" [formGroup]="safeEditFG">
+        <div class="d-flex justify-content-between">
+          <h5 class="">
+            <span
+              (click)="modal.dismiss()"
+              id="modal"
+              name="modal"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-arrow-left arrow"></i>
+            </span>
+            <b class="ml-3"> Edit Shift Type </b>
+          </h5>
+          <!-- <button
+            class="btn btn-sm btn-dark pull-right tab"
+            (click)="submitForm(); modal.dismiss()"
+          >
+            <i class="far fa-save"></i> SUBMIT
+          </button> -->
+          <button
+            id="postEditShiftType"
+            name="postEditShiftType"
+            type="button"
+            class="btn btn-sm btn-dark push-right mr-3 mb-4"
+            (click)="postEditShiftType(); modal.dismiss()"
+          >
+            <i class="fas fa-save mr-1"></i> SAVE
+          </button>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Name</mat-label>
+              <input
+                id="Name3"
+                name="Name3"
+                matInput
+                type="text"
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field style="width: 30vw" appearance="legacy">
+              <input
+                id="description1"
+                name="description1"
+                matInput
+                type="text"
+                maxlength="50"
+                formControlName="description"
+                placeholder="Description"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Break Hours in Minutes</mat-label>
+              <input
+                id="break3"
+                name="break3"
+                matInput
+                type="number"
+                placeholder="Break Hours in Minutes"
+                formControlName="break"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="booking3"
+              name="booking3"
+              class="form-check-input mr-1"
+              formControlName="booking"
+              id="booking"
+            >
+            </mat-checkbox>
+            Allow Booking
+          </div>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="payroll2"
+              name="payroll2"
+              class="form-check-input mr-1"
+              formControlName="payroll"
+              id="payroll"
+            >
+            </mat-checkbox>
+            Count Hours in Payroll
+          </div>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6 text-muted">
+            <mat-checkbox
+              id="Schedule2"
+              name="Schedule2"
+              class="form-check-input mr-1"
+              formControlName="Schedule"
+              id="Schedule"
+            >
+            </mat-checkbox>
+            Inculde in Schedule
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+<!-- delete -->
+<ng-template #deleteContent let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          id="close"
+          name="close"
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class=""><i class="fa fa-2x fa-trash"></i></div>
+      <h4 class="mt-4">Delete Shift</h4>
+
+      <div class="mt-2">
+        <button
+          id="deleteShitfType"
+          name="deleteShitfType"
+          class="btn btn-sm btn-dark"
+          style="width: 100px"
+          (click)="deleteShitfType(); ref.close()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- success shift -->
+<ng-template #success let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          id="pointer"
+          name="pointer"
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <h4 class="mt-4">Successfully Shift Added</h4>
+
+      <div class="mt-2">
+        <button
+          id="close2"
+          name="close2"
+          class="btn btn-sm btn-dark"
+          style="width: 100px"
+          (click)="ref.close()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- success department -->
+<ng-template #successdep let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          id="close3"
+          name="close3"
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <h4 class="mt-4">Successfully Department Added</h4>
+
+      <div class="mt-2">
+        <button
+          id="close9"
+          name="close9"
+          class="btn btn-sm btn-dark"
+          style="width: 100px"
+          (click)="ref.close()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- add department type    -->
+<div id="vacation">
+  <ng-template #newdepartment let-modal>
+    <div class="modal-body">
+      <form class="example-form mt-3" [formGroup]="adddepartment">
+        <div class="d-flex justify-content-between">
+          <h5 class="">
+            <span
+              (click)="modal.dismiss()"
+              id="arrowleft"
+              name="arrowleft"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-arrow-left arrow"></i>
+            </span>
+            <b class="ml-3">Add New Department </b>
+          </h5>
+          <!-- <button
+            class="btn btn-sm btn-dark pull-right tab"
+            (click)="submitForm(); modal.dismiss()"
+          >
+            <i class="far fa-save"></i> SUBMIT
+          </button> -->
+          <button
+            type="button"
+            id="postDepartmentTypes"
+            name="postDepartmentTypes"
+            class="btn btn-sm btn-dark push-right mr-3 mb-4"
+            (click)="postDepartmentTypes(); modal.dismiss()"
+          >
+            <i class="fas fa-save mr-1"></i> SAVE
+          </button>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Name</mat-label>
+              <input
+                id="NameDepartmentTypes"
+                name="NameDepartmentTypes"
+                matInput
+                type="text"
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field style="width: 30vw" appearance="legacy">
+              <input
+                id="descriptionDepartmentTypes"
+                name="descriptionDepartmentTypes"
+                matInput
+                type="text"
+                maxlength="50"
+                formControlName="description"
+                placeholder="Description"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+<!-- edit department type    -->
+<div id="vacation">
+  <ng-template #editdepartmentS let-modal>
+    <div class="modal-body">
+      <form class="example-form mt-3" [formGroup]="editdepartment">
+        <div class="d-flex justify-content-between">
+          <h5 class="">
+            <span
+              id="desctTypes"
+              name="descriypes"
+              (click)="modal.dismiss()"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-arrow-left arrow"></i>
+            </span>
+            <b class="ml-3"> Edit Department </b>
+          </h5>
+          <!-- <button
+            class="btn btn-sm btn-dark pull-right tab"
+            (click)="submitForm(); modal.dismiss()"
+          >
+            <i class="far fa-save"></i> SUBMIT
+          </button> -->
+          <button
+            id="postEditDepartmentType"
+            name="postEditDepartmentType"
+            type="button"
+            class="btn btn-sm btn-dark push-right mr-3 mb-4"
+            (click)="postEditDepartmentType(); modal.dismiss()"
+          >
+            <i class="fas fa-save mr-1"></i> SAVE
+          </button>
+        </div>
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field appearance="legacy">
+              <mat-label>Name</mat-label>
+              <input
+                id="Name10"
+                name="Name10"
+                matInput
+                type="text"
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+              <!-- <select
+                matNativeControl
+                placeholder="witness"
+                formControlName="witness"
+                required
+              >
+                <option [value]="charan">charan</option>
+                <option *ngFor="let emp of Res_employees" [value]="emp">
+                      {{ emp }}
+                    </option>
+              </select> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-4 mt-2">
+          <div class="col-md-6">
+            <mat-form-field style="width: 30vw" appearance="legacy">
+              <input
+                id="description10"
+                name="description10"
+                matInput
+                type="text"
+                maxlength="50"
+                formControlName="description"
+                placeholder="Description"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+<!-- delete department -->
+<ng-template #deletedepartment let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          id="colos"
+          name="colos"
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class=""><i class="fa fa-2x fa-trash"></i></div>
+      <h4 class="mt-4">Delete Shift</h4>
+
+      <div class="mt-2">
+        <button
+          id="deleteDepartmentType"
+          name="deleteDepartmentType"
+          class="btn btn-sm btn-dark"
+          style="width: 100px"
+          (click)="deleteDepartmentType(); ref.close()"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

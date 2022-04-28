@@ -1,0 +1,79 @@
+#bg {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+}
+#bg img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+}
+.overlay {
+  background: #0000008a;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+}
+
+.card {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 305px;
+  height: 337px;
+
+  margin-right: 120px;
+  border-radius: 10px;
+  transform: translateY(55%);
+}
+.card-body {
+  position: relative;
+}
+
+.login-form {
+  margin-left: 18px;
+  margin-top: 12px;
+}
+
+.heading {
+  font-size: larger;
+}
+
+small {
+  font: var(--unnamed-font-style-normal) normal normal 12px/14px
+    var(--unnamed-font-family-roboto);
+  color: var(--unnamed-color-000000);
+  text-align: left;
+  font: normal normal normal 12px/14px Roboto;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 0.5;
+}
+
+.sign-up {
+  margin-top: 40px;
+}
+
+.button {
+  margin-bottom: 25px;
+  background-color: #009fe3;
+  border-color: #009fe3;
+  font-weight: 500;
+}
+.btn-dark {
+  background-color: #009fe3;
+  border-color: #009fe3;
+  font-weight: 500;
+}
+.span {
+  font-size: larger;
+}

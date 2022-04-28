@@ -1,0 +1,27 @@
+.dont-show {
+  display: none;
+}
+
+
+.dateValid{ 
+  color: rgb(247, 103, 103);
+  font-size:11px;
+}
+.cashup-sidebar {
+  flex-basis: auto;
+  margin-left: -114px;
+  position: fixed;
+}
+.cashup-container {
+  display: flex;
+  flex: 0 0 auto;
+  margin-top: -41px;
+}
+.newcashup-content {
+  width: 100%;
+  margin-left: 100px;
+}
+.deleteCard {
+  height: 230px;
+  width: 340px;
+}

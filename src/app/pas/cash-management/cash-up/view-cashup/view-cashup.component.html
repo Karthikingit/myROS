@@ -1,0 +1,405 @@
+<!--Top Fixed Header-->
+
+<div class="container-fluid px-5 py-3 position-fixed bg-white head-info">
+  <div class="">
+    <div class="row d-flex justify-content-between w-100 flex-wrap bg-white">
+      <div class="d-flex left-header">
+        <i class="fas fa-2x fa-arrow-left" routerLink="../"></i>
+        <div class="dateTime ml-3 mt-1">
+          {{ this.date | date: "dd MMM yyyy" }}, {{ this.cashupindicator }}
+          <div class="d-flex">
+            <img
+              src="../../../../../assets/images/nick.png"
+              alt="img"
+              class="mt-2"
+              style="height: 40px; width: 40px; border-radius: 50%"
+            />
+            <div class="ml-3 mt-2">
+              <div class="name">John Doe</div>
+              <div class="dep">FOH_1011</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-header">
+        <div
+          class="d-flex justify-content-end"
+          (mouseleave)="downloadOptions = false"
+        >
+          <div *ngIf="downloadOptions" class="downMenu">
+            <button
+              class="btn btn-sm btn-dark text-white px-3 mx-2"
+              (click)="downloadCSV()"
+            >
+              CSV
+            </button>
+            <button
+              class="btn btn-sm bg-dark text-white px-3"
+              (click)="downloadEXCEL()"
+            >
+              EXCEL
+            </button>
+          </div>
+          <button
+            (click)="downloadOptions = !downloadOptions"
+            (mouseenter)="downloadOptions = true"
+            class="btn btn-sm bg-dark text-white ml-2 download"
+          >
+            <i class="fa fa-download"></i>
+            DOWNLOAD
+          </button>
+          <br />
+        </div>
+        <div class="d-flex justify-content-end mt-1">
+          <small
+            >{{ code }}_{{ this.date | date: "ddMMMyyyy" }}_{{
+              this.cashupindicator
+            }}_<span *ngIf="cashupindicator == 'AM'">001</span
+            ><span *ngIf="cashupindicator == 'PM'">002</span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scrollables -->
+<div class="container head-content">
+  <!--Epos Takings-->
+  <div class="row mt-5">
+    <div class="card w-100 mt-5">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6>EPOS Takings</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b>{{ currSym }} {{ cash_obj.epostotal.toFixed(2) }} </b></span
+            >
+          </p>
+        </div>
+        <hr />
+
+        <div class="epos">
+          <div class="row">
+            <div class="col title" *ngFor="let col of Epos">
+              {{ col.title }}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col data" *ngFor="let col of Epos">
+              {{ currSym }} {{ col.value | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Petty Cash-->
+  <div class="row mt-4">
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Petty Cash</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ Petty ? Petty : (0 | number: "1.2-2") }}
+              </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="pettyCash">
+          <div class="row">
+            <div class="col title" *ngFor="let col of PettyCash">
+              {{ col.title }}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col data" *ngFor="let col of PettyCash">
+              {{ currSym }} {{ col.value | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Till-->
+  <div class="row mt-4">
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Till</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b>{{ currSym }} {{ cash_obj.cashtotal.toFixed(2) }} </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="till">
+          <div class="row">
+            <div class="col title" *ngFor="let col of Till">
+              {{ col.title }}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col data" *ngFor="let col of Till">
+              {{ currSym }} {{ col.value | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Wage Adavances-->
+  <div class="row mt-4">
+    <div class="card w-100 h-50">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Wage Advances</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ Wages ? Wages : (0 | number: "1.2-2") }}
+              </b></span
+            >
+          </p>
+        </div>
+        <hr />
+
+        <div class="wage">
+          <div class="row">
+            <div class="col title">Emp ID</div>
+            <div class="col title">Emp Name</div>
+            <div class="col title">Department</div>
+            <div class="col title">Advance Provided</div>
+          </div>
+
+          <div class="row mt-2" *ngFor="let col of Wage">
+            <div class="col data">
+              {{ col.id }}
+            </div>
+            <div class="col data">
+              {{ col.name }}
+            </div>
+            <div class="col data">
+              {{ col.dept }}
+            </div>
+            <div class="col data">
+              {{ col.adv }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--PDQ Takings-->
+  <div class="row mt-4">
+    <div class="card w-100 h-50">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">PDQ Takings</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ cash_obj.pdqtotal | number: "1.2-2" }}
+              </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="wage">
+          <div class="row">
+            <div class="col title">PDQ</div>
+            <div class="col title" *ngFor="let f of pdq_cards">
+              {{ f.field_name }}
+            </div>
+          </div>
+
+          <div class="row mt-2" *ngFor="let col of PDQ">
+            <div class="col data">
+              {{ col.pdq }}
+            </div>
+            <div class="col data" *ngFor="let cards of col.fields">
+              {{ cards.value }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Third Party Takings-->
+  <div class="row mt-4">
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Third Party Takings</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ cash_obj.deliverytotal.toFixed(2) }}
+              </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="TPT">
+          <div class="row">
+            <div class="col title" *ngFor="let col of TPT">
+              {{ col.title }}
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col data" *ngFor="let col of TPT">
+              {{ currSym }} {{ col.value | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Covers-->
+  <div class="row mt-4">
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Covers</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ Covers ? Covers : (0 | number: "1.2-2") }}
+              </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="cover">
+          <div class="row">
+            <div class="col title" *ngFor="let col of Cover">
+              {{ col.title }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col data" *ngFor="let col of Cover">
+              {{ currSym }} {{ col.value | number: "1.2-2" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Refund Breakdown-->
+  <div class="row mt-4">
+    <div class="refundb card w-100 h-50">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Refund Breakdown</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }} {{ refund ? refund : (0 | number: "1.2-2") }}
+              </b></span
+            >
+          </p>
+        </div>
+
+        <hr />
+        <div class="refund">
+          <div class="row">
+            <div class="col title">Bill Number</div>
+            <div class="col title">Reason</div>
+            <div class="col title">Amount</div>
+          </div>
+          <div class="row" *ngFor="let col of Refund">
+            <ng-container *ngIf="col.name == 'refund_breakdown'">
+              <div class="col data">
+                <span> {{ col.billnumber }}</span>
+              </div>
+              <div class="col data">
+                <span> {{ col.reason }} </span>
+              </div>
+              <div class="col data">
+                <span> {{ col.amount }} </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Discount Breakdown-->
+  <div class="row mt-4">
+    <div class="card w-100 h-50">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h6 class="total">Discount Breakdown</h6>
+          <p class="total_heading">
+            Total:
+            <span class="total">
+              <b
+                >{{ currSym }}
+                {{ discount ? discount : (0 | number: "1.2-2") }}</b
+              ></span
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="Discount">
+          <div class="row">
+            <div class="col title">Bill Number</div>
+            <div class="col title">Reason</div>
+            <div class="col title">Amount</div>
+          </div>
+          <div class="row" *ngFor="let col of Refund">
+            <ng-container *ngIf="col.name == 'discount_breakdown'">
+              <div class="col data">
+                <span>{{ col.billnumber }}</span>
+              </div>
+              <div class="col data">
+                <span> {{ col.reason }} </span>
+              </div>
+              <div class="col data">
+                <span> {{ col.amount }} </span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+.box {
+  cursor: pointer;
+  width: 150px;
+  height: 79px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 20px 60px rgba(199, 199, 199, 0.41);
+  border-radius: 12px;
+}
+
+.box.active {
+  width: 150px;
+  height: 79px;
+  background: rgba(141, 141, 141, 0.1);
+  border-radius: 12px;
+  box-shadow: 0px 20px 60px rgb(199 199 199 / 8%);
+}
+.agTable {
+  width: 100%;
+
+  ::ng-deep .ag-row {
+    height: 50px;
+  }
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: black;
+}
+hr {
+  border-top: 3px solid rgba(0, 0, 0, 0.1);
+}
+.marginbottom {
+  margin-bottom: 21rem;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: black;
+}
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: gray;
+}
+.margin-box {
+  margin-bottom: 26rem;
+}
+
+.startdate {
+  border: hidden;
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+.enddate {
+  border: hidden;
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+.tab {
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  padding: 5px 18px;
+  position: absolute;
+  right: 5px;
+}
+.delete {
+  font-size: 20px;
+
+  font-weight: bold;
+    margin: 5px;
+}
+.reject {
+  color: rgba(162, 70, 70, 1);
+  &:hover {
+    background-color: white;
+  }
+}
+
+.approve {
+  color: rgba(70, 143, 73, 1);
+  &:hover {
+    background-color: white;
+  }
+}
+.deletepopup{
+  width: 458px;
+  height: 216px;
+  border-radius: 10px;
+}
+.fa :hover{
+fill: red;
+}
+.fa-trash:hover{
+  color: #A24646;
+}
+
+.fa-pencil-alt:hover{
+  color: #ECBC0F;
+}
+
+.fa-eye:hover{
+  color: #468F49;
+}

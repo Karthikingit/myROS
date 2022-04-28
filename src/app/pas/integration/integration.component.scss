@@ -1,0 +1,54 @@
+.number{
+  font-size: 28px;
+}
+.accounts{
+  border: none;
+  width: 287px;
+  height: 109px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 80px #00000011;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.addnew{
+  float: right;
+}
+.accounts.active{
+  border: none;
+  width: 287px;
+  height: 109px;
+  background: rgba(141, 141, 141, 0.1) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 60px rgba(199, 199, 199, 0.41);
+  border-radius: 10px;
+
+}
+.drop{
+  border: #8A96A0 1pt solid;
+  width: 160px;
+  height: 30.8px;
+  border-radius: 5px;
+  color: #8A96A0;
+}
+.client{
+  border: none;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 80px #00000011;
+  border-radius: 10px;
+}
+.Item {
+  float: right;
+  font: normal normal normal 14px/17px Roboto;
+  letter-spacing: 0.1px;
+  color: #000000;
+  opacity: 0.7;
+  margin-left: 200px;
+}
+.list-group-item{
+  border: none;
+}
+.actives{
+  border-bottom: 4px solid black;
+}
+.duration{
+  cursor:pointer;
+}

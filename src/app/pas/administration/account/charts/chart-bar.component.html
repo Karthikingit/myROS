@@ -1,0 +1,32 @@
+<h4>
+  Sales<span style="float: right; font-size: x-large"
+    >{{ currencySymbolChart }}{{ totalSaleValue }}</span
+  >
+</h4>
+<div class="row">
+  <div class="col-10 mt-auto">
+    <chart type="bar" [data]="data" [options]="options"></chart>
+  </div>
+  <div
+    class="col-2"
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: end;
+    "
+  >
+    <section class="mt-2">
+      <h5 class="text-green d-flex justify-content-end">0%</h5>
+      <p class="text-muted smaller">vs BUD</p>
+    </section>
+    <section class="mt-2">
+      <h5 class="text-red d-flex justify-content-end">0%</h5>
+      <p class="text-muted smaller">vs FCST</p>
+    </section>
+    <section class="mt-2">
+      <h5 class="text-red d-flex justify-content-end">0%</h5>
+      <p class="text-muted smaller">vs LY</p>
+    </section>
+  </div>
+</div>

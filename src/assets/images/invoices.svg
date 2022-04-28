@@ -1,0 +1,10 @@
+<svg id="invoice" xmlns="http://www.w3.org/2000/svg" width="11.607" height="16.039" viewBox="0 0 11.607 16.039">
+                                <g id="Icon_feather-database" data-name="Icon feather-database" transform="translate(3.102 6.258)">
+                                  <path id="Path_2114" data-name="Path 2114" d="M9.905,3.9c0,.5-1.21.9-2.7.9s-2.7-.4-2.7-.9S5.71,3,7.2,3,9.905,3.4,9.905,3.9Z" transform="translate(-4.5 -3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                                  <path id="Path_2115" data-name="Path 2115" d="M9.905,18c0,.5-1.2.9-2.7.9s-2.7-.4-2.7-.9" transform="translate(-4.5 -14.997)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                                  <path id="Path_2116" data-name="Path 2116" d="M4.5,7.5v4.2c0,.5,1.2.9,2.7.9s2.7-.4,2.7-.9V7.5" transform="translate(-4.5 -6.599)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5"/>
+                                </g>
+                                <g id="Group_10105" data-name="Group 10105">
+                                  <path id="Path_2091" data-name="Path 2091" d="M25.207,958.361a.365.365,0,0,1,.33.365v.376h1.076a.365.365,0,0,1,.365.365v.456H29.4a.365.365,0,0,1,.365.365v13.749a.365.365,0,0,1-.365.365H18.521a.365.365,0,0,1-.365-.365V960.286a.364.364,0,0,1,.364-.365h2.426v-.456a.365.365,0,0,1,.364-.365h1.077v-.376a.364.364,0,0,1,.364-.365h2.455Zm-.4.729H23.117v.376a.364.364,0,0,1-.364.365H21.676v.923H26.25v-.923H25.173a.365.365,0,0,1-.365-.364Zm4.226,1.561H26.979v.467a.365.365,0,0,1-.364.365h-5.3a.365.365,0,0,1-.365-.365v-.467H18.885v13.02H29.035Z" transform="translate(-18.156 -958.361)"/>
+                                </g>
+                              </svg>

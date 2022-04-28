@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.4" height="17" viewBox="0 0 15.4 17">
+                                <g id="attendance" transform="translate(0.5 0.5)">
+                                  <g id="calendar" transform="translate(-3 -2)">
+                                    <rect id="Rectangle_16847" data-name="Rectangle 16847" width="14.4" height="14" rx="2" transform="translate(3 4)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    <line id="Line_142" data-name="Line 142" y2="4" transform="translate(13.4 2)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    <line id="Line_143" data-name="Line 143" y2="4" transform="translate(7 2)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    <line id="Line_144" data-name="Line 144" x2="14.4" transform="translate(3 8.4)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                  </g>
+                                  <path id="Icon_material-check-circle" data-name="Icon material-check-circle" d="M6.057,3A3.057,3.057,0,1,0,9.113,6.057,3.058,3.058,0,0,0,6.057,3ZM5.445,7.585,3.917,6.057l.431-.431,1.1,1.094L7.765,4.4l.431.434Z" transform="translate(1.188 5.18)"/>
+                                </g>
+                              </svg>

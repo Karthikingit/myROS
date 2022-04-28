@@ -1,0 +1,449 @@
+<style type="text/css">
+  .fa {
+    cursor: pointer;
+  }
+</style>
+<div class="emp-details">
+  <div class="container">
+    <div class="row">
+      <i
+      id="navigateToDashBoard" name="navigateToDashBoard"
+        (click)="navigateToDashBoard()"
+        class="fa fa-2x fa-arrow-left pl-3 py-4"
+        style="color: black;"
+      ></i
+      >
+      <div class="col heading ">{{title}}</div>
+      <!-- <div class="col d-flex justify-content-end align-items-start mt-4">
+        <button
+          (click)="saveRestaurant()"
+          class="btn btn-dark "
+          type="button">
+          <i class="fa fa-save"></i> &nbsp; SAVE
+        </button>
+      </div>  -->
+    </div>
+  </div>
+  <div [formGroup]="restaurantForm" class="emp-form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Basic Information</b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="none">
+                <mat-label>Business Name</mat-label>
+                <input
+               
+                  formControlName="businessName"
+                  matInput
+                  placeholder="Business Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="none">
+                <mat-label>Legal/Trade Name</mat-label>
+                <input
+                  formControlName="tradeName"
+                  matInput
+                  placeholder="Legal/Trade Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="none">
+                <mat-label>Owner Name</mat-label>
+                <input
+                  formControlName="ownerName"
+                  matInput
+                  placeholder="Owner Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="none" style="width: 240px;">
+                <mat-label>Owner Email</mat-label>
+                <input
+                  formControlName="ownerEmail"
+                  matInput
+                  placeholder="Owner Email"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+          </div>
+          <!--<div class="row">
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="client"
+                  matInput
+                  placeholder="Client"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>-->
+
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Postal Address </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field appearance="none" class="address">
+                <mat-label>Address</mat-label>
+                <input
+                  formControlName="postalAddress"
+                  matInput
+                  placeholder="Address"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Zip Code</mat-label>
+                <input
+                  formControlName="postalZipCode"
+                  matInput
+                  placeholder="Zip Code"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Town/City</mat-label>
+                <input
+                  formControlName="postalCity"
+                  matInput
+                  placeholder="Town/City"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Region/County</mat-label>
+                <input
+                  formControlName="postalState"
+                  matInput
+                  placeholder="Region/County"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Country</mat-label>
+                <input
+                  formControlName="postalCountry"
+                  matInput
+                  placeholder="Country"
+                  readonly
+                />
+                <!-- <mat-select aria-required="emptype"
+                            formControlName="postalCountry" placeholder="Country">
+                  <mat-option *ngFor="let p of countries" [value]="p.id">
+                    {{ p.countryName }}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Physical Address </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field appearance="none" class="address">
+                <mat-label>Address</mat-label>
+                <input
+                  formControlName="physicalAddress"
+                  matInput
+                  placeholder="Address"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Zip Code</mat-label>
+                <input
+                  formControlName="physicalZipCode"
+                  matInput
+                  placeholder="Zip Code"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Town/City</mat-label>
+                <input
+                  formControlName="physicalCity"
+                  matInput
+                  placeholder="Town/City"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Region/County</mat-label>
+                <input
+                  formControlName="physicalState"
+                  matInput
+                  placeholder="Region/County"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Country</mat-label>
+                <input
+                  formControlName="physicalCountry"
+                  matInput
+                  placeholder="Country"
+                  readonly
+                />
+                <!-- <mat-select aria-required="emptype"
+                            formControlName="physicalCountry" placeholder="Country">
+                  <mat-option *ngFor="let p of countries" [value]="p.id">
+                    {{ p.countryName }}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Primary Contact </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>First Name</mat-label>
+                <input
+                  formControlName="firstName"
+                  matInput
+                  placeholder="First Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Middle Name</mat-label>
+                <input
+                  formControlName="middleName"
+                  matInput
+                  placeholder="Middle Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Last Name</mat-label>
+                <input
+                  formControlName="lastName"
+                  matInput
+                  placeholder="Last Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="none" style="width: 240px;">
+                <mat-label>Email</mat-label>
+                <input
+                  formControlName="email"
+                  matInput
+                  placeholder="Email"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Mobile/Telephone</mat-label>
+                <input
+                  formControlName="mobileNumber"
+                  matInput
+                  placeholder="Mobile/Telephone"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="telephone"
+                  matInput
+                  placeholder="Telephone"
+                  readonly
+                />
+              </mat-form-field>
+            </div> -->
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Website</mat-label>
+                <input
+                  formControlName="website"
+                  matInput
+                  placeholder="Website" readonly
+                />
+              </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <hr>
+      <!-- <div class="row">
+        <div class="col-4 form-title"><b>Contact Information</b></div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactEmail"
+                  matInput
+                  placeholder="Email"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactMobileNumber"
+                  matInput
+                  placeholder="Phone Number"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactTelephone"
+                  matInput
+                  placeholder="Telephone"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="fax"
+                  matInput
+                  placeholder="Fax"
+                  type="number" readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="website"
+                  matInput
+                  placeholder="Website" readonly
+                />
+              </mat-form-field>
+            </div>
+           </div>
+        </div>
+      </div>
+      <hr> -->
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>VAT Information </b></div>
+        <div class="col-xl-8 form-content" >
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Tax Country Code</mat-label>
+                <input
+                  formControlName="taxCountryCode"
+                  matInput
+                  placeholder="Tax Country Code" readonly
+                />
+                <!-- <mat-select aria-required="emptype"
+                            formControlName="taxCountryCode" placeholder="Tax Country Code">
+                  <mat-option *ngFor="let p of countries" [value]="p.id">
+                    {{ p.taxCountryCode }}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="none">
+                <mat-label>Tax Registration Number</mat-label>
+                <input
+                  formControlName="taxRegistrationNo"
+                  matInput
+                  placeholder="Tax Registration Number" readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <ng-template #secondDialog>
+  <h2 matDialogTitle>Error Error !!!!</h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem;">
+    <button (click)="closeDialog()" mat-raised-button>Dismiss</button>
+  </mat-dialog-actions>
+</ng-template> -->
+
+<!-- <ng-template #successDialog>
+  <h2 matDialogTitle>Save Successful !!!!</h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem;">
+    <button (click)="navigateToDashBoard()" mat-raised-button matDialogClose>Navigate To DashBoard</button>
+  </mat-dialog-actions>
+</ng-template> -->
+
+<!-- <ng-template #backDialog>
+  <h3 class="logo" matDialogTitle>Are you sure you want to exit without saving?</h3>
+  <p matDialogContent></p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem;">
+    <button (click)="navigateToDashBoard()" mat-raised-button matDialogClose>Yes</button>
+    &nbsp;
+    <button (click)="closeDialog()" mat-raised-button matDialogClose>No</button>
+  </mat-dialog-actions>
+</ng-template> -->

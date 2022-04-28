@@ -1,0 +1,140 @@
+<div class="container">
+  <div class="row d-flex justify-content-between">
+    <h4 class="text-nowrap" style="font-size: 28pt; font-weight: 500">
+      Subscriptions
+    </h4>
+  </div>
+  <br />
+
+  <!-- Subscriptions summery Cards -->
+  <div class="d-flex justify-content-between ml-4">
+    <!-- Total Subscriptions  -->
+    <div class="">
+      <div class="Subscriptions card">
+        <div class="card-body">
+          <h5 class="number">{{ subsSummeryData?.subscriptionCount }}</h5>
+          <span class="text-secondary">Total Subscriptions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Business Modules -->
+    <div class="">
+      <div class="Subscriptions card">
+        <div class="card-body">
+          <h5 class="number">{{ subsSummeryData?.businessModuleCount }}</h5>
+          <span class="text-secondary">Total Business Modules</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Functional Modules -->
+    <div class="">
+      <div class="Subscriptions card">
+        <div class="card-body">
+          <h5 class="number">{{ subsSummeryData?.functionalModuleCount }}</h5>
+          <span class="text-secondary">Total Functional Modules</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Features -->
+    <div class="">
+      <div class="Subscriptions card">
+        <div class="card-body">
+          <h5 class="number">{{ subsSummeryData?.featureCount }}</h5>
+          <span class="text-secondary">Total Features</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-end my-4 mr-2 pr-4">
+    <button
+      (click)="addNew()"
+      class="btn btn-sm bg-dark text-white px-2"
+      type="button"
+      id="addNew"
+      name="addNew"
+    >
+      <i class="pointer" class="fa fa-plus mr-1"></i> <small>ADD NEW</small>
+    </button>
+  </div>
+
+  <!-- <div class="row d-flex justify-content-end my-4 mr-2">
+    <button
+      (click)="editSubscription()"
+      class="btn btn-sm bg-dark text-white px-2"
+      type="button"
+    >
+      <i class="pointer" class="fa fa-plus mr-1"></i> <small>EDIT</small>
+    </button>
+  </div> -->
+  <!-- <div class="row d-flex justify-content-end my-4 mr-2">
+    <button
+      (click)="configure()"
+      class="btn btn-sm bg-dark text-white px-2"
+      type="button">
+      <i class="pointer" class="fa fa-plus mr-1"></i> <small>CONFIGURE</small>
+    </button>    
+  </div>
+
+
+ <div class="row d-flex justify-content-end my-4 mr-2">
+  <button
+    (click)="editSubscription()"
+    class="btn btn-sm bg-dark text-white px-2"
+    type="button">
+    <i class="pointer" class="fa fa-plus mr-1"></i> <small>EDIT</small>
+  </button>    
+ </div>
+</div>
+-->
+  <div class="container mt-3">
+    <div class="row mt-3 mx-3">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="5"
+        [pagination]="true"
+        [rowSelection]="'multiple'"
+        [gridOptions]="gridOptions"
+        [columnDefs]="columnDefs"
+        [defaultColDef]="defaultColDef"
+        (gridReady)="onGridReady($event)"
+        [rowData]="allSubscriptions"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+
+  <ng-template #configurationModal let-modal>
+    <div class="modal-body">
+      <ngx-configuration (closeEvnt)="closePerms($event)"></ngx-configuration>
+    </div>
+  </ng-template>
+
+  <!-- <ng-template #Deactivate let-data let-ref="dialogRef">
+    <div class="card">
+      <div class="card-body deleteCard d-flex flex-column text-center">
+        <div class="Align">
+          <i class="fa fa-times" (click)="ref.close()"></i>
+        </div>
+        <h6 class="mt-1">Subscription successfully deactivated!</h6>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #Activate let-data let-ref="dialogRef">
+    <div class="card">
+      <div class="card-body deleteCard d-flex flex-column text-center">
+        <div class="Align">
+          <i class="fa fa-times" (click)="ref.close()"></i>
+        </div>
+        <h6 class="mt-1">Subscription successfully activated!</h6>
+      </div>
+    </div>
+  </ng-template> -->
+</div>

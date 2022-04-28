@@ -1,0 +1,22 @@
+.tab {
+  background-color: rgba(173, 173, 173, 0.31);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 15px;
+  margin-left: -3px;
+  width: 131px;
+  height: 31px;
+  vertical-align: middle;
+}
+
+.tab.active {
+  background-color: #404040;
+  transition: opacity 0.85s ease-out;
+  opacity: 1;
+}
+
+:host div {
+  // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}

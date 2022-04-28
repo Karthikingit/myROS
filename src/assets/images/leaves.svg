@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.4" height="17" viewBox="0 0 15.4 17">
+                                <g id="leaves" transform="translate(0.5 0.5)">
+                                  <g id="Group_9931" data-name="Group 9931" transform="translate(-47 -332)">
+                                    <g id="calendar" transform="translate(44 330)">
+                                      <rect id="Rectangle_16847" data-name="Rectangle 16847" width="14.4" height="14" rx="2" transform="translate(3 4)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                      <line id="Line_142" data-name="Line 142" y2="4" transform="translate(13.4 2)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                      <line id="Line_143" data-name="Line 143" y2="4" transform="translate(7 2)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                      <line id="Line_144" data-name="Line 144" x2="14.4" transform="translate(3 8.4)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    </g>
+                                  </g>
+                                  <g id="Icon_feather-arrow-right-circle" data-name="Icon feather-arrow-right-circle" transform="translate(-0.105 2)">
+                                    <path id="Path_2088" data-name="Path 2088" d="M12.106,7.553A4.553,4.553,0,1,1,7.553,3,4.553,4.553,0,0,1,12.106,7.553Z" fill="#fff" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    <path id="Path_2089" data-name="Path 2089" d="M18,15.643l1.821-1.821L18,12" transform="translate(-10.447 -6.268)" fill="#fff" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                    <path id="Path_2090" data-name="Path 2090" d="M12,18h3.643" transform="translate(-6.268 -10.447)" fill="#fff" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+                                  </g>
+                                </g>
+                              </svg>

@@ -1,0 +1,216 @@
+ <div class="emp-details">
+<div class="container">
+  <div class="row">
+    <i
+      class="fa fa-2x fa-arrow-left pl-3 py-4"
+      style="color: black; cursor: pointer"
+      (click)="back()"
+    ></i
+  ><div class="col heading ">Add New Client</div>
+    <div class="col d-flex justify-content-end align-items-start mt-4">
+      <button  class="btn btn-dark ">
+        <i class="fa fa-save"></i> Save
+      </button> 
+    </div>
+  </div>
+</div>
+<div class="emp-form-group" >
+  <div class="container">
+    <div class="row">
+      <div class="col-4 form-title"><b>Bank Information</b></div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col"> <mat-form-field appearance="legacy">
+            <input
+              matInput
+              placeholder="Bank Name"
+              formControlName="bankname"
+              required
+            />
+          </mat-form-field></div>
+          <div class="col"> <mat-form-field appearance="legacy">
+            <input
+              matInput
+              placeholder="Legal/Trade Name"
+              formControlName="branchacc"
+              
+            />
+          </mat-form-field></div>
+         
+        </div>
+       
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-4 form-title"><b>Postal Address </b></div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-8">
+            <mat-form-field appearance="legacy" class="address">
+              <input
+                matInput
+                placeholder="Address"
+                formControlName="sortcode"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Zip Code"
+                formControlName="accnumber"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Town/City"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="State/Region"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <mat-select placeholder="Country"
+              formControlName="emptype" aria-required="emptype">
+                <mat-option value="Hourly Employee">india</mat-option>
+                <mat-option value="Weekly Employee">UK</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-4 form-title"><b>Primary Contact </b></div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="First Name"
+                formControlName="accnumber"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="Middle Name">
+              <input
+                matInput
+                placeholder="Zip Code"
+                formControlName="accnumber"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="Last Name">
+              <input
+                matInput
+                placeholder="Zip Code"
+                formControlName="accnumber"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Email"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Mobile Number"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Telephone"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-4 form-title"><b>Account Information </b></div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Email"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Password"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="legacy">
+              <input
+                matInput
+                placeholder="Confirm Password"
+                formControlName="salary"
+                required
+              />
+            </mat-form-field>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

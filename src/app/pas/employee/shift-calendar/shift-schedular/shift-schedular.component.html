@@ -1,0 +1,643 @@
+<div class="shift-calendar container-fluid">
+  <!-- Shift Calendar Heading and buttons -->
+  <div class="row d-flex justify-content-between">
+    <div class="shift-heading">
+      <h4>
+        <i class="fa fa-arrow-left mr-2 cursor-pointer" routerLink="../"></i>
+        Shift Calendar
+      </h4>
+    </div>
+
+    <div class="shift-actions">
+      <button
+        class="btn btn-sm bg-dark text-white mr-3"
+        (click)="copySchedule()"
+      >
+        <i class="fa fa-copy mr-1"></i> COPY SCHEDULE
+      </button>
+
+      <select
+        name=""
+        id=""
+        class="btn btn-sm bg-dark text-white mr-3"
+        (change)="changeView($event)"
+      >
+        <option value="D">Daily</option>
+        <option value="W" selected>Weekly</option>
+        <option value="2W">2 Weekly</option>
+      </select>
+
+      <ngx-month-navigator
+        [state]="view"
+        (dateChange)="renderEvents($event)"
+      ></ngx-month-navigator>
+    </div>
+  </div>
+
+  <!-- Heading row for weekly, 2weekly dates -->
+  <div class="row shift-cal-header">
+    <div class="row-header">
+      <div class="text-success">PUBLISHED</div>
+      <div class="search-container">
+        <i class="fa fa-search mr-1"></i>
+        <input
+          type="text"
+          class="search-emp"
+          placeholder=" Search Employee"
+          #searchEmp
+          (keyup)="filterEmployee(searchEmp.value)"
+        />
+      </div>
+      <div class="mt-2 hpp">
+        <small>
+          Hours/Payroll <br />
+          {{ totalHours }}h / {{ totalPayroll }}</small
+        >
+      </div>
+    </div>
+
+    <div class="columns col-header" *ngFor="let day of allDays">
+      <div class="day" *ngIf="view == '2W'">
+        {{ day.day.slice(0, 3) }}
+      </div>
+      <div class="day" *ngIf="view == 'W'">{{ day.day }}</div>
+      <div class="date mt-1">{{ day.date | date: "d MMM" }}</div>
+      <div class="ppl mt-1">{{ day.ppl }} People</div>
+      <div class="hpp mt-2">
+        {{ day.hrs }}h 0m/{{ day.payroll | currency: "GBP" }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Management row accordian -->
+  <div class="row">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="accExpand">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-between">
+              <div>Management</div>
+              <!-- <div><i class="fa fa-arrow-down"></i></div> -->
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="emp-row-container custom-scrollbar">
+          <div class="emp-row" *ngFor="let e of mgmtEmps">
+            <div class="row-header emp d-flex align-items-center">
+              <img [src]="e.empImgUrl" alt="" class="emp-img mr-2" />
+
+              <div>
+                <div>
+                  {{
+                    e.basicInfo.empDetails.firstName +
+                      " " +
+                      e.basicInfo.empDetails.lastName
+                  }}
+                </div>
+                <div class="hps"><small> 33h/ 3 Shifts </small></div>
+              </div>
+            </div>
+            <div class="columns col-emp" *ngFor="let day of allDays">
+              <div class="emp-shift-cell h-100" id="{{ e.id + day.date }}">
+                <ng-container
+                  *ngTemplateOutlet="
+                    shiftCellTemplate;
+                    context: {
+                      _emp: e,
+                      _day: day,
+                      _event: getShiftEvent(e.id, day)
+                    }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <!-- Front of house row accordian -->
+  <div class="row">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="accExpand">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-between">
+              <div>Front of house</div>
+              <!-- <div><i class="fa fa-arrow-down"></i></div> -->
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="emp-row-container custom-scrollbar">
+          <div class="emp-row" *ngFor="let e of fohEmps; let i = index">
+            <div class="row-header emp d-flex align-items-center">
+              <img [src]="e.empImgUrl" alt="" class="emp-img mr-2" />
+
+              <div>
+                <div>
+                  {{
+                    e.basicInfo.empDetails.firstName +
+                      " " +
+                      e.basicInfo.empDetails.lastName
+                  }}
+                </div>
+                <div class="hps"><small> 33h/ 3 Shifts </small></div>
+              </div>
+            </div>
+            <div class="columns col-emp" *ngFor="let day of allDays">
+              <div class="h-100" id="{{ e.id + day.date }}">
+                <ng-container
+                  *ngTemplateOutlet="
+                    shiftCellTemplate;
+                    context: {
+                      _emp: e,
+                      _day: day,
+                      _event: getShiftEvent(e.id, day)
+                    }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <!-- Back of house row accordian -->
+  <div class="row">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="accExpand">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-between">
+              <div>Back of house</div>
+              <!-- <div><i class="fa fa-arrow-down"></i></div> -->
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="emp-row-container custom-scrollbar">
+          <div class="emp-row" *ngFor="let e of bohEmps">
+            <div class="row-header emp d-flex align-items-center">
+              <img [src]="e.empImgUrl" alt="" class="emp-img mr-2" />
+
+              <div>
+                <div>
+                  {{
+                    e.basicInfo.empDetails.firstName +
+                      " " +
+                      e.basicInfo.empDetails.lastName
+                  }}
+                </div>
+                <div class="hps"><small> 33h 30m/ 3 Shifts </small></div>
+              </div>
+            </div>
+            <div class="columns col-emp" *ngFor="let day of allDays">
+              <div class="h-100" id="{{ e.id + day.date }}">
+                <ng-container
+                  *ngTemplateOutlet="
+                    shiftCellTemplate;
+                    context: {
+                      _emp: e,
+                      _day: day,
+                      _event: getShiftEvent(e.id, day)
+                    }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<!-- Modals  -->
+
+<!-- Delete Modal  -->
+<ng-template #deleteContent let-modal>
+  <div class="">
+    <div class="deletepopup card">
+      <div class=" card-body  d-flex flex-column text-center">
+        <div style="text-align: end">
+          <i
+            class="fa fa-times"
+            (click)="modal.dismiss('')"
+            style="cursor: pointer"
+          ></i>
+        </div>
+        <div class=""><i class="fa fa-2x fa-trash"></i></div>
+        <h4 class="mt-4">Delete Shift</h4>
+
+        <div class="mt-2">
+          <button
+            class="btn btn-sm btn-dark"
+            style="width: 2in"
+            (click)="deleteShift(); modal.dismiss('')"
+          >
+            <i class="fa fa-trash" aria-hidden="true"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- SHIFT CELL TEMPLATE FOR AN EVENT  -->
+<ng-template
+  #shiftCellTemplate
+  let-emp="_emp"
+  let-day="_day"
+  let-event="_event"
+>
+  <ng-container *ngIf="findEvent(emp.id, day); else shiftCellNoEventTemplate">
+    <div class="event-overlay" *ngIf="event">
+      <div class="event-status" [class.pending]="event.isApproved"></div>
+      <div class="event-detail">
+        <div class="event-action">
+          <i
+            class="fa fa-trash mr-1 cursor-pointer"
+            (click)="deleteShiftModal(event.id)"
+          ></i>
+
+          <i
+            class="fa fa-pencil-alt cursor-pointer"
+            (click)="editdate(event, emp)"
+          ></i>
+        </div>
+
+        <div class="event-time ml-2" [class.mb-3]="event.isApproved">
+          {{ event.shiftStartTime.getHours() }}:{{
+            event.shiftStartTime.getMinutes()
+          }}
+          to {{ event.shiftEndTime.getHours() }}:{{
+            event.shiftEndTime.getMinutes()
+          }}
+        </div>
+
+        <div class="event-check" *ngIf="!event.isApproved">
+          <i class="ml-2 fa fa-check-circle"></i>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <!-- SHIFT CELL TEMPLATE WHEN THERE IS NO EVENT  -->
+  <ng-template #shiftCellNoEventTemplate>
+    <div class="h-100 d-flex justify-content-center add-event cursor-pointer">
+      <div class="align-self-center">
+        <i class="fa fa-plus-circle add-icon" (click)="adddata(day, emp)"></i>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>
+
+<!-- add -->
+<ng-template #add let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="addForm">
+      <div class="d-flex justify-content-between" *ngIf="shifts">
+        <h5 class="">
+          <span (click)="modal.dismiss()" style="cursor: pointer">
+            <i class="fa fa-arrow-left arrow"></i>
+          </span>
+          <b class="m"> Add Shift </b> <br />
+          <small class="ml-3">{{ shifts.date | date: "M/d/YY,EEEE" }}</small>
+        </h5>
+        <br />
+        <span class="btn btn-sm tab" (click)="addshift(); modal.dismiss()">
+          <i class="far fa-save"></i> Save</span
+        >
+      </div>
+      <span class="single ml-5">
+        <select
+          name="city"
+          id="city"
+          class="form-control dropdonw1 ml-5"
+          formcontrolName="city"
+        >
+          <option selected ngValue="london">London</option>
+          <option ngValue="us">US</option>
+        </select>
+      </span>
+      <span class="multiple"
+        ><select
+          name="name"
+          id="name"
+          class="form-control dropdonw2 ml-5 mt-5"
+          formControlName="name"
+        >
+          <option
+            value="{{ emps.basicInfo.empDetails.firstName }} {{
+              emps.basicInfo.empDetails.lastName
+            }}"
+            selected
+          >
+            {{ emps.basicInfo.empDetails.firstName }}
+            {{ emps.basicInfo.empDetails.lastName }}
+          </option>
+        </select></span
+      >
+      <label for="" name="department" id="department" class="ml-5 mt-1 mb-2">
+        Department: {{ emps.department }}</label
+      >
+
+      <input class="dropdonw1 ml-5 mt-4" type="text" placeholder="Title" />
+      <select
+        name="position"
+        id="position"
+        formControlName="position"
+        class="form-control dropdonw1 mt-5 ml-5"
+      >
+        <option value="{{ emps.basicInfo.deptDetails.position }}" selected>
+          {{ emps.basicInfo.deptDetails.position }}
+        </option>
+      </select>
+      <div class="ml-5 mt-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-5">
+            <label for="" class="">Shift Start time</label> <br />
+            <input
+              class="time"
+              formControlName="start_time"
+              id="start_time"
+              name="start_time"
+              type="time"
+            />
+          </span>
+          <span class="">
+            <label for="">Shift end time</label> <br />
+            <input
+              class="time"
+              formControlName="end_time"
+              id="end_time"
+              name="end_time"
+              type="time"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="row d-flex ml-5 mt-5">
+        <div class="col-12 d-flex">
+          <b class="mt-2">Approve</b>
+          <nb-toggle
+            name="approve"
+            id="approve"
+            formControlName="approve"
+            class="toggleSmall"
+            [(checked)]="approve"
+          ></nb-toggle>
+        </div>
+      </div>
+
+      <!-- <div class="row d-flex mt-3 ml-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-3">
+            <b>9:15-12:20</b> <br />
+            <small class="mb-3">punch clock</small>
+          </span>
+          <span class="mr-3">
+            <b>9:00-12:00</b> <br />
+            <small class="mb-3">original shift time</small>
+          </span>
+        </div>
+      </div> -->
+
+      <div class="sendchanges">
+        <hr class="line mb-3" />
+        <div class="mt-3 ml-5">
+          <b>Send Changes</b>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms" class="ml-1">Send Sms </label>
+          </span>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms" class="ml-1">Send Message </label>
+          </span>
+        </div>
+        <span class="mt-3 ml-5"
+          ><small
+            ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+            changing shift from one employee to another, both employees will
+            notify</small
+          ></span
+        >
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Copy Schedule -->
+<ng-template #CopySchedule let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body CopyCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <h6 class="mt-3">
+        Are you sure you want to <br />
+        copy this week schedule to next week?
+      </h6>
+      <p>(20 Jan - 26 Jan) Copy to (27 Jan - 02 Feb)</p>
+
+      <div class="mt-4">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 100px"
+          (click)="openPopup(); ref.close()"
+        >
+          Copy
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Copy Schedule Again -->
+<ng-template #OpenPopup let-data let-ref="dialogRef">
+  <div class="card">
+    <div class="card-body CopyCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="35"
+        height="35"
+        style="position: relative; left: 44%"
+        fill="currentColor"
+        class="bi bi-check-circle-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+        />
+      </svg>
+      <h6 class="mt-3">Schedule Copid to next week!</h6>
+
+      <div class="mt-4">
+        <button
+          class="btn btn-sm btn-dark mr-4"
+          style="width: 135px"
+          (click)="ref.close()"
+        >
+          VIEW THIS WEEK
+        </button>
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 135px"
+          (click)="ref.close()"
+        >
+          VIEW NEXT WEEK
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Edit Event -->
+<ng-template #edit let-modal>
+  <div class="modal-body">
+    <form class="example-form" [formGroup]="editForm">
+      <div class="d-flex justify-content-between" *ngIf="shiftdetail">
+        <h5 class="">
+          <span (click)="modal.dismiss()" style="cursor: pointer">
+            <i class="fa fa-arrow-left arrow"></i>
+          </span>
+          <b class="m"> Edit Shift </b> <br />
+          <small class="ml-3">{{
+            shiftdetail.shiftDate | date: "d MMM yyyy,EEEE"
+          }}</small>
+        </h5>
+        <br />
+        <span class="btn btn-sm tab" (click)="editshift(); modal.dismiss()">
+          <i class="far fa-save"></i> save</span
+        >
+      </div>
+      <br />
+      <span class="single ml-5">
+        <select
+          name="City"
+          id="City"
+          class="form-control dropdonw1 ml-5"
+          formControlName="City"
+        >
+          <option value="{{ emp.basicInfo.empDetails.city }}">
+            {{ emp.basicInfo.empDetails.city }}
+          </option>
+        </select>
+      </span>
+      <span class="multiple mt-5 ml-5"
+        ><select
+          name="Name"
+          id="Name"
+          class="form-control dropdonw2 ml-5"
+          formControlName="Name"
+        >
+          <option [ngValue]="emp.empName">{{ emp.empName }}</option>
+        </select></span
+      >
+      <label for="" name="Department" id="Department" class="ml-5">
+        Department: {{ emp.department }}
+      </label>
+
+      <input class="dropdonw1 mt-4 ml-5" type="text" placeholder="Title" />
+
+      <select
+        name="Position"
+        id="Position"
+        class="form-control dropdonw1 mt-5 ml-5"
+        formControlName="Position"
+      >
+        <option selected [ngValue]="emp.basicInfo.deptDetails.position">
+          {{ emp.basicInfo.deptDetails.position }}
+        </option>
+      </select>
+      <div class="ml-5 mt-5">
+        <div class="col-md-12 d-flex">
+          <span class="">
+            <label for="" class="">Shift Start time</label> <br />
+            <input
+              class="time"
+              id="start_Time"
+              name="start_Time"
+              type="time"
+              formControlName="start_Time"
+            />
+          </span>
+          <span class="ml-5">
+            <label for="">Shift end time</label> <br />
+            <input
+              required
+              type="time"
+              class="time"
+              id="end_Time"
+              name="end_Time"
+              formControlName="end_Time"
+            />
+          </span>
+        </div>
+      </div>
+
+      <div class="row d-flex mt-5 ml-5">
+        <div class="col-md-12 d-flex">
+          <b class="mt-2" name="approve" id="approve">Approve</b>
+          <nb-toggle
+            class="toggleSmall"
+            [(checked)]="approve"
+            formControlName="approve"
+          ></nb-toggle>
+        </div>
+      </div>
+      <div class="row d-flex mt-3 ml-5">
+        <div class="col-md-12 d-flex">
+          <span class="mr-3">
+            <b>9:10-12:40 </b> <br />
+            <small class="mb-3">punch clock</small>
+          </span>
+          <span class="mr-3">
+            <b
+              >{{ shiftdetail.shiftStartTime | date: "h:mm " }}-{{
+                shiftdetail.shiftEndTime | date: "h:mm"
+              }}
+            </b>
+            <br />
+            <small class="mb-3">original shift time</small>
+          </span>
+        </div>
+      </div>
+      <hr class="line" />
+      <div class="sendchanges">
+        <div class="mt-3 ml-5">
+          <b>Send Changes</b>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms">Send Sms </label>
+          </span>
+          <span class="ml-3">
+            <input type="checkbox" name="" id="sms" />
+            <label for="sms">Send Message </label>
+          </span>
+        </div>
+        <span class="mt-3 ml-5"
+          ><small
+            ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+            changing shift from one employee to another, both employees will
+            notify</small
+          ></span
+        >
+      </div>
+    </form>
+  </div>
+</ng-template>

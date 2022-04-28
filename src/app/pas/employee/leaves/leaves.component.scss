@@ -1,0 +1,180 @@
+.only-show-on-hover {
+    visibility: hidden;
+    position: absolute;
+    top:40%;
+    right:50%;
+    cursor: pointer;
+}
+ 
+
+
+:host ::ng-deep .cal-cell-top:hover {
+   
+    .only-show-on-hover  {
+        visibility: visible;
+      
+    }  }
+    .abc {
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+      .cal-state {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        font: normal normal normal 80% Roboto;
+      }
+      .cal-data {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font: normal normal normal 80% Roboto;
+      }
+      .event{
+        background-color:rgba(236, 188, 15, 0.1);
+      }
+       
+      .approved {
+        background-color: rgba(70, 143, 73, 0.1);
+        color: #468F49;
+       
+      }
+       
+      .pending {
+        background-color: rgba(141, 141, 141, 0.1);
+        color: #000000;
+      }
+       
+      .rejected {
+        background-color: rgba(162, 70, 70, 0.1);
+        color:#A24646;
+        opacity: 90%;
+      }
+      
+      .today {
+        position: absolute;
+        right: 10px;
+        font: normal normal medium 16px/19px Roboto;
+        margin-top: 5px;
+      }
+
+      .options{
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font: normal normal normal 80% Roboto;
+      }
+      
+     ::ng-deep .cal-month-view{
+        min-width: 900px;
+      }
+
+      .tab {
+        background-color: #000000;
+        color: white;
+        cursor: pointer;
+        padding: 5px 18px;
+        position: absolute;
+        right: 5px;
+      }
+      .ng-template{
+
+        height: 100vh;
+        justify-content: flex-end;
+      }
+      .presentdate{
+        font-size: 15px;
+        color: rgb(110, 110, 110);
+        left: 20px;
+      }
+      .shift{
+        font-size: 15px;
+        color: black;
+      }
+      .single {
+    
+        color: black;
+      }
+      .multiple {
+        color: black;
+      }
+     
+      .startdate {
+        border: hidden;
+        border-bottom: 2px solid  rgba(78, 78, 78, 0.267);
+      }
+      .enddate{
+        border: hidden;
+        border-bottom: 2px solid  rgba(78, 78, 78, 0.267);
+      }
+      .comments{
+        border: hidden;
+        border-bottom: 2px solid  rgba(78, 78, 78, 0.267);
+        width: 3in;
+      }
+     
+      .line{
+        height: 3px;
+    }
+    hr{
+        width: 100%;
+        border: none;
+        background-color: rgba(78, 78, 78, 0.267);
+    }
+    .dropdonw2{
+      border: none;
+      border-bottom: 1px solid black;
+      width: 80%;
+  }
+  ::ng-deep .cal-month-view .cal-day-cell.cal-in-month.cal-has-events {
+    border:0;
+}
+::ng-deep .cal-month-view .cal-header .cal-cell {
+  border: 0;
+  background-color: white;
+  visibility: initial;
+}
+.delete{
+  font-size: 20px;
+
+font-weight: bold;
+  margin: 5px;
+}
+      
+      
+      // .button1{
+      //   position: absolute;
+      //   left: 0;
+      // }
+
+h6{
+  font: normal normal medium 16px/19px Roboto;
+  letter-spacing: 0.8px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
+.nameFont{
+  font: normal normal normal 12px/14px Roboto;
+  letter-spacing: 0.01px;
+  color: rgba(0, 0, 0, 1);
+  opacity: 1;
+}
+.th{
+  font-size: 12px;
+}
+.fa-trash:hover{
+  color: #A24646;
+}
+
+.fa-pencil-alt:hover{
+  color: #ECBC0F;
+}
+
+.fa-calendar-alt:hover{
+  color: #4662A2;
+}
+      
+    
+      

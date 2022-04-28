@@ -1,0 +1,14 @@
+<div>
+  <span
+    class="btn btn-sm tab"
+    [class.active]="selectedTab == firstTab"
+    (click)="setTab(firstTab)"
+    >{{ firstTab }}</span
+  >
+  <span
+    class="btn btn-sm tab"
+    [class.active]="selectedTab == secondTab"
+    (click)="setTab(secondTab)"
+    >{{ secondTab }}</span
+  >
+</div>

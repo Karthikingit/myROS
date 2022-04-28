@@ -1,0 +1,180 @@
+<div class="emp-details">
+  <div class="container">
+    <div class="row">
+      <i
+        (click)="back()"
+        id="back"
+        name="back"
+        class="fa fa-2x fa-arrow-left pl-3 py-4"
+        style="color: black; cursor: pointer"
+      ></i>
+      <div class="col heading">View Client</div>
+    </div>
+  </div>
+  <div [formGroup]="clientForm" class="emp-form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Basic Information</b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="businessName"
+                  matInput
+                  placeholder="Business Name"
+                  style="height: 26px; width: 280px"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="tradeName"
+                  matInput
+                  placeholder="Legal/Trade Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Postal Address </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field appearance="legacy" class="address">
+                <input
+                  formControlName="address"
+                  matInput
+                  placeholder="Address"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="zipCode"
+                  matInput
+                  placeholder="Zip Code"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="city"
+                  matInput
+                  placeholder="Town/City"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="state"
+                  matInput
+                  placeholder="Region/County"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="country"
+                  matInput
+                  placeholder="country"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Primary Contact </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="firstName"
+                  matInput
+                  placeholder="First Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field *ngIf="midName" appearance="legacy">
+                <input
+                  formControlName="middleName"
+                  matInput
+                  placeholder="Middle Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="lastName"
+                  matInput
+                  placeholder="Last Name"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="email"
+                  matInput
+                  placeholder="Email"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="mobileNumber"
+                  matInput
+                  placeholder="Mobile Number"
+                  max="10"
+                  type="number"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="telephone"
+                  matInput
+                  placeholder="Telephone"
+                  type="number"
+                  readonly
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row"></div>
+    </div>
+  </div>
+</div>

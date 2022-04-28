@@ -1,0 +1,61 @@
+<div class="container">
+  <!-- Payroll Heading, Tab and Filters -->
+  <div class="row d-flex justify-content-between">
+    <div class="left d-flex">
+      <h4 class="mr-5">Payroll Report</h4>
+    </div>
+    <div class="right">
+      <ngx-date-range-picker></ngx-date-range-picker>
+    </div>
+  </div>
+
+  <!-- Download or Create New button -->
+  <div class="row d-flex justify-content-end">
+    <div *ngIf="downloadOptions" class="downMenu">
+      <button
+        class="btn btn-sm btn-dark px-3"
+        style="margin-left: 10px"
+        (click)="downloadCSV()"
+      >
+        CSV
+      </button>
+      <button
+        class="btn btn-sm btn-dark px-3"
+        style="margin-left: 10px"
+        (click)="downloadEXCEL()"
+      >
+        EXCEL
+      </button>
+    </div>
+    <button
+      type="button"
+      class="btn btn-sm btn-dark px-3 mx-2 pull-right"
+      (click)="downloadOptions = !downloadOptions"
+      (mouseenter)="downloadOptions = true"
+    >
+      <i class="fa fa-download"></i> Download
+    </button>
+    <button class="btn btn-sm btn-dark px-3 mx-2" (click)="navigateToAddNew()">
+      <i class="fa fa-plus"></i> Create New
+    </button>
+  </div>
+
+  <!-- AG grid Table for report Download -->
+  <div class="row mt-4">
+    <ag-grid-angular
+      style="width: 100%"
+      class="ag-theme-alpine"
+      domLayout="autoHeight"
+      [rowData]="allPayroll"
+      [suppressRowClickSelection]="true"
+      [paginationPageSize]="10"
+      [pagination]="true"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+    >
+    </ag-grid-angular>
+  </div>
+</div>

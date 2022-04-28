@@ -1,0 +1,60 @@
+@import "../../styles/themes";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+
+@include nb-install-component() {
+  .menu-sidebar ::ng-deep .scrollable {
+    padding-top: nb-theme(layout-padding-top);
+    overflow-y: hidden;
+  }
+  .compacted ::ng-deep .main-container-fixed {
+    width: 4.5rem;
+    &:hover {
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+  }
+}
+
+.menu-sidebar .compacted {
+  width: 4.5rem;
+}
+
+nb-sidebar.expanded.menu-sidebar {
+  width: 14rem !important;
+}
+
+.menu-sidebar {
+  width: 14rem;
+}
+
+::ng-deep .sb {
+  margin: 0;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+
+  padding: 0 !important;
+  flex-grow: 0 !important;
+  flex-basis: auto !important;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+.sb.expanded {
+  flex-basis: 235px !important;
+}
+
+.sb.compacted {
+  flex-basis: 64px !important;
+}
+
+.sb.collapsed {
+  flex-basis: 0px !important;
+}
+
+.ros-content {
+  margin-left: 80px;
+}

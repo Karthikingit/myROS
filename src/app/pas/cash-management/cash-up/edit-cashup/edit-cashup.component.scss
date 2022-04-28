@@ -1,0 +1,143 @@
+body {
+  font: normal normal normal 24px/40px Roboto;
+  letter-spacing: 0px;
+  opacity: 1;
+}
+#heading {
+  text-align: left;
+  letter-spacing: 0px;
+  color: #000000;
+  margin: 0px;
+}
+.navbar-light {
+  background-color: white;
+}
+.btn-dark {
+  letter-spacing: 0.7px;
+  color: #fefcfc;
+  text-transform: uppercase;
+  height: 31px;
+  padding: 0px 10px 0px 10px;
+}
+#btn {
+  margin-right: 50px;
+}
+
+.input {
+  width: 180px;
+  height: 25px;
+  border: 0px;
+  border-bottom: 1px solid black;
+  background-color: white;
+}
+.input::placeholder {
+  color: #000000;
+  font-size: 18px;
+}
+.label {
+  display: block;
+  font-size: 10px;
+}
+#time {
+  margin-left: 30px;
+}
+.input-group1 {
+  width: 180px;
+}
+.input-group2 {
+  width: 180px;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  opacity: 1;
+}
+.col-3 {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #c7c7c768;
+  border-radius: 10px;
+}
+.col-2 {
+  margin-top: 40px;
+}
+
+.fa-sort-down {
+  margin-right: 10px;
+}
+#btn ::after {
+  border: white;
+}
+.primary {
+  width: 150px;
+  height: 40px;
+  padding: 0px;
+  background-color: white;
+  border: 0px;
+  text-align: left;
+  outline: none;
+}
+.table-borderless {
+  font-size: 12px;
+}
+th {
+  padding: 0px;
+}
+td {
+  padding: 0px;
+}
+
+.side {
+  background: #fefcfc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #c7c7c768;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0px 10px 0px;
+}
+.sidenav {
+  font: var(--unnamed-font-style-normal) normal normal 18px/22px
+    var(--unnamed-font-family-roboto);
+  text-align: left;
+  font: normal normal normal 18px/22px Roboto;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  height: 700px;
+  width: 230px;
+  box-shadow: #c7c7c768;
+  // position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  padding: 30px;
+}
+span {
+  margin-right: 10px;
+}
+mat-accordion {
+  background: var(--unnamed-color-fefcfc) 0% 0% no-repeat padding-box;
+  background: #fefcfc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #c7c7c768;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.attachment {
+  border: 0px;
+  background-color: white;
+  outline: none;
+}
+.tab {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.navs {
+  padding: 10px;
+}
+.primary:focus {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px -10px 20px #c7c7c768;
+  opacity: 1;
+}

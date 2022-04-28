@@ -1,0 +1,416 @@
+<section>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="left-header">
+        <div class="h4">
+          <i
+            id="back"
+            name="back"
+            class="fa fa-arrow-left pl-3 py-4"
+            aria-hidden="true"
+            (click)="back()"
+            style="color: black; cursor: pointer"
+          ></i>
+          {{ newSubscriptionHeader }}
+        </div>
+      </div>
+
+      <div class="col d-flex justify-content-end align-items-start mt-4">
+        <button
+          id="popupsubmit"
+          name="popupsubmit"
+          type="submit"
+          class="btn btn-dark"
+          (click)="popupsubmit()"
+        >
+          <i class="fa fa-save mr-1"></i> SAVE
+        </button>
+
+        <ng-template #DescriptionDialog let-data let-ref="dialogRef">
+          <div class="card">
+            <div class="card-body deleteCard d-flex flex-column text-center">
+              <div class="Align">
+                <i class="fa fa-times" (click)="ref.close()"></i>
+              </div>
+              <h6 class="mt-1">Add a Description</h6>
+              <input
+                id="Description"
+                name="Description"
+                matInput
+                placeholder="Description"
+                [(ngModel)]="description"
+              />
+              <br />
+              <div class="mt-2">
+                <button
+                  id="onSubmit"
+                  name="onSubmit"
+                  (click)="onSubmit(); ref.close()"
+                  class="btn btn-sm btn-dark"
+                  id="buttonSize"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>
+<br />
+
+<div class="col-md-12">
+  <form
+    id="addnewsubscriptionform"
+    *ngIf="addNewSubscriptionForm"
+    [formGroup]="addNewSubscriptionForm"
+  >
+    <div class="form-group row">
+      <div class="col-3">
+        <h6 class="col-form-legend">Basic Information</h6>
+      </div>
+
+      <div class="col-9">
+        <div class="row ml-2">
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="Name"
+                name="Name"
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                (keypress)="allowOnlyChar($event)"
+                maxlength="25"
+                required
+              />
+              <mat-error> Name is required </mat-error>
+              <mat-hint>e.g.Premium/Fremium/Free</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <mat-select
+                id="product"
+                name="product"
+                placeholder="Product"
+                formControlName="product"
+                required
+              >
+                <mat-option *ngFor="let p of products" [value]="p">
+                  {{ p }}
+                </mat-option>
+              </mat-select>
+              <mat-error> Product is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <mat-select
+                placeholder="Duration"
+                formControlName="duration"
+                id="duration"
+                name="duration"
+              >
+                <mat-option value="1 year">1 year</mat-option>
+                <mat-option value="2 year">2 year</mat-option>
+                <mat-option value="3 year">3 year</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div class="form-group row">
+      <div class="col-3">
+        <h6 class="col-form-legend">Package Specifications</h6>
+      </div>
+      <div class="col-9">
+        <div class="row ml-2">
+          <div class="col-4">
+            <mat-form-field
+              style="width: 150px; margin-right: 100px"
+              appearance="legacy"
+            >
+              <input
+                id="noOfCashupSheets"
+                name="noOfCashupSheets"
+                matInput
+                placeholder="No. of Cashup Sheets"
+                formControlName="noOfCashupSheets"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                maxlength="15"
+                type="tel"
+                required
+              />
+              <mat-error> No. of Cashup Sheets is required </mat-error>
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="noOfRestaurants"
+                name="noOfRestaurants"
+                matInput
+                placeholder="No. of Restaurants"
+                formControlName="noOfRestaurants"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                maxlength="15"
+                type="tel"
+                required
+              />
+              <mat-error> No. of Restaurants is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="storageLimit"
+                name="storageLimit"
+                matInput
+                placeholder="Storage Limit"
+                formControlName="storageLimit"
+                required
+              />
+              <mat-error> Storage Limit is required </mat-error>
+              <mat-hint>e.g. 1TB, 2TB ..</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ml-2">
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="noOfEmployees"
+                name="noOfEmployees"
+                matInput
+                placeholder="No. of Employees"
+                formControlName="noOfEmployees"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                maxlength="15"
+                type="tel"
+                required
+              />
+              <mat-error> No. of Employees is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="subscriptionCode"
+                name="subscriptionCode"
+                matInput
+                placeholder="Subscription Code"
+                formControlName="subscriptionCode"
+                maxlength="10"
+                type="text"
+                required
+              />
+              <mat-error> Subscription Code is required </mat-error>
+              <mat-hint> e.g. ERP_FREE/ERP_FRM</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field style="width: 150px" appearance="legacy">
+              <input
+                id="userCount"
+                name="userCount"
+                matInput
+                placeholder="User Count"
+                formControlName="userCount"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                maxlength="15"
+                type="tel"
+                required
+              />
+              <mat-error> User Count is required </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+
+    <div class="form-group row">
+      <div class="col-3">
+        <h6 class="col-form-legend">Pricing</h6>
+      </div>
+      <div class="col-9">
+        <div class="row ml-2">
+          <div class="col-3">
+            <mat-form-field
+              style="width: 120px; margin-right: 50px"
+              appearance="legacy"
+            >
+              <mat-select
+                id="pricingType"
+                name="pricingType"
+                placeholder="Pricing Type"
+                #pricingType
+                formControlName="pricingType"
+                required
+              >
+                <mat-option *ngFor="let p of pType" [value]="p">
+                  {{ p }}
+                </mat-option>
+              </mat-select>
+              <mat-error> Pricing Type is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field
+              style="width: 120px; margin-right: 50px"
+              appearance="legacy"
+            >
+              <mat-select
+                id="frequency"
+                name="frequency"
+                placeholder="Frequency"
+                #frequency
+                formControlName="frequency"
+                required
+              >
+                <mat-option *ngFor="let p of freq" [value]="p">
+                  {{ p }}
+                </mat-option>
+              </mat-select>
+              <mat-error> Frequency is required </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field
+              style="width: 120px; margin-right: 50px"
+              appearance="legacy"
+            >
+              <input
+                id="cost"
+                name="cost"
+                matInput
+                placeholder="Cost"
+                #cost
+                formControlName="cost"
+                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                maxlength="10"
+                type="tel"
+                required
+              />
+              <mat-error> Cost is required </mat-error>
+              <mat-hint>In pond sterling (£)</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="col-3 row d-flex justify-content-end my-4 mr-2">
+            <button
+              id="put_json"
+              name="put_json"
+              class="btn btn-sm bg-dark text-white px-2"
+              type="button"
+              (click)="put_json()"
+            >
+              <i class="pointer" class="fa fa-plus mr-1"></i>
+              <small>ADD NEW</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="row ml-2" *ngIf="raw.length > 0">
+          <div class="col-3">
+            <p>Pricing Type</p>
+          </div>
+          <div class="col-3">
+            <p>Frequency</p>
+          </div>
+          <div class="col-3">
+            <p>Cost</p>
+          </div>
+        </div>
+
+        <div class="row" *ngFor="let t of raw">
+          <button
+            id="removePricing"
+            name="removePricing"
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="removePricing(t)"
+          >
+            <span aria-hidden="true"> &times; </span>
+          </button>
+          <div class="col-3 price">{{ t.pricingType }}</div>
+          <div class="col-3 frequency">{{ t.frequency }}</div>
+          <div class="col-3">£ {{ t.cost }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template #secondDialog>
+    <h3 matDialogTitle>Error !</h3>
+    <p matDialogContent>{{ dialogMessage }}</p>
+    <mat-dialog-actions align="end" style="padding-left: 9rem">
+      <button
+        id="closeDialog"
+        name="closeDialog"
+        (click)="closeDialog()"
+        class="btn btn-sm btn-dark"
+        matDialogClose
+      >
+        Dismiss
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #successDialog>
+    <h3 matDialogTitle>Save Successful !!</h3>
+    <p matDialogContent>{{ dialogMessage }}</p>
+    <br />
+    <mat-dialog-actions align="end" style="padding-left: 9rem">
+      <button
+        id="navigateToDashBoard"
+        name="navigateToDashBoard"
+        (click)="navigateToDashBoard()"
+        class="btn btn-sm btn-dark"
+        matDialogClose
+      >
+        Navigate to Subscriptions
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #backDialog>
+    <h5 class="logo" matDialogTitle>Do you want to Exit without Saving??</h5>
+    <br />
+    <p matDialogContent></p>
+    <mat-dialog-actions align="end" style="padding-left: 22.5rem">
+      <button
+        id="navigateToDashBoard3"
+        name="navigateToDashBoard3"
+        (click)="navigateToDashBoard()"
+        class="btn btn-sm btn-dark px-3 mx-2 my-1"
+        matDialogClose
+      >
+        Yes
+      </button>
+      &nbsp;
+      <button
+        id="closeDialog6"
+        name="closeDialog6"
+        (click)="closeDialog()"
+        class="btn btn-sm btn-dark px-3 mx-2 my-1"
+        matDialogClose
+      >
+        No
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+</div>
+<!-- </div> -->

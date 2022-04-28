@@ -1,0 +1,601 @@
+<div class="emp-container">
+   
+  <!-- sidebar  -->
+  <div class="emp-sidebar">
+    <h6>My Profile</h6>
+    <div class="nav-list">
+      <div
+        class="nav-item"
+        (click)="setFormTab('Basic')"
+        [class.active]="empFormTab == 'Basic'"
+      >
+        Basic Information
+      </div>
+      <div
+        class="nav-item"
+        (click)="setFormTab('Bank')"
+        [class.active]="empFormTab == 'Bank'"
+      >
+        Bank Details
+      </div>
+      <div
+        class="nav-item"
+        (click)="setFormTab('Shifts')"
+        [class.active]="empFormTab == 'Shifts'"
+      >
+        Shifts
+      </div> 
+      <div
+        class="nav-item"
+        (click)="setFormTab('Docs')"
+        [class.active]="empFormTab == 'Docs'"
+      >
+        Documents
+      </div>
+      <div
+        class="nav-item"
+        (click)="setFormTab('Statutory')"
+        [class.active]="empFormTab == 'Statutory'"
+      >
+        Statutory
+      </div>
+      <div
+        class="nav-item"
+        (click)="setFormTab('Statements')"
+        [class.active]="empFormTab == 'Statements'"
+      >
+        Statements
+      </div>
+      <div
+      class="nav-item"
+      (click)="setFormTab('Accounting')"
+      [class.active]="empFormTab == 'Accounting'"
+    >
+    Accounting
+    </div>
+    </div>
+  </div> 
+
+  
+  <div class="emp-details">
+    <!-- Heading -->
+    <div class="container">
+      <div class="emp-group mt-2 Statements" [hidden]="empFormTab == 'Accounting'">
+      <div class="row">
+        <div class="col d-flex justify-content-end align-items-start mt-4">
+          <div class="emp-group mt-2 Statements" [hidden]="empFormTab == 'Accounting'">
+          <button class="btn btn-dark " (click)="goToEdit()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+              <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+              </svg> EDIT
+            </button> 
+            </div>  
+                </div>
+        </div>
+      </div>
+      <div class="emp-group mt-2 Statements" [hidden]="empFormTab != 'Accounting'"> 
+        <div class="row mt-4"> 
+          <div class="col ml-4" style="font-size: 24px;"> Account settings   </div> 
+            <button class="btn btn-dark " >
+              <i class="far fa-save"></i> save
+              </button> 
+          
+          </div> 
+    </div>
+    
+      <!-- Basic Information Form  -->
+      <div class="emp-group mt-2" [hidden]="empFormTab != 'Basic'">
+        <div class="container">
+          <div class="row">
+            <div class="col-4 form-title"><b>Joining Information</b></div>
+            <div class="col-8 p-3">
+              <div class="title">Joining Date</div>
+              <div class="form-detail">{{empobj?.basicInfo.joiningInfo.joiningDate| date: "dd MMMM yyyy"}}</div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Employee Details</b> <br>
+              <p class="profileTitle">Profile Photo</p>
+              <div class="row profilePhoto">
+              <div class="col-12 box ml-3">
+                <img class="EmpObjImg" src={{empobj?.basicInfo.empDetails.empImgUrl}} alt="empImg"> 
+              </div>  
+            </div></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-4"> 
+                  <div class="title">First Name</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.firstName}}</div>
+                </div>
+                <div class="col-4"> 
+                  <div class="title">Middle Name</div> 
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.middleName}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Last Name</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.lastName}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="title">Address</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.addr}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Zip Code</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.zip}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Town/City</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.city}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">State/Region</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.state}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Country</div>
+                  <div class="form-detail">{{empobj?.basicInfo?.empDetails?.country}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Email</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.email}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Mobile Number</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.mobile}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Telephone</div>
+                  <div class="form-detail">{{empobj?.basicInfo.empDetails.telephone}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Departments Details</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Department</div>
+                  <div class="form-detail">{{empobj?.basicInfo.deptDetails.department}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Position</div> 
+                  <div class="form-detail">{{empobj?.basicInfo.deptDetails.position}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Location Details</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-6">
+                  <div class="locBox">
+                      <div class="row">
+                          <div class="col-5 ml-4 p-3 text-left ">
+                             <b> Location </b><br> ABT Cafeteria LTD <br> Cremes Cafe <br> Cafe 3
+                          </div>
+                          <div class="col-6 p-3">
+                              <b>Set Primary Location</b><br> Primary Account <br>- <br>-
+                          </div>
+                      </div>
+                      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Kin Information</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">First Name</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.firstName}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Middle Name</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.middleName}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Last Name</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.lastName}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="title">Address</div> 
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.addr}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Zip Code</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.zip}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Email</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.email}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Mobile Number</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.mobile}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Telephone</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.telephone}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Relation</div>
+                  <div class="form-detail">{{empobj?.basicInfo.kinInfo.relation}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bank Form  -->
+      <div class="emp-group mt-2" [hidden]="empFormTab != 'Bank'">
+        <div class="container">
+          <div class="row">
+            <div class="col-4 form-title"><b>Bank Information</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col">
+                  <div class="title">Bank Name</div>
+                  <div class="form-detail">{{empobj?.bankDetails.BankInfo.BankName}}</div>
+                </div>
+                <div class="col">
+                  <div class="title">Branch Account</div>
+                  <div class="form-detail">{{empobj?.bankDetails.BankInfo.BranchAcc}}</div>
+                </div>
+                <div class="col">
+                  <div class="title">Account Holder Name</div>
+                  <div class="form-detail">{{empobj?.bankDetails.BankInfo.AccHolderName}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="title">Bank Sort Code</div>
+                  <div class="form-detail">{{empobj?.bankDetails.BankInfo.BranchSortCode}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Account Number</div>
+                  <div class="form-detail">{{empobj?.bankDetails.BankInfo.AccNumber}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Salary Infomartion</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Employee Type</div>
+                  <div class="form-detail">{{empobj?.bankDetails.salaryInfo.EmployeeType}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Salary Type</div>
+                  <div class="form-detail">{{empobj?.bankDetails.salaryInfo.Salary}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shift Detail Form  -->
+       <div class="emp-group mt-2" [hidden]="empFormTab != 'Shifts'">
+        
+        <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="ShiftDetails"
+        [suppressRowClickSelection]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        >
+        </ag-grid-angular>
+      </div> 
+
+      <!-- Documents  Form  -->
+      <div class="emp-group mt-2" [hidden]="empFormTab != 'Docs'">
+        <div class="container">
+          <div class="row">
+            <!-- agGrid -->
+            <ag-grid-angular
+            style="width: 100%"
+            class="ag-theme-alpine"
+            domLayout="autoHeight"
+            [rowData]="DocDetails"
+            [suppressRowClickSelection]="true"
+            [defaultColDef]="defaultColDef"
+            [rowSelection]="rowSelection"
+            [columnDefs]="columnDefs2"
+            [gridOptions]="gridOptions"
+            (gridReady)="onGridReady($event)"
+            >
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statutory  Form  -->
+      <div class="emp-group mt-2" [hidden]="empFormTab != 'Statutory'">
+        <div class="container">
+          <div class="row">
+            <div class="col-4 form-title"><b>Statutory</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Nationality</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.Nationality}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Place of Birth</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.PlaceofBirth}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Date of Birth</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.DateofBirth}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Gender</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.Gender}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">Age</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.Age}}</div>
+                </div>
+                <div class="col-4">
+                  <div class="title">marital Status</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.MaritalStatus}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="title">Passport Number</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.BankInfo.PassportNumber}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>NI Number</b>
+            <p>National Insurance Number</p></div>
+            <div class="col-8 p-3">
+              <div class="row">
+    
+                <div class="col-4">
+                  <div class="title">NI Number</div>
+                  <div class="form-detail">{{empobj?.StatutoryInfo.NInumber.NInumber}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Tax -P45</b></div>
+            <div class="col-8 p-3">
+              <div class="row">
+                <div class="col-8 matmargin" *ngIf="empobj?.StatutoryInfo.Tax.HavingtaxP45==true">
+                  Employee has a Tax -P45
+                </div>
+                <div class="col-8 matmargin" *ngIf="empobj?.StatutoryInfo.Tax.HavingtaxP45==false">
+                  Not Applicable
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Statements Form  -->
+      <div class="emp-group mt-2 Statements" [hidden]="empFormTab != 'Statements'">
+        <div class="container pt-4">
+          <div class="row">
+            <div class="col-4 form-title"><b>Employee Statement</b></div>
+            <div class="col-8 p-3" *ngIf="empobj?.StatmentsInfo.EmployeeStatement.Statement=='Statement1'">
+              This is my first job since last 6th April and I have not been receiving taxable jobseeker's allowances 
+              <br> and support allowances or taxable incapacity benefits ora State or Occupation pension
+            </div>
+            <div class="col-8 p-3" *ngIf="empobj?.StatmentsInfo.EmployeeStatement.Statement=='Statement2'">
+              This is my only job now, but since last 6th April I have had another job, or received taxable jobseeker's
+              <br> allowance or employment and support allowances or taxable incapacity benefits
+            </div>
+            <div class="col-8 p-3" *ngIf="empobj?.StatmentsInfo.EmployeeStatement.Statement=='Statement3'">
+              I do not receive a state or I have another job or receive a state or Occupational pension
+            </div> 
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Student Loan</b></div>
+            <div class="col-8 p-3">
+              
+              <div class="row">
+                <div class="col-4 matmargin" *ngIf="empobj?.StatmentsInfo.studentLoan.studentLoan=='Yes'">
+                  <div class="form-detail">Employee has a Student Loan</div>
+                </div>
+                <div class="col-4 matmargin" *ngIf="empobj?.StatmentsInfo.studentLoan.studentLoan=='No'">
+                  <div class="form-detail">Not Applicable</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-4 form-title"><b>Medical Condition</b></div>
+            <div class="col-8 p-3">
+              <col class="row">
+              <div class="col-8">
+                  <div class="form-detail">{{empobj?.StatmentsInfo.medicalCondition.MedicalCondition}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Accounting Form  -->
+        <div class="emp-group mt-2 Statements" [hidden]="empFormTab != 'Accounting'">
+       
+            <div class="form-group container" [formGroup]="configForm" >
+              <div class="row">
+                <div class="col-4 form-title"><b>Currency</b></div>
+                <div class="col-8 ">
+                  <mat-form-field>
+                    <mat-label>Currency</mat-label>
+                    <mat-select
+                      disableOptionCentering
+                      formControlName="Currency"
+                    >
+                      <mat-option
+                        multiLineOption
+                      >
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-4 form-title"><b>EPOS System</b>
+               </div>
+                <div class="col-2 p-3">
+                 Till
+                </div>
+                <div class="col-4 ">
+                  <mat-form-field style="min-width: 264px;">
+                    <mat-label>Add Till Name</mat-label>
+                    <input
+                      matInput
+                      formControlName="Till_name"
+                    />
+                  </mat-form-field>
+                 <div class="EPOS" *ngFor="let i of tills"> 
+                  <span class="mt-5 pt-2 pl-2">{{i}} </span> 
+                  <i class="fas fa-times pt-2 pr-2" (click)='removetill(i)' style="float: right; "></i>
+                 </div>
+                 </div>
+                 <div class="col-2">
+                  <button class="btn btn-dark " (click)="save()">
+                    <i class="fas fa-plus"></i> add
+                    </button> 
+                 </div>
+              </div>
+               <div class="row"><div class="col-4">
+                 </div>
+                 <div class="col-8">
+                <hr>
+               </div></div>
+              <div class="row">
+                <div class="col-4 form-title"></div>
+                <div class="col-2 p-3">
+                 PDQs
+                </div>
+                <div class="col-4 ">
+                  <mat-form-field style="min-width: 264px;">
+                    <mat-label>Add PDQ Name</mat-label>
+                    <input
+                      matInput
+                      formControlName="PDQ_name"
+                    />
+                  </mat-form-field>
+                 <div class="EPOS" *ngFor="let i of PDQ , let j=index" >
+                  <span class=" pt-2 pl-2">{{i}} </span> 
+                  <i class="fas fa-times pt-2 pr-2" (click)='del(i)' style="float: right;  "></i>
+                 </div>
+                 </div>
+                 <div class="col-2">
+                  <button class="btn btn-dark " (click)="PDQs()">
+                    <i class="fas fa-plus"></i> add
+                    </button> 
+                 </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-4 form-title"><b>Third party <br> & <br> Petty Cash</b>
+               </div>
+                <div class="col-2 p-3">
+                 Third Party Name
+                </div>
+                <div class="col-4 ">
+                  <mat-form-field style="min-width: 264px;">
+                    <mat-label>Add Third Party Name</mat-label>
+                    <input
+                      matInput
+                      formControlName="Thirdparty_name"
+                    />
+                  </mat-form-field>
+                 <div class="EPOS" *ngFor="let i of Thirdparty"> 
+                  <span class=" pt-2 pl-2">{{i}} </span> 
+                  <i class="fas fa-times pt-2 pr-2" (click)='removethird(i)' style="float: right; "></i>
+                 </div>
+                 </div>
+                 <div class="col-2">
+                  <button class="btn btn-dark " (click)="ThirdParty()">
+                    <i class="fas fa-plus"></i> add
+                    </button> 
+                 </div>
+              </div>
+              <div class="row"><div class="col-4">
+              </div>
+              <div class="col-8">
+             <hr>
+            </div></div>
+              <div class="row">
+                <div class="col-4 form-title"></div>
+                <div class="col-2 p-3">
+                 Petty Cash Name
+                </div>
+                <div class="col-4 ">
+                  <mat-form-field style="min-width: 264px;">
+                    <mat-label>Add Petty Cash Name</mat-label>
+                    <input
+                      matInput
+                      formControlName="Pettycash_name"
+                    />
+                  </mat-form-field>
+                 <div class="EPOS" *ngFor="let i of Pettycash"> 
+                  <span class=" pt-2 pl-2">{{i}} </span> 
+                  <i class="fas fa-times pt-2 pr-2" (click)='removepetty(i)' style="float: right; "></i>
+                 </div>
+                 </div>
+                 <div class="col-2">
+                  <button class="btn btn-dark " (click)="PettyCash()">
+                    <i class="fas fa-plus"></i> add
+                    </button> 
+                 </div>
+              </div>
+
+          </div>
+          </div>
+    
+  </div> 
+
+
+</div>
+ 
+

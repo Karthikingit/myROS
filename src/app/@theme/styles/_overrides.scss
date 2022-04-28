@@ -1,0 +1,30 @@
+@import './themes';
+
+@mixin nb-overrides() {
+  nb-select.size-medium button {
+    padding: 0.4375rem 2.2rem 0.4375rem 1.125rem !important;
+
+    nb-icon {
+      right: 0.41rem !important;
+    }
+  }
+  
+}
+@mixin nb-scrollbars($fg, $bg, $size, $border-radius: $size / 2) {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 100%;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.534);
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: white;
+  }
+
+}
+

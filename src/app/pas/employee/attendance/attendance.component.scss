@@ -1,0 +1,39 @@
+
+
+  
+   .DWButton{
+    width: 111px;
+    height: 31px;
+    background: #404040 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 4px;
+    opacity: 1;
+   }
+
+  .ag-theme-alpine{
+    padding-top: 12px;
+  }
+  .mycomponent ::ng-deep .cal-week-view .cal-time-events {
+    display: none;
+    }
+    .mycomponent ::ng-deep .cal-week-view {
+    border: none;
+  }
+  .mycomponent ::ng-deep .cal-week-view .cal-day-headers {
+    border: none;
+    box-shadow: none;
+    width: 36rem;
+    right: 0;
+    position: fixed;
+  }
+  .mycomponent ::ng-deep .cal-week-view .cal-day-headers .cal-header {
+    border: none;
+    height: 30px;
+  }
+  .mycomponent ::ng-deep .top{
+    color: gray;
+  }
+  .mycomponent ::ng-deep .top.active {
+    border-bottom: 2px solid black;
+  }
+  

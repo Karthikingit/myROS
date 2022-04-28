@@ -1,0 +1,81 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card-body {
+    display: block;
+    background-color: aliceblue;
+
+    button {
+      width: 100%;
+      display: block;
+      background-color: #404040;
+      color: rgb(245, 237, 237);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .result-from-dialog {
+    flex-direction: column;
+  }
+
+  .form-input-card {
+    nb-card-body {
+      display: block;
+    }
+  }
+
+  input[type=text]{
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom:0.5px solid #404040;
+  }
+
+  .form-control{
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom:0.5px solid #404040;
+}
+
+  /*@include media-breakpoint-down(lg) {
+    button {
+      padding: 0.8rem;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    button {
+      padding: 0.75rem;
+    }
+  }*/
+}
+
+.Pasbtn{
+    background-color: #404040;
+    color: white;
+}
+.icon{
+    float: right;
+}
+.Pasbtn1{
+    background-color:#404040;
+    color: white;
+    float: right;
+}
+.space{
+    padding-top: 00.5cm;
+}
+

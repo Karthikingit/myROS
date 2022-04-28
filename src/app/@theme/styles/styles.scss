@@ -1,0 +1,305 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap");
+@import "../../../../node_modules/angular-calendar/scss/angular-calendar.scss";
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
+
+// themes - our custom or/and out of the box themes
+@import "themes";
+@import "~@nebular/theme/styles/theming";
+@import "~@nebular/theme/styles/themes/default";
+
+// Modifying the nebular vairable to change background
+// $nb-themes: nb-register-theme(
+//   (
+//     color-basic-300: #123553,
+//   ),
+//   default
+// );
+
+// framework component themes (styles tied to theme variables)
+@import "~@nebular/theme/styles/globals";
+@import "~@nebular/auth/styles/globals";
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/grid";
+
+// loading progress bar theme
+@import "./pace.theme";
+
+@import "./layout";
+@import "./overrides";
+
+// install the framework and custom global styles
+@include nb-install() {
+  // framework global styles
+  @include nb-theme-global();
+  @include nb-auth-global();
+
+  @include ngx-layout();
+  // loading progress bar
+  @include ngx-pace-theme();
+
+  @include nb-overrides();
+}
+.cal-month-view .cal-day-number {
+  float: left;
+  font: normal normal normal 14px/17px Roboto;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 0.7;
+  padding-left: 20px;
+}
+.cal-month-view .cal-header .cal-cell {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 20px #c7c7c768;
+  opacity: 1;
+  height: 40px;
+}
+.cal-month-view .cal-day-cell {
+  min-height: 50px;
+}
+.cal-cell {
+  font: normal normal medium 16px/19px Roboto;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 0.9;
+}
+
+.cal-day-cell {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #8d8d8d33;
+  opacity: 1;
+}
+.cal-month-view .cal-days .cal-cell-row {
+  border-bottom: none;
+}
+.cal-month-view .cal-days {
+  border: none;
+}
+.cal-month-view .cal-day-cell:not(:last-child) {
+  border-right-color: 1px solid #8d8d8d33;
+}
+.cal-month-view .cal-cell-top {
+  min-height: 67px;
+  flex: 1;
+}
+// .cal-month-view .cal-day-cell.cal-in-month.cal-has-events {
+//   border: black 1px solid;
+// }
+.cal-month-view .cal-header .cal-cell {
+  border: #8d8d8d33 2px solid;
+  background-color: white;
+}
+.nb-theme-default nb-layout .layout {
+  font-family: Roboto, "Open Sans";
+  background-color: white;
+}
+.ng-theme-default {
+  background-color: green;
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+.nb-theme-default nb-select.appearance-outline.size-medium .select-button {
+  padding-right: 2rem;
+  width: 249px;
+  background-color: white;
+  height: 29px;
+  border: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+*:focus,
+select:focus,
+.form-control:focus {
+  outline: none !important;
+}
+
+.form-control:focus {
+  border-color: #cccccc;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin";
+
+.ag-theme-alpine {
+  @include ag-theme-alpine(());
+
+  .ag-header-cell {
+    background-color: white;
+  }
+
+  .ag-header {
+    border: none;
+  }
+
+  .ag-cell-focus {
+    border: none !important;
+  }
+
+  .ag-paging-panel {
+    border: none;
+  }
+  .ag-row-odd {
+    background-color: white;
+  }
+  .ag-row {
+    border: none;
+    height: 48px;
+  }
+  .ag-row-hover,
+  .ag-row-selected {
+    background-color: #f3f3f3;
+  }
+
+  .ag-checkbox-input-wrapper:focus-within {
+    box-shadow: none;
+  }
+
+  .ag-root-wrapper {
+    border: solid 0px;
+    box-shadow: none;
+  }
+
+  .ag-checked::after {
+    color: black !important;
+  }
+
+  .ag-cell-value {
+    font-family: "Roboto";
+  }
+
+  // --ag-foreground-color: rgba(32, 255, 62, 0.582);
+}
+
+.toggleSmall {
+  transform: scale(0.6);
+}
+
+.nb-theme-default h4,
+.nb-theme-default .h4 {
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 40px;
+}
+
+.nb-theme-default nb-toggle.status-basic .toggle,
+.native-input,
+.toggle.checked,
+.toggle:hover,
+.native-input:enabled + .toggle:hover {
+  background-color: rgba(100, 100, 100, 0.2) !important;
+  border-color: black !important;
+}
+
+.nb-theme-default nb-toggle.status-basic .toggle.checked,
+.toggle:hover.checked {
+  background-color: black !important;
+}
+
+.nb-theme-default nb-toggle .toggle-switcher {
+  width: 1.5rem;
+  height: 1.5rem;
+  top: 1.5px;
+}
+.nb-theme-default nb-toggle.status-basic .toggle-switcher {
+  background-color: white !important;
+  border: 1px solid black !important;
+}
+
+.nb-theme-default nb-toggle.status-basic .toggle-switcher nb-icon {
+  color: black !important;
+}
+
+.sidebar-modal {
+  right: 0;
+  top: 0px;
+  left: auto;
+  bottom: auto;
+  width: 560px;
+
+  @media (min-width: 576px) {
+    .modal-dialog {
+      margin: 0px;
+    }
+  }
+  .modal-dialog {
+    margin: 0px;
+  }
+
+  .modal-content {
+    min-height: 100vh;
+  }
+}
+
+.sidebar-modal.doc-sidebar {
+  width: 416px;
+}
+
+.ros-yellow {
+  color: #ecbc0f;
+}
+.ros-red {
+  color: #a24646;
+}
+.ros-green {
+  color: #468f49;
+}
+.ros-black {
+  color: #404040;
+}
+.ros-yellow-bg {
+  color: #ecbc0f;
+}
+.ros-red-bg {
+  background-color: rgba(162, 70, 70, 0.1);
+}
+.ros-green-bg {
+  background-color: rgba(70, 143, 73, 0.1);
+}
+.ros-grey-bg {
+  background-color: rgba(141, 141, 141, 0.1);
+}
+
+// Custom scroll bar
+.custom-scrollbar {
+  /* width */
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #343a40;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: black;
+  }
+}

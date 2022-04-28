@@ -1,0 +1,124 @@
+.card1 {
+  border: none;
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font: normal normal normal 18px/22px Roboto;
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 0.5;
+  }
+  .dateLabel {
+    font-size: smaller;
+    margin-bottom: 0px;
+  }
+  .InputDate {
+    width: 255px;
+    height: 29px;
+    border: 1px solid;
+    border-color: white white black white;
+  }
+  .InputName {
+    border: none;
+    margin-top: 1.6rem;
+  }
+  .InputDept {
+    width: 220px;
+    background-color: white;
+    border: none;
+  }
+  hr {
+    margin-top: 5px;
+    background-color: gray;
+    width: 265px;
+    display: table-caption;
+  }
+}
+.container {
+  .card {
+    border: none;
+    border-radius: 12px;
+    //box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+    box-shadow: 0  20px 60px #c7c7c768;
+    padding: 0.75rem;
+    vertical-align: middle;
+
+    .draft-heading {
+      font-weight: 600;
+      text-align: center;
+      font: normal normal medium 16px/76px Roboto;
+      letter-spacing: 0.8px;
+      color: #000000;
+      text-transform: uppercase;
+      opacity: 0.77;
+    }
+  }
+}
+::ng-deep .mat-tab-header {
+  border: none !important;
+}
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: black;
+}
+.list-group-item {
+  border: none;
+  padding: 14px 65px 5px 37px;
+}
+.Itemhead {
+  float: right;
+  font: normal normal medium 15px/18px Roboto;
+  letter-spacing: 0.75px;
+  color: #000000;
+  text-transform: uppercase;
+  opacity: 1;
+}
+.Item {
+  float: right;
+  font: normal normal normal 14px/17px Roboto;
+  letter-spacing: 0.1px;
+  color: #000000;
+  opacity: 0.7;
+}
+input[type="checkbox"]:active {
+  background: black;
+}
+
+.example-form {
+      min-width: 150px;
+      max-width: 500px;
+      width: 100%;
+      .container1 {
+        width: 480px;
+        height: 250px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border-radius: 5px;
+      }
+      .AddCard{
+        height:230px;
+        width: 340px;
+      }
+      .title{
+        padding: 10px 17px 25px 20px;
+      }
+    }
+
+    ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background{
+      background-color: black;
+    }
+
+    ::ng-deep .nb-theme-default nb-select.appearance-outline.status-basic .select-button.placeholder {
+      font: normal normal normal 18px/22px Roboto  !important;
+      letter-spacing: 0.02px  !important;
+      color: #020202  !important;
+      opacity: 0.5  !important;
+  }
+  .iconSearch{
+      color: #020202;
+      opacity: 0.5;
+  }
+  .deletepopup{
+    min-height: 216px;
+    min-width: 456px;
+  }
+  .fa-trash:hover{
+    color: #A24646;
+}

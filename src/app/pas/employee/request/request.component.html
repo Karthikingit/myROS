@@ -1,0 +1,754 @@
+<div class="container">
+  <div class="row">
+    <!-- Request heading and tab -->
+    <div class="col-12 col-md-6 mb-2">
+      <h4>Requests</h4>
+
+      <ngx-toggle-tab
+        firstTab="EMPLOYEES"
+        secondTab="MY REQUEST"
+        (selectedTabEvent)="setTab($event)"
+      ></ngx-toggle-tab>
+    </div>
+
+    <!-- shifts, leaves and profile cards -->
+
+    <div
+      class="col-12 col-md-6 mb-1 d-flex justify-content-between"
+      *ngIf="tab == 'EMPLOYEES'"
+    >
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'SHIFTS'"
+        (click)="setSelectedCard('SHIFTS')"
+      >
+        SHIFTS
+        <ngx-floating-badge [text]="allRequest.length"></ngx-floating-badge>
+      </div>
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'LEAVES'"
+        (click)="setSelectedCard('LEAVES')"
+      >
+        LEAVES
+        <ngx-floating-badge [text]="allRequest.length"></ngx-floating-badge>
+      </div>
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'PROFILE'"
+        (click)="setSelectedCard('PROFILE')"
+      >
+        PROFILE
+        <ngx-floating-badge [text]="allRequest.length"></ngx-floating-badge>
+      </div>
+    </div>
+    <!-- shifts, leaves and profile cards -->
+    <div
+      class="col-12 col-md-6 mb-1 d-flex justify-content-between"
+      *ngIf="tab == 'MY REQUEST'"
+    >
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'SHIFTS1'"
+        (click)="setSelectedCard('SHIFTS1')"
+      >
+        SHIFTS
+        <ngx-floating-badge [text]="event.length"></ngx-floating-badge>
+      </div>
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'LEAVES1'"
+        (click)="setSelectedCard('LEAVES1')"
+      >
+        LEAVES
+        <ngx-floating-badge [text]="event.length"></ngx-floating-badge>
+      </div>
+      <div
+        class="box position-relative p-4 m-2"
+        [class.active]="selectedCard == 'PROFILE1'"
+        (click)="setSelectedCard('PROFILE1')"
+      >
+        PROFILE
+        <ngx-floating-badge [text]="event.length"></ngx-floating-badge>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-2 justify-content-end" *ngIf="tab == 'EMPLOYEES'">
+    <button class="btn btn-sm btn-outline-danger px-3 mr-3 reject">
+      <i class="fa fa-times mr-2"></i> REJECT
+    </button>
+
+    <button class="btn btn-sm btn-outline-success px-2 mr-3 approve">
+      <i class="fa fa-check mr-1"></i> APPROVE
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="agTable" *ngIf="selectedCard == 'SHIFTS'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="allRequest"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Shift_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="agTable" *ngIf="selectedCard == 'LEAVES'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="allRequest"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Leaves_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="agTable" *ngIf="selectedCard == 'PROFILE'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="allRequest"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Profile_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+  <br />
+  <br />
+</div>
+<div *ngIf="tab == 'MY REQUEST'">
+  <div class="row">
+    <div class="agTable" *ngIf="selectedCard == 'SHIFTS1'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="event"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Shift1_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="agTable" *ngIf="selectedCard == 'LEAVES1'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="event"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Leaves1_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+    <div class="agTable" *ngIf="selectedCard == 'PROFILE1'">
+      <ag-grid-angular
+        style="width: 100%"
+        class="ag-theme-alpine"
+        domLayout="autoHeight"
+        [rowData]="event"
+        [suppressRowClickSelection]="true"
+        [paginationPageSize]="10"
+        [pagination]="true"
+        [defaultColDef]="defaultColDef"
+        [rowSelection]="rowSelection"
+        [columnDefs]="Profile1_columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>
+
+<!-- ViewShift -->
+<ng-template #addShift let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between mt-2">
+      <h6 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i> </span
+        >&nbsp; <b> Update Shift Request </b> <br />
+        <small class="ml-4">12 Dec 2020, Saturday</small>
+      </h6>
+      <div [hidden]="showIcon">
+        <i
+          class="fa fa-times fa-2x mr-4"
+          (click)="ShowApproved()"
+          style="cursor: pointer; color: rgba(255, 0, 0, 0.801)"
+        ></i>
+        <i
+          class="fa fa-check fa-2x mr-4"
+          (click)="ShowRejected()"
+          style="cursor: pointer; color: green"
+        ></i>
+      </div>
+      <div [hidden]="showApprove" style="cursor: pointer; color: green">
+        APPROVED!
+      </div>
+      <div
+        [hidden]="showReject"
+        style="cursor: pointer; color: rgba(255, 0, 0, 0.801)"
+      >
+        REJECTED!
+      </div>
+    </div>
+    <div class="row d-flex ml-3">
+      <div class="col-12 mb-4">Location : London</div>
+      <div class="col-12 mb-1">Employee Name : John Doe</div>
+      <div class="col-12 mb-4">Department : Management</div>
+      <div class="col-12 mb-4">Title : Head Chef</div>
+      <div class="col-12 mb-4">Shift Type: Regular</div>
+    </div>
+    <div class="row d-flex ml-3 mb-5">
+      <div class="col-6 mb-5">
+        Shift Start Time <br />
+        09:10
+      </div>
+      <div class="col-6 mb-5">
+        Shift End Time <br />
+        19:10
+      </div>
+    </div>
+    <h6 class="ml-4">Edit Shift Time</h6>
+    <div class="row d-flex ml-3 mb-3">
+      <div class="col-6">
+        Shift Start Time <br />
+        10:10
+      </div>
+      <div class="col-6">
+        Shift End Time <br />
+        15:10
+      </div>
+    </div>
+    <br />
+    <div class="row d-flex ml-3">
+      <h6 class="mt-2 ml-2">Approve</h6>
+      <nb-toggle
+        name="approve"
+        id="approve"
+        formcontrolName="approve"
+        class="toggleSmall"
+      ></nb-toggle>
+    </div>
+    <hr />
+    <div class="row d-flex ml-1">
+      <div class="col-5">
+        <h6>Send Changes</h6>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send SMS</mat-checkbox>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send Message</mat-checkbox>
+      </div>
+    </div>
+    <div class="row d-flex ml-1">
+      <div class="col-12">
+        <small
+          ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+          changing shift from one employee to another, both employees will
+          notify
+        </small>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ViewLeaves -->
+<ng-template #addLeaves let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between mt-2">
+      <h6 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i> </span
+        >&nbsp;
+        <b> Vacation Request </b>
+      </h6>
+      <span>
+        <i
+          class="fa fa-times fa-2x mr-4"
+          style="cursor: pointer; color: rgba(255, 0, 0, 0.801)"
+        ></i>
+        <i
+          class="fa fa-check fa-2x mr-4"
+          style="cursor: pointer; color: green"
+        ></i>
+      </span>
+    </div>
+    <div class="row d-flex ml-3 mb-4 mt-4">
+      <mat-radio-group [(ngModel)]="labelPosition" class="col-12">
+        <mat-radio-button class="example-margin mr-5" value="after"
+          >Single Day</mat-radio-button
+        >
+        <mat-radio-button class="example-margin mr-2" value="before"
+          >Range</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+    <div class="row d-flex ml-3 mb-4">
+      <div class="col-3 mr-3">
+        Start Date <br />
+        20 Jan 2021
+      </div>
+      <div class="col-3">
+        End Date <br />
+        23 Jan 2021
+      </div>
+    </div>
+    <div class="row d-flex marginbottom ml-3">
+      <div class="col-12">
+        Comment <br />
+        Out of Town
+      </div>
+    </div>
+    <div class="row d-flex ml-3 mb-3">
+      <div class="col-4">
+        <b> 28 </b><br />
+        Total Holidays
+      </div>
+      <div class="col-4">
+        <b> 17 </b><br />
+        Remaining Holidays
+      </div>
+      <div class="col-4">
+        <b> 11 </b><br />
+        Used Holidays
+      </div>
+    </div>
+    <hr />
+    <div class="row d-flex ml-1">
+      <div class="col-5">
+        <h6>Send Changes</h6>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send SMS</mat-checkbox>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send Message</mat-checkbox>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ViewProfile -->
+<ng-template #addProfile let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between mt-2">
+      <h6 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i> </span
+        >&nbsp; <b> Profile </b> <br />
+        <small class="ml-4">101, John Doe</small>
+      </h6>
+    </div>
+    <div class="row d-flex ml-3 mt-4">
+      <div class="col-3">
+        <b>Field</b>
+      </div>
+      <div class="col-3">
+        <b>Previous</b>
+      </div>
+      <div class="col-3">
+        <b>Edited</b>
+      </div>
+      <div class="col-3">
+        <b>Actions</b>
+      </div>
+    </div>
+    <div class="row d-flex ml-3 mt-3">
+      <div class="col-3">Email</div>
+      <div class="col-3">John1@gmail.com</div>
+      <div class="col-3">John22@gmail.com</div>
+      <div class="col-3">
+        <i
+          class="fa fa-times mr-4"
+          style="cursor: pointer; color: rgba(255, 0, 0, 0.801)"
+        ></i>
+        <i class="fa fa-check mr-4" style="cursor: pointer; color: green"></i>
+      </div>
+    </div>
+    <div class="row d-flex ml-3 mt-3 margin-box">
+      <div class="col-3">Phone</div>
+      <div class="col-3">9090909090</div>
+      <div class="col-3">9999999999</div>
+      <div class="col-3">
+        <i
+          class="fa fa-times mr-4"
+          style="cursor: pointer; color: rgba(255, 0, 0, 0.801)"
+        ></i>
+        <i class="fa fa-check mr-4" style="cursor: pointer; color: green"></i>
+      </div>
+    </div>
+    <hr />
+    <div class="row d-flex ml-1">
+      <div class="col-5">
+        <h6>Send Changes</h6>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send SMS</mat-checkbox>
+      </div>
+      <div class="col-3">
+        <mat-checkbox class="example-margin">Send Message</mat-checkbox>
+      </div>
+    </div>
+    <div class="row d-flex ml-1">
+      <div class="col-12">
+        <small
+          ><i class="fa fa-info-circle fa-xs" aria-hidden="true"></i> if
+          changing shift from one employee to another, both employees will
+          notify
+        </small>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- edit -->
+<ng-template #edits let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+          <b class="ml-4">Edit Leaves</b> <br />
+          <p class="ml-5">{{ date | date: "dd MMM yyyy, EEEE" }}</p>
+        </span>
+      </h5>
+      <span class="btn btn-sm tab" (click)="modal.dismiss()">
+        <i class="far fa-save"></i> SAVE</span
+      >
+    </div>
+    <br />
+    <h5 class="ml-5">Orginial Leaves Date</h5>
+    <br />
+    <div class="d-flex ml-5">
+      <span>
+        Leave Start Date <br />
+        19 Apr 2021
+      </span>
+      <span class="ml-5">
+        Leave End Date <br />
+        21 Apr 2021
+      </span>
+    </div>
+    <br />
+    <h5 class="ml-5">Edit Shift Time</h5>
+    <br />
+    <div class="d-flex">
+      <span class="start ml-5">
+        Leave Start Date <br />
+        <input
+          required
+          type="date"
+          name="starts"
+          id="starts"
+          class="startdate mt-2"
+        />
+      </span>
+      <span class="end ml-5">
+        Leave End Date <br />
+        <input
+          required
+          name="ends"
+          id="ends"
+          type="date"
+          class="enddate mt-2"
+        />
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<!-- delete -->
+<ng-template #deleteContent let-data let-ref="dialogRef">
+  <div class="deletepopup card p-2">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class="">
+        <div class="d-flex align-items-center mt-3">
+        <i class="fa fa-exclamation-circle fa-3x">
+        </i>
+        <span class="delete"> Are you sure about cancel Leaves?</span>
+      </div>
+        <br />
+      </div>
+      <br />
+
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)="ref.close()"
+        >
+          DELETE VACATION
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- viewleaves -->
+<ng-template #viewleaves let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+          <b class="ml-4">Update Leaves Request</b> <br />
+          <p class="ml-5">{{ date | date: "dd MMM yyyy, EEEE" }}</p>
+        </span>
+      </h5>
+    </div>
+    <br />
+    <span class="ml-5"> Location: London <br /> </span> <br />
+    <div class="ml-5">
+      Employe Nane: John Doe <br />
+      <small> Department: Management</small>
+    </div>
+    <br />
+    <div class="ml-5">Title: Head Chef</div>
+    <br />
+    <div class="ml-5">Shift Type: Regular</div>
+    <br />
+
+    <div class="d-flex ml-5">
+      <span>
+        Leave Start date <br />
+        19 Apr 2021
+      </span>
+      <span class="ml-5">
+        Leave End date <br />
+        20 Apr 2021
+      </span>
+    </div>
+    <br />
+    <br />
+    <h5 class="ml-5">Edit Leaves Date</h5>
+    <div class="d-flex ml-5">
+      <span style="font-family: Roboto">
+        Leave Start Date <br />
+        21 Apr 2021
+      </span>
+      <span class="ml-5">
+        Leave End Date <br />
+        22 Apr 2021
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<!-- editshifts -->
+<ng-template #editshifts let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+          <b class="ml-4">Edit Shift</b> <br />
+          <p class="ml-5">{{ date | date: "dd MMM yyyy, EEEE" }}</p>
+        </span>
+      </h5>
+      <span class="btn btn-sm tab" (click)="modal.dismiss()">
+        <i class="far fa-save"></i> SAVE</span
+      >
+    </div>
+    <br />
+    <h5 class="ml-5">Orginial Shift Timings</h5>
+    <br />
+    <div class="d-flex ml-5">
+      <span>
+        Shift Start Time <br />
+        9:10
+      </span>
+      <span class="ml-5">
+        Shift End Time <br />
+        12:40
+      </span>
+    </div>
+    <br />
+    <h5 class="ml-5">Edit Shift Time</h5>
+    <br />
+    <div class="d-flex">
+      <span class="start ml-5">
+        Shift Start Date <br />
+        <input
+          required
+          type="time"
+          name="starts"
+          id="starts"
+          class="startdate mt-2"
+        />
+      </span>
+      <span class="end ml-5">
+        Shift End Date <br />
+        <input
+          required
+          name="ends"
+          id="ends"
+          type="time"
+          class="enddate mt-2"
+        />
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<!-- deleteshifts -->
+<ng-template #deleteshifts let-data let-ref="dialogRef">
+  <div class="deletepopup card p-2">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class="">
+        <div class="d-flex align-items-center mt-3">
+        <i class="fa fa-exclamation-circle fa-3x ">
+        </i>
+        <b class="delete"> Are you sure about cancel shift?</b>
+      </div>
+        <br />
+      </div>
+      <br />
+
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)="ref.close()"
+        >
+          DELETE VACATION
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- viewshifts -->
+<ng-template #viewshifts let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+          <b class="ml-4">Update Shift Request</b> <br />
+          <p class="ml-5">{{ date | date: "dd MMM yyyy, EEEE" }}</p>
+        </span>
+      </h5>
+    </div>
+    <br />
+    <span class="ml-5"> Location: London <br /> </span> <br />
+    <div class="ml-5">
+      Employe Nane: John Doe <br />
+      <small> Department: Management</small>
+    </div>
+    <br />
+    <div class="ml-5">Title: Head Chef</div>
+    <br />
+    <div class="ml-5">Shift Type: Regular</div>
+    <br />
+
+    <div class="d-flex ml-5">
+      <span>
+        Shift Start Time <br />
+        9:10
+      </span>
+      <span class="ml-5">
+        Shift End Time <br />
+        12:40
+      </span>
+    </div>
+    <br />
+    <br />
+    <h5 class="ml-5">Edit Shift Date</h5>
+    <div class="d-flex ml-5">
+      <span style="font-family: Roboto">
+        Shift Start Time <br />
+        1:30
+      </span>
+      <span class="ml-5">
+        Shift End Time <br />
+        2:30
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<!-- deleteprofile -->
+<ng-template #deleteprofile let-data let-ref="dialogRef">
+  <div class="deletepopup card p-2">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer"
+        ></i>
+      </div>
+      <div class="">
+        <div class="d-flex align-items-center mt-3">
+        <i class="fa fa-exclamation-circle fa-3x">
+        </i>
+        <b class="delete"> Are you sure about cancel Request?</b>
+      </div>
+        <br />
+      </div>
+      <br />
+
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark"
+          style="width: 2in"
+          (click)="ref.close()"
+        >
+          DELETE REQUEST
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

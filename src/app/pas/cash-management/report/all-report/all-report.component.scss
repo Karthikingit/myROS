@@ -1,0 +1,74 @@
+#firstp{
+    font: var(--unnamed-font-style-normal) normal normal 28px/40px var(--unnamed-font-family-roboto);
+text-align: left;
+font: normal normal normal 28px/40px Roboto;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;
+margin-left: 15px;
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.55rem;
+}
+.span{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) 14px/17px var(--unnamed-font-family-roboto);
+  text-align: left;
+  font: normal normal medium 14px/17px Roboto;
+  letter-spacing: 0.7px;
+  color: #FEFCFC;
+  text-transform: uppercase;
+  opacity: 1;
+}
+}
+#hide ,#hide1,#hide2 {
+   visibility: hidden;
+  }
+      
+  #myDIV:hover + #hide +#hide1 +#hide2{
+    visibility: visible;
+    
+  }
+
+  .btn-warning, .btn-warning:hover, .btn-warning:active, .btn-warning:visited {
+    background-color: #404040 !important;
+    border:none;
+}
+
+.duration {
+  color: grey;
+  padding: 0 5px;
+  border-bottom: 1px solid grey;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.duration.active {
+  color: #404040;
+  border-bottom: 2px solid #404040;
+}
+
+.deleteCard{
+  width: 458px;
+  height: 225px;
+
+}
+.fa-times{
+  width: 25px;
+  height: 30px;
+}
+.fa, .fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 600;
+}
+
+.left-header{
+  color: black;
+}

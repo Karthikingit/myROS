@@ -1,0 +1,286 @@
+<div class="container">
+    <!-- Report Heading, Tab and Filters -->
+    <div class="row d-flex justify-content-between">
+      <div class="left d-flex col-md-8">
+        <h4 class="mr-5">Payroll Reports</h4>
+      </div>
+      <div class="col-md-4">
+        <div class="row d-flex justify-content-end">
+            <button class="btn btn-sm btn-dark px-3 mx-2 my-1" (click)="requestdate()">
+              <i class="fa fa-plus"></i> ADD FIELDS
+            </button>
+            <button class="btn btn-sm btn-dark px-3 mx-2 my-1" (click)="addNew()">
+              <i class="fas fa-save" aria-hidden="true"></i> SAVE REPORT
+            </button>
+          </div>
+      </div>
+    </div>
+</div>
+<!-- Report Search  -->
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card1" style="height: 100%">
+          <div class="card-body1 d-flex justify-content-around flex-column">
+              <div class="row">
+                  <!-- Search By Date -->
+                  <div class="col">
+                    <label class="dateLabel" for="fromDate">From Date</label><br>
+                    <input class="InputDate" [nbDatepicker]="datepicker1" placeholder="05 April 2021" >
+                    <nb-datepicker #datepicker1 format="dd MMMM yyyy"></nb-datepicker>
+                  </div>
+                  <div class="col">
+                    <label class="dateLabel" for="toDate">To Date</label><br>
+                    <input class="InputDate" [nbDatepicker]="datepicker2" placeholder="10 April 2021" >
+                    <nb-datepicker #datepicker2 format="dd MMMM yyyy"></nb-datepicker>
+                  </div>
+                  <!-- serach Employee ID and name -->
+                    <div class="col">
+                        <i class="fa fa-search mr-1 iconSearch"></i>
+                        <input #searchEmployee class="InputName w-90" placeholder="Employee Name or ID" (keyup)="onEnter(searchEmployee.value)">
+                        <hr>
+                    </div>
+
+                  <!-- filter by Departmet -->
+                    <div class="col">
+                    <i class="fa fa-search mr-1 mt-3 pl-1 iconSearch"></i> 
+                    <nb-select class="InputDept mt-3" multiple placeholder="Select Department" (selectedChange)="selectedDept($event)">
+                        <nb-option value="BOH">BOH</nb-option>
+                        <nb-option value="FOH">FOH</nb-option>
+                        <nb-option value="Management">Management</nb-option>
+                        <nb-option value="all">Select All</nb-option>
+                    </nb-select> 
+                    <hr>                   
+                    </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <br>
+    <!-- Card for Number of Field selected -->
+    <div class="container" *ngIf="isShow">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="card">
+            <div class="card-body ">
+              <ngx-floating-badge [text]="getAllCheckedDetails"></ngx-floating-badge>
+              <div class="draft-heading">Basic Info.</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-2">
+          <div class="card">
+            <div class="card-body ">
+              <ngx-floating-badge [text]="getAllCheckedBank"></ngx-floating-badge>
+              <div class="draft-heading">Bank Details</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-2">
+          <div class="card">
+            <div class="card-body ">
+              <ngx-floating-badge [text]="getAllChecked">3</ngx-floating-badge>
+              <div class="draft-heading">Shifts</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-6"></div>
+      </div>
+      <br>
+    </div>
+    
+    <!-- AgGrid table for Payroll -->
+    <div class="row mt-4">
+      <ag-grid-angular
+      style="width: 97%"
+      class="ag-theme-alpine"
+      domLayout="autoHeight"
+      [rowData]="dispEmployee"
+      [suppressRowClickSelection]="true"
+      [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection"
+      [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+      [paginationPageSize]="10"
+      [pagination]="true"
+    >
+    </ag-grid-angular>
+    
+<!-- Delete selected employee -->
+<ng-template #deleteContent let-data let-ref="dialogRef">
+
+  <div class="deletepopup card">
+    <div class="card-body deleteCard d-flex flex-column text-center">
+      <div style="text-align: end">
+        <i
+          class="fa fa-times"
+          (click)="ref.close()"
+          style="cursor: pointer;"
+        ></i>
+      </div>
+      <div class=""><i class="fa fa-2x fa-trash"></i></div>
+      <h4 class="mt-4">Delete Employee ?</h4>
+
+      <div class="mt-2">
+        <button
+          class="btn btn-sm btn-dark px-3"
+          style="width: 100px; "
+          (click)="deleteEmployeeData(deleteCashupObj); ref.close()"
+        >
+          DELETE
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ADD FIELD POPUP -->
+<ng-template #addField  let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between"    >
+      <h6 class="">
+        <span (click)="modal.dismiss()" style="cursor: pointer">
+          <i class="fa fa-arrow-left arrow"></i>
+        </span>&nbsp;
+        <b> Select Fields For Payroll Report</b> <br>
+      </h6>  
+      <span><button class="btn btn-sm btn-dark px-3 mx-2 my-1" (click)="showTab()" (click)="modal.dismiss()">
+        <i class="fas fa-plus"></i> ADD
+      </button></span>
+    </div>
+    <div class="row d-flex ml-3 mb-5">
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Basic Information">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>FIELD NAME</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedD1" name="list_name2" value="m3" (change)="checkUncheckAllDetails1()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistD1">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name2" value="{{item.id}}" (change)="isAllSelectedDetails1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>BASIC DETAILS</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedD2" name="list_name3" value="m4" (change)="checkUncheckAllDetails2()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistD2">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name1" value="{{item.id}}" (change)="isAllSelectedDetails2()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>DEPARTMENT & LOCATION</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedD3" name="list_name4" value="m5" (change)="checkUncheckAllDetails3()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistD3">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name1" value="{{item.id}}" (change)="isAllSelectedDetails3()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>KIN DETAILS</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedD4" name="list_name4" value="m6" (change)="checkUncheckAllDetails4()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistD4">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name4" value="{{item.id}}" (change)="isAllSelectedDetails4()"></mat-checkbox>
+            </li>
+          </ul>
+        </mat-tab>
+        <mat-tab label="Bank Details">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>BANK DETAILS</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedB1" name="list_name1" value="m2" (change)="checkUncheckAllBank1()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistB1">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name1" value="{{item.id}}" (change)="isAllSelectedBank1()"></mat-checkbox>
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>SALARY DETAILS</strong><mat-checkbox class="Item" [(ngModel)]="masterSelectedB2" name="list_name1" value="m3" (change)="checkUncheckAllBank2()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklistB2">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name1" value="{{item.id}}" (change)="isAllSelectedBank2()"></mat-checkbox>
+            </li>
+          </ul>
+        </mat-tab>
+        <mat-tab label="Shifts">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>SHIFT DETAILS</strong><mat-checkbox class="Item" [(ngModel)]="masterSelected" name="list_name" value="m1" (change)="checkUncheckAll()"></mat-checkbox> 
+            </li>
+          </ul>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of checklist">
+              {{item.value}}<mat-checkbox class="Item" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}" (change)="isAllSelected()"></mat-checkbox>
+            </li>
+          </ul>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  </ng-template>
+
+  <!-- Save Report -->
+<div class="dialog">
+  <ng-template #addReport let-data let-ref="dialogRef">
+    <form class="example-form" [formGroup]="addReportName">
+      <div class="container1 container">
+        <!-- close -->
+        <div style="text-align: end; padding-top: 10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" (click)="ref.close()"
+          style="cursor: pointer" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </div>
+        <!-- description -->
+        <div class="row">
+          <div class="col-md-12"><h6 class="title"><b>Name Your Report Before Saving it</b></h6></div>
+        </div>
+        <!-- Reason -->
+        <div class="row pl-3">
+          <div class="col-md-10">
+            <div class="form-group">
+              <label for="reason" style="font-size: 16px">
+                Name
+              </label>
+              <input required type="text"
+                placeholder="BOH - Payroll(March)"
+                class="form-control"
+                formControlName="reportName"
+                id="reportName"
+                name="reportName"
+                #reportName
+                style=" width: 370px; height: 37px; border-style: solid; border-color: white white black white;"
+              />
+            </div>
+          </div>
+      </div>
+      <!-- button -->
+        <div><button
+          type="submit"
+          class="btn btn-sm btn-dark mt-3 pr-2 float-right"
+          style="width: 150px; height: 30px;"
+          (ngSubmit)="save(addReportName); ref.close()"
+        >
+          Save Report
+        </button></div>
+      </div>
+    </form>
+  </ng-template>
+</div>

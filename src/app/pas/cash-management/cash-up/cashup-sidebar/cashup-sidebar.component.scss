@@ -1,0 +1,27 @@
+.sidenav {
+  box-shadow: 0px -10px 20px rgba(199, 199, 199, 0.41);
+  height: 100vh;
+}
+
+@media screen and (max-width: 1200px) {
+  .sidenav {
+    top: 54px;
+    left: 0px;
+  }
+}
+
+.nav-list {
+  .nav-item {
+    padding: 18px 21px;
+    cursor: pointer;
+  }
+
+  .nav-item.active {
+    //background-color: whitesmoke;
+    //box-shadow: 2px 2px 4px rgba(88, 88, 88, 0.2);
+    box-shadow: inset 0px 11px 8px -5px #ccc, inset 0px -11px 8px -5px #ccc;
+  }
+}
+.deleteCard{
+  height: 200px;
+}

@@ -1,0 +1,98 @@
+.duration {
+  color: grey;
+  padding: 0 5px;
+  border-bottom: 1px solid grey;
+  cursor: pointer;
+  font-size: 0.7rem;
+  height: 21px;
+}
+
+.duration.active {
+  color: #404040;
+  border-bottom: 3px solid #404040;
+}
+::ng-deep  .bs-calendar-container{
+        position: absolute;
+        right: 0;
+       background-color: white;
+      }
+      ::ng-deep .theme-green .bs-datepicker-head{
+        background-color: white;
+        color: black;
+      }
+//   ::ng-deep  .bs-datepicker{
+//     background-color: rgb(255, 255, 255);
+//     }
+//     
+//     ::ng-deep .bs-datepicker-body .ng-star-inserted {
+//     padding : 5px;
+//     cursor: pointer;
+//     }
+ 
+ ::ng-deep .bs-datepicker-head .current{
+   border: none;
+   background-color: white;
+   font-weight: bold;
+   color: black;
+}
+::ng-deep .bs-datepicker-head button.previous{
+  border: 1px solid #E8E9EC;
+  color: #404040;
+  border-radius: 4px;
+  box-shadow: 0px 2px 3px #0000000D;
+}
+
+::ng-deep .bs-datepicker-head button.next{
+  border: 1px solid #E8E9EC;
+  color: #404040;
+  border-radius: 4px;
+  box-shadow: 0px 2px 3px #0000000D;
+}
+::ng-deep   .theme-green .bs-datepicker-body table td span.selected
+{
+  background-color: black;
+  border-radius: 0;
+}
+::ng-deep   .theme-green .bs-datepicker-body table{
+  td
+  {
+    border: 1px solid #E8E9EC;
+  }
+  th{
+    background-color: #E9E9F0;
+          color: #A3A6B4;
+           border: 1px solid #E8E9EC;
+          font-size: 10px;
+  }
+}
+ .selectedDatewrapper{
+   position: relative;
+   font-size: 12px;
+   .selectedDate{
+     width: 160px;
+     position: absolute;
+     left: -56px;
+
+   }
+
+ }
+
+//   ::ng-deep .bs-datepicker-body .days {
+//     th {
+//       background-color: #E9E9F0;
+//       color: #A3A6B4;
+//       border: 1px solid #E8E9EC;
+//       font-size: 10px;
+//       }
+//       td  {
+//         border: 1px solid #E8E9EC;
+//             font-size: 12px; 
+//             width: 39px;
+//             height: 39px;   
+          
+//         }
+       
+//   }
+  
+    
+

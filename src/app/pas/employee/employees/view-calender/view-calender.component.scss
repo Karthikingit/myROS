@@ -1,0 +1,159 @@
+::ng-deep .empshifts .only-show-on-hover {
+    visibility: hidden;
+    position: absolute;
+    top: 20%;
+    right:50%;
+    cursor: pointer;
+}
+.cal-time{
+    padding-top: 10px;
+    font-size: 13px;
+    border: 10px;
+}
+:host ::ng-deep .empshifts .cal-hour:hover {
+    .only-show-on-hover  {
+        visibility: visible;
+      
+    }  }
+
+    ::ng-deep .empshifts .cal-hour{
+        height: 30px; 
+    }
+    ::ng-deep .empshifts .cal-week-view mwl-calendar-week-view-hour-segment, .cal-week-view .cal-hour-segment {
+        border: 1px solid rgba(114, 111, 111, 0.1);
+    }
+   ::ng-deep .empshifts .cal-week-view .cal-day-headers .cal-header:not(:last-child){
+       border: none;
+   }
+   ::ng-deep .empshifts .cal-week-view .cal-day-headers {
+    border-top: 0;
+    margin-bottom: 15px;
+    height: 70px;
+    border: white;
+    box-shadow: 0px 10px 20px #C7C7C768;
+}
+::ng-deep .empshifts .cal-week-view{
+    border: 0;
+}
+::ng-deep .empshifts .cal-week-view .cal-event{
+    background-color: #ffffff;
+    border-color: white;
+}
+::ng-deep .empshifts .cal-week-view .cal-header.cal-today {
+    background-color: #fef0d6;
+}
+::ng-deep .empshifts .cal-week-view .cal-current-time-marker{
+background-color: white;
+}
+::ng-deep .empshifts .cal-week-view{
+    border-top: white;
+}
+::ng-deep .empshifts  .cal-hour .cal-hour-odd{
+    background-color: white;
+}
+::ng-deep .empshifts .cal-week-view .cal-hour-odd{
+    background-color: white;
+}
+
+.empshifts .pending{
+    border-top: 8px solid black;
+
+}
+.empshifts .approved {
+    border-top: 8px solid green;
+   
+  }
+  .empshifts .vacation{
+    background-color: rgb(250, 242, 217);
+}
+   
+.icon{
+    position: absolute;
+    bottom:0;
+    right:10px;
+}
+.dropdonw1{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 80%;
+}
+.dropdonw2{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 80%;
+}
+.time1{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 90%;
+}
+.time2{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 90%;
+}
+.time{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 90%;
+}
+.tab {
+    background-color: #000000;
+    color: white;
+    cursor: pointer;
+    padding: 5px 18px;
+    position: absolute;
+    right: 5px;
+  }
+.circle{
+    position: absolute;
+    bottom: 5px;
+    color: green;
+}
+
+.sendchanges{
+    position: absolute;
+    bottom: 30px;
+}
+.line{
+    height: 3px;
+}
+hr{
+    width: 100%;
+    border: none;
+    background-color: rgba(78, 78, 78, 0.267);
+}
+
+  .startdate {
+    border: hidden;
+    border-bottom: 2px solid rgba(78, 78, 78, 0.267);
+  }
+  .enddate{
+    border: hidden;
+    border-bottom: 2px solid rgba(78, 78, 78, 0.267);
+  }
+  .comments{
+    border: hidden;
+    border-bottom: 2px solid rgba(78, 78, 78, 0.267);
+    width: 3in;
+  }
+ 
+  .single {
+     color:black;
+    
+   }
+   .multiple {
+     color: black;
+   }
+   .fa-trash:hover{
+    color: #A24646;
+  }
+  
+  .fa-pencil-alt:hover{
+    color: #ECBC0F;
+  }
+  .deletepopup{
+    height: 216px;
+    width: 458px;
+    border-radius: 10px;
+  }

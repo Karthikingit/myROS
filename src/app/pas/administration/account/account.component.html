@@ -1,0 +1,1658 @@
+<div class="container">
+  <div class="row d-flex justify-content-between">
+    <h4
+      class="text-nowrap"
+      style="font-size: 28pt; font-weight: 500"
+      *ngIf="this.userDepartment?.role.name == 'ROLE_SUPERADMIN'"
+    >
+      {{ messageDisplay }}, Super Admin
+    </h4>
+    <h4
+      class="text-nowrap"
+      style="font-size: 28pt; font-weight: 500"
+      *ngIf="this.userDepartment?.role.name == 'ROLE_ACCOUNTOFFICER'"
+    >
+      {{ messageDisplay }}, Account Officer
+    </h4>
+
+    <h4 class="text-nowrap" style="font-size: 20pt; font-weight: 500">
+      {{ time | date: "hh:mm:ss a" }},&nbsp;&nbsp;&nbsp;{{
+        myDate | date: "dd MMM yyyy"
+      }}
+    </h4>
+  </div>
+
+  <!-- Cards -->
+  <div class="d-flex justify-content-between flex-wrap row">
+    <div class="col-md-4 col-xl-3 col-sm-6 col-12 mt-3">
+      <!-- Client  -->
+      <ng-container *ngxPermissionsOnly="['ADM_CLI_VAC']">
+        <div class="">
+          <div
+            (click)="setActiveCard('Client')"
+            [class.active]="activeCard == 'Client'"
+            class="accounts card"
+            id="totalClients"
+            name="totalClients"
+          >
+            <div class="card-body">
+              <h5 class="number">{{ clientData.length }}</h5>
+              <span class="text-secondary">Total Clients</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="col-md-4 col-xl-3 col-sm-6 col-12 mt-3">
+      <!-- total restaurant -->
+      <div class="" *ngxPermissionsOnly="['ADM_RES_VCR']">
+        <div
+          (click)="setActiveCard('Restaurants')"
+          [class.active]="activeCard == 'Restaurants'"
+          class="accounts card"
+          id="totalRestaurants"
+          name="totalRestaurants"
+        >
+          <div class="card-body">
+            <h5 class="number">{{ restTemp1.length }}</h5>
+            <span class="text-secondary">Total Restaurants</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-3 col-sm-6 col-12 mt-3">
+      <!-- Total Users -->
+      <div class="" *ngxPermissionsOnly="['ADM_USR_VAU']">
+        <div
+          (click)="setActiveCard('Users')"
+          [class.active]="activeCard == 'Users'"
+          class="accounts card"
+          id="totalUsers"
+          name="totalUsers"
+        >
+          <div class="card-body">
+            <h5 class="number">{{ userTemp.length }}</h5>
+            <span class="text-secondary">Total Users</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-xl-3 col-sm-6 col-12 mt-3">
+      <!-- ROS Team -->
+      <div class="" *ngIf="this.userDepartment?.role.name == 'ROLE_SUPERADMIN'">
+        <div
+          (click)="setActiveCard('Team')"
+          [class.active]="activeCard == 'Team'"
+          class="accounts card"
+          id="rosTeam"
+          name="rosTeam"
+        >
+          <div class="card-body">
+            <h5 class="number">{{ ros_team_users.length }}</h5>
+            <span class="text-secondary">ROS Team</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clients Options & Filter -->
+  <div class="row" *ngIf="activeCard == 'Client'">
+    <div class="col-xl-7 col-lg-6 col-md-5"></div>
+    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mt-4">
+      <div
+        class="addnew"
+        *ngxPermissionsOnly="['ADM_CLI_SEA']"
+        style="width: 100%"
+      >
+        <input
+          class=""
+          (keyup)="searchClients($event)"
+          name="search"
+          placeholder="Search Client..."
+          style="height: 32px; width: 100%"
+          type="text"
+          id="searchClient"
+          name="searchClient"
+        />
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 mt-4">
+      <button
+        *ngxPermissionsOnly="['ADM_CLI_ADD']"
+        (click)="addNew()"
+        class="addnew btn btn-sm btn-dark"
+        type="button"
+        id="addNewClient"
+        name="addNewClient"
+        style="width: 100%"
+      >
+        <i class="fa fa-plus mr-1"></i> ADD NEW
+      </button>
+    </div>
+  </div>
+
+  <!-- Users Options & Filter -->
+  <div class="row" *ngIf="activeCard == 'Users'">
+    <div class="col-xl-4"></div>
+    <div class="col-xl-2 col-md-3 col-sm-6 mt-4">
+      <input
+        *ngxPermissionsOnly="['ADM_USR_SEA']"
+        class="mr-2"
+        (keyup)="searchUser($event)"
+        name="search"
+        placeholder="Search User..."
+        style="height: 32px; width: 100%"
+        type="text"
+        id="searchUser"
+        name="searchUser"
+      />
+    </div>
+    <div class="col-xl-2 col-md-3 col-sm-6 mt-4">
+      <select
+        *ngxPermissionsOnly="['ADM_USR_SEA']"
+        class="selectDropdown mr-2"
+        #clientDrop
+        name="client"
+        id="client"
+        (ngModelChange)="changeClient($event)"
+        [(ngModel)]="transferFeeTblCombBxRow"
+      >
+        <option value="ALL" ng-selected="true">Clients</option>
+        <option *ngFor="let client of clientData" [ngValue]="client">
+          {{ client.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm-2 d-md-none"></div>
+    <div class="col-xl-2 col-md-3 col-sm-6 mt-4">
+      <select
+        *ngxPermissionsOnly="['ADM_USR_SEA']"
+        class="selectDropdown"
+        #resDrop
+        name="user"
+        id="user"
+        (change)="changeRes(resDrop.value)"
+      >
+        <option value="ALL" selected>Restaurants</option>
+        <option [value]="user.id" *ngFor="let user of restTemp">
+          {{ user.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-xl-2 col-md-3 col-sm-4 mt-4">
+      <button
+        *ngxPermissionsOnly="['ADM_USR_ADD']"
+        (click)="addNewUser()"
+        class="addnew btn btn-sm btn-dark ml-2"
+        type="button"
+        name="addUser"
+        id="addUser"
+        style="width: 100%"
+      >
+        <i class="fa fa-plus mr-1"></i> ADD USER
+      </button>
+    </div>
+  </div>
+
+  <!-- Restaurant filter -->
+  <div class="row" *ngIf="activeCard == 'Restaurants'">
+    <div class="col-xl-6 col-lg-3">
+      <mat-form-field
+        *ngIf="activeCard == 'Restaurants'"
+        class="addnew mr-2 mt-2"
+      >
+        <input
+          matInput
+          [matDatepicker]="picker"
+          (ngModelChange)="dateChange($event)"
+          placeholder="Choose a date to filter"
+          [ngModel]="selectDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div
+      class="
+        col-xl-2 col-lg-3 col-md-4 col-sm-6
+        d-flex
+        justify-content-end
+        mt-4
+      "
+    >
+      <input
+        *ngxPermissionsOnly="['ADM_RES_SEA']"
+        class=""
+        (keyup)="searchRestaurant($event)"
+        name="search"
+        placeholder="Search Restaurant..."
+        style="height: 32px; width: 100%"
+        type="text"
+        name="searchRestaurant"
+        id="searchRestaurant"
+      />
+    </div>
+    <div
+      class="
+        col-xl-2 col-lg-3 col-md-4 col-sm-6
+        d-flex
+        justify-content-end
+        mt-4
+      "
+    >
+      <select
+        *ngxPermissionsOnly="['ADM_RES_SEA']"
+        class="selectDropdown"
+        #clientDrop
+        name="client"
+        id="client"
+        (change)="changeRestaurantClient(clientDrop.value)"
+      >
+        <option value="ALL">Clients</option>
+        <option [value]="client.id" *ngFor="let client of clientData">
+          {{ client.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm-6 d-md-none"></div>
+    <div
+      class="
+        col-xl-2 col-lg-3 col-md-4 col-sm-6
+        d-flex
+        justify-content-end
+        mt-4
+      "
+    >
+      <button
+        *ngxPermissionsOnly="['ADM_RES_ADD']"
+        (click)="addNewRestaurant()"
+        class="addnew btn btn-sm btn-dark"
+        type="button"
+        name="addNewRestaurant"
+        id="addNewRestaurant"
+      >
+        <i class="fa fa-plus mr-1"></i> ADD RESTAURANT
+      </button>
+    </div>
+  </div>
+
+  <!-- Team Options & Filter -->
+  <div *ngIf="this.userDepartment?.role.name == 'ROLE_SUPERADMIN'">
+    <div class="row" *ngIf="activeCard == 'Team'">
+      <div class="col-xl-7 col-lg-6 col-md-5"></div>
+      <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 mt-4">
+        <input
+          class=""
+          (keyup)="searchROSUser($event)"
+          name="search"
+          placeholder="Search User..."
+          style="height: 32px; width: 100%"
+          type="text"
+          id="searchROSUser"
+        />
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 mt-4">
+        <button
+          (click)="addNewROSUser()"
+          class="addnew btn btn-sm btn-dark"
+          type="button"
+          name="addUser"
+          id="addUser"
+          style="width: 100%"
+        >
+          <i class="fa fa-plus mr-1"></i> ADD USER
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <br />
+
+  <!-- View All Clients  -->
+  <ng-container *ngxPermissionsOnly="['ADM_CLI_VAC']">
+    <div *ngIf="activeCard == 'Client'">
+      <div class="row">
+        <div class="col-5">
+          <div *ngIf="clientData.length > 0" class="row">
+            <div class="col-12 client">
+              <span class="h4 ml-2">Clients</span><br />
+              <div class="clients-container" id="style-1">
+                <div
+                  *ngFor="let data of clientData; let i = index"
+                  class="clients col-12 mt-3"
+                  [class.active]="selectedIndex === i"
+                  (click)="setIndex(i)"
+                >
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-2">
+                        <span
+                          *ngIf="data.address?.country?.countryName != 'UK'"
+                        >
+                          <img
+                            alt=""
+                            src="../../../../assets/images/noData.png"
+                            style="width: 60px"
+                          />
+                        </span>
+                        <span
+                          *ngIf="data.address?.country?.countryName == 'UK'"
+                        >
+                          <img
+                            alt=""
+                            src="../../../../assets/images/noData.png"
+                            style="width: 60px"
+                          />
+                        </span>
+                      </div>
+                      <div class="col-7">
+                        <span
+                          *ngIf="
+                            data.name == 'string' ||
+                            data.name == '' ||
+                            !data.name
+                          "
+                          style="font-size: large"
+                        >
+                          Untitled
+                        </span>
+                        <span
+                          *ngIf="
+                            data.name?.length <= 15 && data.name != 'string'
+                          "
+                          style="font-size: large"
+                        >
+                          {{ data.name }}
+                        </span>
+                        <span
+                          *ngIf="data.name?.length > 15"
+                          matTooltip=" {{ data.name }}"
+                          matTooltipPosition="above"
+                          style="font-size: large"
+                        >
+                          {{ data.name | slice: 0:15
+                          }}{{ data.name?.length > 15 ? "..." : "" }}
+                        </span>
+                        <br />
+                        <small
+                          *ngIf="
+                            data.primaryContact?.primaryContactEmail?.length <=
+                            18
+                          "
+                          style="color: #8a96a0"
+                        >
+                          {{ data.primaryContact?.primaryContactEmail }}
+                        </small>
+                        <small
+                          *ngIf="
+                            data.primaryContact?.primaryContactEmail?.length >
+                            18
+                          "
+                          matTooltip=" {{
+                            data.primaryContact?.primaryContactEmail
+                          }}"
+                          matTooltipPosition="after"
+                          style="color: #8a96a0"
+                        >
+                          {{ data.primaryContact?.primaryContactEmail }}
+                        </small>
+                        <br />
+                      </div>
+                      <div class="col-3 text-nowrap text-right">
+                        <span
+                          style="font-size: small"
+                          *ngIf="
+                            data.address?.city == 'string' ||
+                            data.address?.city == '' ||
+                            !data.address?.city
+                          "
+                        >
+                          Untitled
+                        </span>
+                        <span
+                          style="font-size: small"
+                          *ngIf="
+                            data.address?.city?.length <= 16 &&
+                            data.address?.city != 'string'
+                          "
+                        >
+                          {{ data.address?.city }},
+                        </span>
+                        <span
+                          style="font-size: small"
+                          *ngIf="data.address?.city?.length > 16"
+                          matTooltip=" {{ data.address?.city }}"
+                          matTooltipPosition="below"
+                        >
+                          {{ data.address?.city | slice: 0:13 }}
+                          {{ data.address?.city.length > 13 ? "..." : "" }},
+                        </span>
+                        <span
+                          style="font-size: small"
+                          *ngIf="
+                            !data.address?.country ||
+                            data.address?.country?.taxCountryCode == 'string' ||
+                            data.address?.country?.taxCountryCode == ''
+                          "
+                        >
+                          Untitled
+                        </span>
+                        <span
+                          style="font-size: small"
+                          *ngIf="
+                            data.address?.country?.taxCountryCode?.length <=
+                              16 &&
+                            data.address?.country?.taxCountryCode != 'string'
+                          "
+                        >
+                          {{ data.address?.country?.taxCountryCode }}
+                        </span>
+                        <span
+                          style="font-size: small"
+                          *ngIf="
+                            data.address?.country?.countryName?.length > 16
+                          "
+                          matTooltip=" {{
+                            data.address?.country?.taxCountryCode
+                          }}"
+                          matTooltipPosition="below"
+                        >
+                          {{
+                            data.address?.country?.taxCountryCode | slice: 0:13
+                          }}
+                          {{
+                            data.address?.country?.taxCountryCode.length > 13
+                              ? "..."
+                              : ""
+                          }}
+                          <br />
+                        </span>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row d-flex justify-content-between">
+                      <!-- <div class="col"> -->
+                      <!-- <span> -->
+                      <span
+                        matTooltip="Edit Client"
+                        matTooltipPosition="below"
+                        id="EditClient"
+                        name="EditClient"
+                        *ngxPermissionsOnly="['ADM_CLI_EDI']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToEditClient(data)"
+                        >
+                          EDIT
+                        </button>
+                      </span>
+                      <span
+                        matTooltip="View Client"
+                        id="ViewClient"
+                        name="ViewClient"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_CLI_VIE']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToViewClient(data)"
+                        >
+                          VIEW
+                        </button>
+                      </span>
+
+                      <!-- Activate - Deactivate Client  -->
+                      <span *ngxPermissionsOnly="['ADM_CLI_DEA']">
+                        <span
+                          id="DeactivateClient"
+                          name="DeactivateClient"
+                          *ngIf="data?.account?.accountStatus == 'ACTIVE'"
+                          matTooltip="Deactivate Client"
+                          matTooltipPosition="below"
+                        >
+                          <button
+                            mat-button
+                            color="warn"
+                            (click)="openDeactivate(data)"
+                          >
+                            DEACTIVATE
+                          </button>
+                        </span>
+                      </span>
+                      <span *ngxPermissionsOnly="['ADM_CLI_ACT']">
+                        <span
+                          id="activateClient"
+                          name="activateClient"
+                          (click)="openDeactivate(data)"
+                          *ngIf="data?.account?.accountStatus == 'INACTIVE'"
+                          matTooltip="Activate Client"
+                          matTooltipPosition="below"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-check-circle-fill mr-5"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+
+                      <span
+                        matTooltip="Navigate to Client"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_CLI_VCS']"
+                      >
+                        <button
+                          mat-stroked-button
+                          class="positive-btn"
+                          (click)="navigateToClientLogin(data)"
+                        >
+                          <svg
+                            class="bi bi-box-arrow-in-right"
+                            fill="currentColor"
+                            height="16"
+                            style="cursor: pointer; margin-bottom: 2px"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
+                              fill-rule="evenodd"
+                            />
+                            <path
+                              d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                              fill-rule="evenodd"
+                            />
+                          </svg>
+                          &nbsp;&nbsp;LOGIN AS ADMIN
+                        </button>
+                      </span>
+                      <!-- </span> -->
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <hr
+                    class="mt-2 hrl"
+                    *ngIf="
+                      i != clientData.length - 1 &&
+                      i != selectedIndex &&
+                      i != selectedIndex - 1
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="client">
+            <ngx-client-pie-chart></ngx-client-pie-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- View Ros Team -->
+  <div *ngIf="this.userDepartment?.role.name == 'ROLE_SUPERADMIN'">
+    <div *ngIf="activeCard == 'Team'" class="row">
+      <div *ngFor="let data of ros_team_users" class="col-auto mt-3">
+        <div class="client card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <img
+                  alt=""
+                  src="../../../../assets/images/avatar.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+              <div class="col-8">
+                <span
+                  matTooltip="{{ data?.userProfile?.firstName }}&nbsp;
+                {{ data?.userProfile?.lastName }}"
+                  matTooltipPosition="above"
+                >
+                  {{ data?.userProfile?.firstName | slice: 0:6 }}
+                  {{ data?.userProfile?.firstName?.length > 6 ? "..." : "" }}
+                  &nbsp;
+                  {{ data?.userProfile?.lastName | slice: 0:5
+                  }}{{ data?.userProfile?.lastName?.length > 5 ? "..." : "" }}
+                </span>
+                <br />
+                <small
+                  style="color: #8a96a0"
+                  matTooltip=" {{ data.username }}"
+                  matTooltipPosition="right"
+                >
+                  {{ data.username | slice: 0:17
+                  }}{{ data.username?.length > 17 ? "..." : "" }}
+                </small>
+                <br />
+                <span *ngIf="data.role?.name?.length <= 13">
+                  {{ data.role?.name }}
+                </span>
+                <span
+                  *ngIf="data.role?.name?.length > 13"
+                  matTooltip=" {{ data.role?.name }}"
+                  matTooltipPosition="below"
+                >
+                  {{ data.role?.name | slice: 0:12
+                  }}{{ data.role?.name?.length > 12 ? "..." : "" }}
+                </span>
+              </div>
+            </div>
+            <hr class="mt-2" />
+            <div class="row">
+              <div
+                class="col-6"
+                *ngIf="!data.modifiedBy || data.modifiedBy == 'string'"
+              >
+                <!-- <span *ngIf="data.recordCreatedBy"
+                  ><b>{{ data.recordCreatedBy }}</b>
+                </span> -->
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length <= 11
+                  "
+                  ><b>{{ data.recordCreatedBy }}</b>
+                </span>
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length > 11
+                  "
+                  matTooltip=" {{ data.recordCreatedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.recordCreatedBy | slice: 0:9
+                    }}{{ data.recordCreatedBy.length > 9 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.recordCreatedBy"><b>NA</b> </span>
+                <div style="font-size: small" *ngIf="data.createdDate">
+                  <b>{{ data.createdDate | date: "dd MMM yyyy" }} </b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.createdDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Created By
+                </div>
+              </div>
+              <div
+                class="col-6"
+                *ngIf="data.modifiedBy && data.modifiedBy != 'string'"
+              >
+                <span *ngIf="data.modifiedBy && data.modifiedBy.length <= 11"
+                  ><b>{{ data.modifiedBy }}</b>
+                </span>
+                <span
+                  *ngIf="data.modifiedBy && data.modifiedBy.length > 11"
+                  matTooltip=" {{ data.modifiedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.modifiedBy | slice: 0:9
+                    }}{{ data.modifiedBy.length > 9 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.modifiedBy"><b>NA</b> </span>
+                <div style="font-size: small" *ngIf="data.lastModifiedDate">
+                  <b>{{ data.lastModifiedDate | date: "dd MMM yyyy" }} </b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.lastModifiedDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Modified By
+                </div>
+              </div>
+              <!-- <div class="col-md-6">
+                 <p>
+                  <span style="font-size: small"><b>01 Jan 2021</b></span> <br>
+                  <span class="text-muted" style="font-size: smaller"
+                    >User Since</span
+                  >
+                </p>
+              </div>  -->
+              <div class="col-6" style="padding-top: 5%">
+                <span class="" style="float: right">
+                  <span
+                    matTooltip="Edit User"
+                    id="editROSUser"
+                    name="editROSUser"
+                    matTooltipPosition="below"
+                  >
+                    <i
+                      (click)="navigateToEditUsers(data)"
+                      class="fa fa-pencil-alt mr-2"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span>
+                  <span
+                    id="configurationROSUser"
+                    name="configurationROSUser"
+                    matTooltip="User Configuration"
+                    matTooltipPosition="below"
+                  >
+                    <i
+                      (click)="requestAddUserConfig(data)"
+                      class="fas fa-lock mr-2"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span>
+                  <!-- <i
+                    class="far fa-check-circle mr-3"
+                    style="cursor: pointer; font-size: 1.2em"
+                  ></i> -->
+
+                  <!-- <span
+                    (click)="openDelUser(data)"
+                    *ngIf="data?.role?.name != 'ROLE_CLIENTADMIN'"
+                    matTooltip="Delete User"
+                    matTooltipPosition="below"
+                  >
+                    <i
+                      class="fa fa-trash mr-3 "
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span>  -->
+                  <!-- Activate - Deactivate Client  -->
+                  <span
+                    id="deactivateROSUser"
+                    name="deactivateROSUser"
+                    (click)="openDeactivateUser(data)"
+                    *ngIf="data?.userStatus == 'ACTIVE'"
+                    matTooltip="Deactivate User"
+                    matTooltipPosition="below"
+                  >
+                    <svg
+                      class="bi bi-x-circle-fill mr-3 mb-1"
+                      fill="currentColor"
+                      height="18"
+                      style="cursor: pointer"
+                      viewBox="0 0 16 16"
+                      width="18"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                      />
+                    </svg>
+                  </span>
+                  <span
+                    id="activateROSUser"
+                    name="activateROSUser"
+                    (click)="openDeactivateUser(data)"
+                    *ngIf="data?.userStatus == 'INACTIVE'"
+                    matTooltip="Activate User"
+                    matTooltipPosition="below"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      class="bi bi-check-circle-fill mr-3 mb-1"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                      />
+                    </svg>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Users  -->
+  <ng-container *ngxPermissionsOnly="['ADM_USR_VAU']">
+    <div *ngIf="activeCard == 'Users'" class="row">
+      <div *ngFor="let data of userTemp" class="col-auto mt-3">
+        <div class="client card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <img
+                  alt=""
+                  src="../../../../assets/images/avatar.png"
+                  style="width: 50px; height: 50px"
+                />
+              </div>
+              <div class="col-8">
+                <span
+                  matTooltip="{{ data?.userProfile?.firstName }}&nbsp;
+                {{ data?.userProfile?.lastName }}"
+                  matTooltipPosition="above"
+                >
+                  {{
+                    data?.userProfile?.firstName +
+                      " " +
+                      data?.userProfile?.lastName | slice: 0:15
+                  }}
+                  {{
+                    data?.userProfile?.firstName?.length +
+                      data?.userProfile?.lastName?.length >
+                    15
+                      ? "..."
+                      : ""
+                  }}
+                </span>
+                <br />
+                <small
+                  class="mt-1 mb-2"
+                  style="color: #8a96a0"
+                  matTooltip=" {{ data.username }}"
+                  matTooltipPosition="right"
+                >
+                  {{ data.username | slice: 0:17
+                  }}{{ data.username?.length > 17 ? "..." : "" }}
+                </small>
+                <br />
+                <span
+                  *ngIf="data.role?.name?.length <= 15"
+                  style="font-size: 12px"
+                >
+                  {{ data.role?.name }}
+                </span>
+                <span
+                  *ngIf="data.role?.name?.length > 15"
+                  style="font-size: 12px"
+                  matTooltip=" {{ data.role?.name }}"
+                  matTooltipPosition="below"
+                >
+                  {{ data.role?.name | slice: 0:14
+                  }}{{ data.role?.name?.length > 14 ? "..." : "" }}
+                </span>
+              </div>
+            </div>
+            <hr class="mt-2" />
+            <div class="row">
+              <div
+                class="col-6"
+                *ngIf="!data.modifiedBy || data.modifiedBy == 'string'"
+              >
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length <= 11
+                  "
+                  ><b>{{ data.recordCreatedBy }}</b>
+                </span>
+                <span
+                  *ngIf="
+                    data.recordCreatedBy && data.recordCreatedBy.length > 11
+                  "
+                  matTooltip=" {{ data.recordCreatedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.recordCreatedBy | slice: 0:9
+                    }}{{ data.recordCreatedBy.length > 9 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.recordCreatedBy"><b>NA</b> </span>
+                <div style="font-size: small" *ngIf="data.createdDate">
+                  <b>{{ data.createdDate | date: "dd MMM yyyy" }} </b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.createdDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Created By
+                </div>
+              </div>
+              <div
+                class="col-6"
+                *ngIf="data.modifiedBy && data.modifiedBy != 'string'"
+              >
+                <span *ngIf="data.modifiedBy && data.modifiedBy.length <= 11"
+                  ><b>{{ data.modifiedBy }}</b>
+                </span>
+                <span
+                  *ngIf="data.modifiedBy && data.modifiedBy.length > 11"
+                  matTooltip=" {{ data.modifiedBy }}"
+                  matTooltipPosition="above"
+                  ><b
+                    >{{ data.modifiedBy | slice: 0:9
+                    }}{{ data.modifiedBy.length > 9 ? "..." : "" }}</b
+                  >
+                </span>
+                <span *ngIf="!data.modifiedBy || data.modifiedBy == 'string'"
+                  ><b>NA</b>
+                </span>
+                <div style="font-size: small" *ngIf="data.lastModifiedDate">
+                  <b>{{ data.lastModifiedDate | date: "dd MMM yyyy" }}</b>
+                </div>
+                <div style="font-size: small" *ngIf="!data.lastModifiedDate">
+                  <b>NA</b>
+                </div>
+                <div class="text-muted" style="font-size: smaller">
+                  Modified By
+                </div>
+              </div>
+              <div class="col-6" style="padding-top: 5%">
+                <span class="" style="float: right">
+                  <span
+                    matTooltip="Edit User"
+                    id="editUser"
+                    name="editUser"
+                    matTooltipPosition="below"
+                    *ngxPermissionsOnly="['ADM_USR_EDI']"
+                  >
+                    <i
+                      (click)="navigateToEditUser(data)"
+                      class="fa fa-pencil-alt mr-2"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span>
+                  <span
+                    id="configurationUser"
+                    name="configurationUser"
+                    matTooltip="User Configuration"
+                    matTooltipPosition="below"
+                    *ngxPermissionsOnly="['ADM_USR_CON']"
+                  >
+                    <i
+                      (click)="requestAddUserConfig(data)"
+                      class="fas fa-lock mr-2"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span>
+                  <!-- <i
+                    class="far fa-check-circle mr-3"
+                    style="cursor: pointer; font-size: 1.2em"
+                  ></i> -->
+                  <!-- delete user -->
+                  <!-- <span
+                    (click)="openDelUser(data)"
+                    *ngIf="data?.role?.name != 'ROLE_CLIENTADMIN'"
+                    matTooltip="Delete User"
+                    matTooltipPosition="below"
+                  >
+                    <i
+                      class="fa fa-trash mr-2"
+                      style="cursor: pointer; font-size: 1.2em"
+                    ></i
+                  ></span> -->
+                  <!-- Activate - Deactivate Client  -->
+                  <span *ngxPermissionsOnly="['ADM_USR_DEA']">
+                    <span
+                      id="deactivateUser"
+                      name="deactivateUser"
+                      (click)="openDeactivateUser(data)"
+                      *ngIf="data?.userStatus == 'ACTIVE'"
+                      matTooltip="Deactivate User"
+                      matTooltipPosition="below"
+                    >
+                      <svg
+                        class="bi bi-x-circle-fill mr-3"
+                        fill="currentColor"
+                        height="18"
+                        style="cursor: pointer"
+                        viewBox="0 0 16 16"
+                        width="18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <ng-container *ngxPermissionsOnly="['ADM_USR_ACT']">
+                    <span
+                      id="activateUser"
+                      name="activateUser"
+                      (click)="openDeactivateUser(data)"
+                      *ngIf="data?.userStatus == 'INACTIVE'"
+                      matTooltip="Activate User"
+                      matTooltipPosition="below"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                        class="bi bi-check-circle-fill mr-3"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                        />
+                      </svg>
+                    </span>
+                  </ng-container>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- View All Restaurants  -->
+  <ng-container *ngxPermissionsOnly="['ADM_RES_VCR']">
+    <div *ngIf="activeCard == 'Restaurants'">
+      <div class="row">
+        <div class="col-5 client">
+          <div *ngIf="restaurantData.length > 0" class="row">
+            <div class="col-12">
+              <span class="h4 ml-2">Restaurants</span><br />
+              <div class="clients-container" id="style-1">
+                <div
+                  *ngFor="let data of restTemp1; let i = index"
+                  class="col-auto mt-3 clients"
+                  [class.active]="selectedRestIndex === i"
+                  (click)="setRestIndex(i); setRestId(data.id)"
+                >
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-2">
+                        <!-- <span *ngIf="data.address?.country?.countryName != 'UK'">
+                    <imd
+                      alt=""
+                      src="https://cpimg.tistatic.com/06339267/b/5/Cupcake-Candle-Multi-Color.png"
+                      style="width: 76px"
+                    />
+                  </span> -->
+                        <span>
+                          <img
+                            alt=""
+                            src="../../../../assets/images/restaurant.png"
+                            style="width: 60px"
+                          />
+                        </span>
+                      </div>
+                      <div class="col-7" style="padding-top: 8px">
+                        <span
+                          *ngIf="
+                            data.name == 'string' ||
+                            data.name == '' ||
+                            !data.name
+                          "
+                          style="font-size: large"
+                        >
+                          Untitled
+                        </span>
+                        <span
+                          *ngIf="
+                            data.name?.length <= 15 && data.name != 'string'
+                          "
+                          style="font-size: large"
+                        >
+                          {{ data.name }}
+                        </span>
+                        <span
+                          *ngIf="data.name?.length > 15"
+                          matTooltip=" {{ data.name }}"
+                          matTooltipPosition="above"
+                          style="font-size: large"
+                        >
+                          {{ data.name }}
+                        </span>
+                        <br />
+                        <!-- <span *ngIf="data.clientLegalName?.length <= 12">
+                        {{ data.clientLegalName }}
+                      </span>
+                      <span
+                        *ngIf="data.clientLegalName?.length > 12"
+                        matTooltip=" {{ data.clientLegalName }}"
+                        matTooltipPosition="right"
+                      >
+                        {{ data.clientLegalName | slice: 0:12 }}
+                        {{ data.clientLegalName?.length > 12 ? "..." : "" }}
+                      </span>
+                      <span *ngIf="!data.clientLegalName"> Untitled </span>
+                      <br /> -->
+                        <!-- <small
+                    *ngIf="data.primaryContact?.primaryContactEmail?.length <= 15"
+                    style="color: #8a96a0"
+                  >
+                    {{ data.primaryContact?.primaryContactEmail | slice: 0:15
+                    }}{{
+                      data.primaryContact?.primaryContactEmail > 15 ? "..." : ""
+                    }}
+                  </small>
+                  <small
+                    *ngIf="data.primaryContact?.primaryContactEmail?.length > 15"
+                    matTooltip=" {{ data.primaryContact?.primaryContactEmail }}"
+                    matTooltipPosition="after"
+                    style="color: #8a96a0"
+                  >
+                    {{ data.primaryContact?.primaryContactEmail | slice: 0:15
+                    }}{{
+                      data.primaryContact?.primaryContactEmail?.length > 15
+                        ? "..."
+                        : ""
+                    }}
+                  </small> -->
+                        <!-- <br /> -->
+                        <span
+                          *ngIf="
+                            data.postalAddress?.city == '' ||
+                            data.postalAddress?.city == 'string' ||
+                            !data.postalAddress?.city
+                          "
+                          style="color: #8a96a0"
+                        >
+                          Untitled,
+                        </span>
+                        <span
+                          *ngIf="
+                            data.postalAddress?.city?.length <= 16 &&
+                            data.postalAddress?.city != 'string'
+                          "
+                          style="color: #8a96a0"
+                        >
+                          {{ data.postalAddress?.city }},
+                        </span>
+                        <!-- <span
+                        *ngIf="data.postalAddress?.city?.length > 16"
+                        matTooltip=" {{ data.postalAddress?.city }}"
+                        matTooltipPosition="below"
+                        style="color: #8a96a0"
+                      >
+                        {{ data.postalAddress?.city | slice: 0:13 }}
+                        {{ data.postalAddress?.city.length > 13 ? "..." : "" }},
+                      </span> -->
+                        <!-- <span
+                        matTooltip=" {{ data.address?.city }}"
+                        matTooltipPosition="below"
+                        style="color: #8a96a0"
+                      >
+                        {{ data.postalAddress?.city }},
+                        {{ data.postalAddress?.country?.countryName }}
+                      </span> -->
+                        <span
+                          *ngIf="
+                            !data?.postalAddressCountry ||
+                            data?.postalAddressCountry == 'string' ||
+                            data?.postalAddressCountry == ''
+                          "
+                          style="color: #8a96a0"
+                        >
+                          Untitled
+                        </span>
+                        <span
+                          *ngIf="
+                            data?.postalAddressCountry?.length <= 16 &&
+                            data?.postalAddressCountry != 'string'
+                          "
+                          style="color: #8a96a0"
+                        >
+                          {{ data?.postalAddressCountry }}
+                        </span>
+                        <span
+                          *ngIf="data?.postalAddressCountry?.length > 16"
+                          matTooltip=" {{ data?.postalAddressCountry }}"
+                          matTooltipPosition="below"
+                          style="color: #8a96a0"
+                        >
+                          {{ data?.postalAddressCountry | slice: 0:13 }}
+                          {{
+                            data?.postalAddressCountry.length > 13 ? "..." : ""
+                          }}
+                          <br />
+                        </span>
+                        <!-- <span
+                    *ngIf="data.address?.city?.length <= 11"
+                    style="color: #8a96a0"
+                  >
+                    {{ data.postalAddress?.city | slice: 0:11
+                    }}{{ data.postalAddress?.city.length > 11 ? "..." : "" }} &nbsp;
+                    {{ data.postalAddress?.country?.countryName }}
+                  </span> -->
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row d-flex justify-content-between">
+                      <!-- <div class="col"> -->
+                      <!-- <span> -->
+                      <span
+                        matTooltip="Edit Restaurant"
+                        id="editrestaurant"
+                        name="editrestaurant"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_EDI']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToEditRestaurant(data)"
+                        >
+                          EDIT
+                        </button>
+                      </span>
+
+                      <span
+                        matTooltip="View Restaurant"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_VIE']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToViewRestaurant(data)"
+                        >
+                          VIEW
+                        </button>
+                      </span>
+                      <span
+                        id="restaurantConfiguration"
+                        name="restaurantConfiguration"
+                        matTooltip="Restaurant Configuration"
+                        matTooltipPosition="below"
+                        *ngxPermissionsOnly="['ADM_RES_CON']"
+                      >
+                        <button
+                          mat-button
+                          color="primary"
+                          (click)="navigateToRestConfig(data)"
+                        >
+                          CONFIGURE
+                        </button>
+                      </span>
+
+                      <span
+                        id="loginrestaurant"
+                        name="loginrestaurant"
+                        matTooltip="Login to Restaurant"
+                        matTooltipPosition="below"
+                      >
+                        <a href="{{ accountUrl }}">
+                          <button mat-stroked-button class="positive-btn">
+                            <svg
+                              class="bi bi-box-arrow-in-right"
+                              fill="currentColor"
+                              height="16"
+                              style="cursor: pointer; margin-bottom: 2px"
+                              viewBox="0 0 16 16"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
+                                fill-rule="evenodd"
+                              />
+                              <path
+                                d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                                fill-rule="evenodd"
+                              />
+                            </svg>
+                            &nbsp;&nbsp;LOGIN AS ADMIN
+                          </button>
+                        </a>
+                      </span>
+                      <i
+                        aria-hidden="true"
+                        class="bi bi-box-arrow-in-right"
+                        style="cursor: pointer"
+                      ></i>
+                      <!-- </span> -->
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <hr
+                    class="mt-2 hrl"
+                    *ngIf="
+                      i != restTemp1.length - 1 &&
+                      i != selectedRestIndex &&
+                      i != selectedRestIndex - 1
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="row">
+            <div class="col-12">
+              <div class="card client">
+                <div class="card-body">
+                  <h4>Manage Restaurant</h4>
+                  <div class="map"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="card client">
+                <div class="card-body">
+                  <ngx-chartjs-bar
+                    [restaID]="sendRestId"
+                    [selectDate]="selectDate"
+                    [currencySymbolChart]="currency"
+                  ></ngx-chartjs-bar>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6">
+              <div class="card client">
+                <div class="card-body">
+                  <ngx-charts
+                    [restaID]="sendRestId"
+                    [selectDate]="selectDate"
+                  ></ngx-charts>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card client">
+                <div class="card-body">
+                  <h4>
+                    Labour
+                    <span style="float: right; font-size: x-large"
+                      >{{ currency }}{{ sumLabour }}</span
+                    >
+                  </h4>
+                  <div class="row mt-2" style="text-align: center">
+                    <div class="col" style="padding: 0px">
+                      <h5 class="text-green" style="font-size: x-large">0%</h5>
+                      <p class="text-muted" style="font-size: small">vs BUD</p>
+                    </div>
+                    <div class="col" style="padding: 0px">
+                      <h5 class="text-red" style="font-size: x-large">0%</h5>
+                      <p class="text-muted" style="font-size: small">vs FCST</p>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                  <br />
+                  <chart type="bar" [data]="data" [options]="options"></chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #deactivateClient>
+    <div class="">
+      <div class="d-flex justify-content-end">
+        <i
+          style="cursor: pointer"
+          class="fa fa-times fa-1x"
+          (click)="dismissAll()"
+          name="dismissDeactivateClient"
+          id="dismissDeactivateClient"
+        ></i>
+      </div>
+    </div>
+    <div matDialogContent class="text-center" style="width: 300px">
+      <div>
+        <i class="fa-close fa-2x"></i>
+      </div>
+      <div class="d-flex justify-content-center flex-column p-4">
+        <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+        <div>Deactivate Client?</div>
+        <br />
+        <div>
+          <button
+            class="btn bg-dark text-white"
+            (click)="deactivate(); dismissAll()"
+            name="deactivateClient"
+            id="deactivateClient"
+          >
+            DEACTIVATE
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #activateClient>
+    <div class="">
+      <div class="d-flex justify-content-end">
+        <i
+          style="cursor: pointer"
+          class="fa fa-times fa-1x"
+          (click)="dismissAll()"
+          name="dismissActivateClient"
+          id="dismissActivateClient"
+        ></i>
+      </div>
+    </div>
+    <div matDialogContent class="text-center" style="width: 300px">
+      <div>
+        <i class="fa-close fa-2x"></i>
+      </div>
+      <div class="d-flex justify-content-center flex-column p-4">
+        <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+        <div>Activate Client?</div>
+        <br />
+
+        <button
+          class="btn bg-dark text-white"
+          (click)="deactivate(); dismissAll()"
+          name="activateClient"
+          id="activateClient"
+        >
+          ACTIVATE
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Delete User -->
+  <ng-template #userDelConfirmation>
+    <div matDialogContent>
+      <h5 class="mt-2">Are you sure you want to delete the user?</h5>
+
+      <div class="d-flex justify-content-center p-3">
+        <button
+          id="deleteuser"
+          name="deleteuser"
+          type="button"
+          class="btn btn-sm bg-dark text-white mr-3 px-3"
+          (click)="deleteUser()"
+        >
+          YES
+        </button>
+        <button
+          id="notdeleteuser"
+          name="notdeleteuser"
+          type="button"
+          class="btn btn-sm bg-dark text-white px-4"
+          (click)="dismissAll()"
+        >
+          NO
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Success Message -->
+  <ng-template #successDialog>
+    <div class="p-3">
+      <div class="d-flex justify-content-end">
+        <i class="fa fa-times" (click)="dismissAll()"></i>
+      </div>
+      <h3
+        class="mt-2 text-center"
+        matDialogTitle
+        [innerHTML]="dialogMessage"
+      ></h3>
+      <!-- <p matDialogContent>{{ dialogMessage }}</p> -->
+      <div class="d-flex justify-content-center mt-5">
+        <button
+          id="closeSuccess"
+          name="closeSuccess"
+          class="btn btn-sm bg-dark text-white mr-4"
+          (click)="dismissAll()"
+        >
+          Close
+        </button>
+        <button
+          class="btn btn-sm bg-dark text-white"
+          id="viewusersuccess"
+          name="viewusersuccess"
+          (click)="dismissAll()"
+        >
+          View Users
+        </button>
+      </div>
+    </div>
+    <!-- <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button (click)="navigateToRestaurants()" mat-raised-button matDialogClose>
+      Navigate To Restaurants
+    </button>
+  </mat-dialog-actions> -->
+  </ng-template>
+
+  <!-- Error Message -->
+  <ng-template #secondDialog>
+    <h3 matDialogTitle>Error !</h3>
+    <p matDialogContent>{{ dialogMessage }}</p>
+    <mat-dialog-actions align="end" style="padding-left: 9rem">
+      <button
+        id="errormessage"
+        name="errormessage"
+        type="button"
+        (click)="dismissAll()"
+        mat-raised-button
+        matDialogClose
+      >
+        Dismiss
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <!-- Error Message -->
+  <ng-template #secondDialog>
+    <h3 matDialogTitle>Error !</h3>
+    <p matDialogContent>{{ dialogMessage }}</p>
+    <mat-dialog-actions align="end" style="padding-left: 9rem">
+      <button
+        type="button"
+        (click)="dismissAll()"
+        mat-raised-button
+        matDialogClose
+      >
+        Dismiss
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <!-- User Permissions -->
+
+  <ng-template #userPermissionModal let-modal>
+    <div class="modal-body">
+      <!-- /*** Calling User-Permissions Component *****/ -->
+      <ngx-user-permissions
+        (closeEvnt)="closePerms($event)"
+        name="userPermissionModal"
+        id="userPermissionModal"
+      >
+      </ngx-user-permissions>
+    </div>
+  </ng-template>
+
+  <ng-template #deactivateUser>
+    <div class="">
+      <div class="d-flex justify-content-end">
+        <i
+          style="cursor: pointer"
+          class="fa fa-times fa-1x"
+          (click)="dismissAll()"
+          name="dismissDeactivateUser"
+          id="dismissDeactivateUser"
+        ></i>
+      </div>
+    </div>
+    <div matDialogContent class="text-center" style="width: 300px">
+      <div>
+        <i class="fa-close fa-2x"></i>
+      </div>
+      <div class="d-flex justify-content-center flex-column p-4">
+        <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+        <div>Deactivate USER?</div>
+        <br />
+        <div>
+          <button
+            class="btn bg-dark text-white"
+            (click)="deactivateuser(); dismissAll()"
+            name="deactivateUser"
+            id="deactivateUser"
+          >
+            DEACTIVATE
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #activateUser>
+    <div class="">
+      <div class="d-flex justify-content-end">
+        <i
+          style="cursor: pointer"
+          class="fa fa-times fa-1x"
+          (click)="dismissAll()"
+          name="dismissActivateUser"
+          id="dismissActivateUser"
+        ></i>
+      </div>
+    </div>
+    <div matDialogContent class="text-center" style="width: 300px">
+      <div>
+        <i class="fa-close fa-2x"></i>
+      </div>
+      <div class="d-flex justify-content-center flex-column p-4">
+        <i class="fa fa-power-off fa-2x my-3" aria-hidden="true"></i>
+
+        <div>Activate USER?</div>
+        <br />
+
+        <button
+          class="btn bg-dark text-white"
+          (click)="deactivateuser(); dismissAll()"
+          name="activateUser"
+          id="activateUser"
+        >
+          ACTIVATE
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #loginClient>
+    <h3 matDialogTitle>Error !</h3>
+    <p matDialogContent>Client was Deactivated.</p>
+    <mat-dialog-actions align="end" style="padding-left: 9rem">
+      <button
+        type="button"
+        (click)="dismissAll()"
+        mat-raised-button
+        matDialogClose
+        name="dismiss"
+        id="dismiss"
+      >
+        Dismiss
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+</div>

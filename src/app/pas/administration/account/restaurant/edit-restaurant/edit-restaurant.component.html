@@ -1,0 +1,581 @@
+<style type="text/css">
+  .fa {
+    cursor: pointer;
+  }
+</style>
+<div class="emp-details">
+  <div class="container">
+    <div class="row">
+      <i
+        id="back"
+        name="back"
+        (click)="back()"
+        class="fa fa-2x fa-arrow-left pl-3 py-4"
+        style="color: black"
+      ></i>
+      <div class="col heading">Edit Restaurant</div>
+      <div class="col d-flex justify-content-end align-items-start mt-4">
+        <button
+          id="saveEditedDetails"
+          name="saveEditedDetails"
+          (click)="saveEditedDetails()"
+          class="btn btn-dark"
+          type="button"
+        >
+          <i class="fa fa-save"></i> &nbsp; SAVE
+        </button>
+      </div>
+    </div>
+  </div>
+  <div [formGroup]="restaurantForm" class="emp-form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Basic Information</b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="legacy" style="width: 220px">
+                <input
+                  id="businessName"
+                  name="businessName"
+                  formControlName="businessName"
+                  matInput
+                  placeholder="Business Name"
+                  maxlength="100"
+                  required
+                />
+                <mat-error> Business Name Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="legacy" style="width: 220px">
+                <input
+                  id="tradeName"
+                  name="tradeName"
+                  formControlName="tradeName"
+                  matInput
+                  placeholder="Legal/Trade Name"
+                  maxlength="100"
+                  required
+                />
+                <mat-error> Legal/Trade Name Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="legacy" style="width: 220px">
+                <input
+                  id="ownerName"
+                  name="ownerName"
+                  formControlName="ownerName"
+                  matInput
+                  placeholder="Owner Name"
+                  (keypress)="allowOnlyChar($event)"
+                  maxlength="30"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="legacy" style="width: 220px">
+                <input
+                  id="ownerEmail"
+                  name="ownerEmail"
+                  formControlName="ownerEmail"
+                  matInput
+                  placeholder="Owner Email"
+                  maxlength="50"
+                  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{2,}([.]{1}[a-zA-Z]{2,})?"
+                />
+                <mat-error> Please Enter The Valid Email. </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--<div class="row">
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <mat-select aria-required="emptype"
+                            formControlName="client" placeholder="Client">
+                  <mat-option *ngFor="let p of clients" [value]="p.id">
+                    {{ p.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>-->
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Postal Address </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field appearance="legacy" class="address">
+                <input
+                  id="postalAddress"
+                  name="postalAddress"
+                  formControlName="postalAddress"
+                  matInput
+                  maxlength="50"
+                  placeholder="Address"
+                  required
+                />
+                <mat-error> Address Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="postalZipCode"
+                  name="postalZipCode"
+                  formControlName="postalZipCode"
+                  matInput
+                  placeholder="Zip Code"
+                  maxlength="15"
+                  required
+                />
+                <mat-error> Zip Code Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="postalCity"
+                  name="postalCity"
+                  formControlName="postalCity"
+                  matInput
+                  placeholder="Town/City"
+                  (keypress)="allowOnlyChar($event)"
+                  required
+                />
+                <mat-error> Town/City Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="postalState"
+                  name="postalState"
+                  formControlName="postalState"
+                  matInput
+                  placeholder="Region/County"
+                  (keypress)="allowOnlyChar($event)"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <mat-select
+                  id="postalCountry"
+                  name="postalCountry"
+                  aria-required="emptype"
+                  formControlName="postalCountry"
+                  placeholder="Country"
+                  required
+                >
+                  <mat-option *ngFor="let p of countries" [value]="p.id">
+                    {{ p.countryName }}
+                  </mat-option>
+                </mat-select>
+                <mat-error> Country Is Required. </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 form-title">
+          <b>Physical Address</b>&nbsp;
+          <button
+            id="copyPostalAddress"
+            name="copyPostalAddress"
+            (click)="copyPostalAddress()"
+            class="btn btn-dark copyButton"
+            type="button"
+          >
+            <i class="fa fa-copy"></i> &nbsp; Copy Postal Address
+          </button>
+        </div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-8">
+              <mat-form-field appearance="legacy" class="address">
+                <input
+                  id="physicalAddress1"
+                  name="physicalAddress1"
+                  formControlName="physicalAddress"
+                  matInput
+                  maxlength="50"
+                  placeholder="Address"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="physicalZipCode1"
+                  name="physicalZipCode1"
+                  formControlName="physicalZipCode"
+                  matInput
+                  placeholder="Zip Code"
+                  maxlength="15"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="physicalCity1"
+                  name="physicalCity1"
+                  formControlName="physicalCity"
+                  matInput
+                  placeholder="Town/City"
+                  (keypress)="allowOnlyChar($event)"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="physicalState1"
+                  name="physicalState1"
+                  formControlName="physicalState"
+                  (keypress)="allowOnlyChar($event)"
+                  matInput
+                  placeholder="Region/County"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <mat-select
+                  id="physicalCountry1"
+                  name="physicalCountry1"
+                  aria-required="emptype"
+                  formControlName="physicalCountry"
+                  placeholder="Country"
+                >
+                  <mat-option *ngFor="let p of countries" [value]="p.id">
+                    {{ p.countryName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>Primary Contact </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="firstName"
+                  name="firstName"
+                  formControlName="firstName"
+                  matInput
+                  placeholder="First Name"
+                  maxlength="30"
+                  (keypress)="allowOnlyChar($event)"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="middleName"
+                  name="middleName"
+                  formControlName="middleName"
+                  matInput
+                  maxlength="30"
+                  placeholder="Middle Name"
+                  (keypress)="allowOnlyChar($event)"
+                />
+                <!-- <mat-error>
+                  Fiels Is Required.
+                </mat-error>            -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="lastName"
+                  name="lastName"
+                  formControlName="lastName"
+                  matInput
+                  maxlength="30"
+                  placeholder="Last Name"
+                  (keypress)="allowOnlyChar($event)"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                  matInput
+                  placeholder="Email"
+                  maxlength="50"
+                  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z0-9.-]{2,}[.]{1}[a-zA-Z]{3,}"
+                />
+                <!-- <mat-error>
+                  Please Enter The Valid Email.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="mobileNumber"
+                  name="mobileNumber"
+                  formControlName="mobileNumber"
+                  matInput
+                  placeholder="Mobile/Telephone"
+                  type="tel"
+                  maxlength="15"
+                  minlength="4"
+                  (keypress)="($event.charCode >= 8 && $event.charCode < 58)"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="website"
+                  name="website"
+                  formControlName="website"
+                  matInput
+                  placeholder="Website"
+                />
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="telephone"
+                  matInput
+                  placeholder="Telephone"
+                  type="tel"
+                  maxlength="10"
+                  (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                  required
+                />
+                <mat-error>
+                  Field Is Required.
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- <hr>
+      <div class="row">
+        <div class="col-4 form-title"><b>Contact Information</b></div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactEmail"
+                  matInput
+                  placeholder="Email"
+                  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactMobileNumber"
+                  matInput
+                  placeholder="Phone Number"
+                  type="tel"
+                  maxlength="10"
+                  (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                  
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="contactTelephone"
+                  matInput
+                  placeholder="Telephone"
+                  type="tel"
+                  maxlength="10"
+                  (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                  
+                />
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="fax"
+                  matInput
+                  placeholder="Fax"
+                  type="number"
+                />
+                <mat-error>
+                  Field Is Required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  formControlName="website"
+                  matInput
+                  placeholder="Website"
+                />
+                <mat-error>
+                  Field Is Required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <hr />
+      <div class="row">
+        <div class="col-xl-4 form-title"><b>VAT Information </b></div>
+        <div class="col-xl-8 form-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <mat-select
+                  id="taxCountryCode"
+                  name="taxCountryCode"
+                  aria-required="emptype"
+                  formControlName="taxCountryCode"
+                  placeholder="Tax Country Code"
+                >
+                  <mat-option *ngFor="let p of countryCode" [value]="p.id">
+                    {{ p.taxCountryCode }}
+                  </mat-option>
+                </mat-select>
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="legacy">
+                <input
+                  id="taxRegistrationNo"
+                  name="taxRegistrationNo"
+                  formControlName="taxRegistrationNo"
+                  matInput
+                  placeholder="Tax Registration Number"
+                  maxlength="15"
+                />
+                <!-- <mat-error>
+                  Field Is Required.
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #secondDialog>
+  <h3 matDialogTitle>Error !</h3>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      id="closeDialog"
+      name="closeDialog"
+      (click)="closeDialog()"
+      mat-raised-button
+    >
+      Dismiss
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #successDialog>
+  <h2 matDialogTitle>Save Successful !!!!</h2>
+  <p matDialogContent>{{ dialogMessage }}</p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      (click)="navigateToDashBoard()"
+      id="navigateToDashBoard"
+      name="navigateToDashBoard"
+      mat-raised-button
+      matDialogClose
+    >
+      Navigate To DashBoard
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #backDialog>
+  <h3 class="logo" matDialogTitle>Do you want to Exit without Saving??</h3>
+  <p matDialogContent></p>
+  <mat-dialog-actions align="end" style="padding-left: 9rem">
+    <button
+      (click)="navigateToDashBoard()"
+      id="navigateToDashBoard1"
+      name="navigateToDashBoard1"
+      mat-raised-button
+      matDialogClose
+    >
+      Yes
+    </button>
+    &nbsp;
+    <button
+      (click)="closeDialog()"
+      id="closeDialog1"
+      name="closeDialog1"
+      mat-raised-button
+      matDialogClose
+    >
+      No
+    </button>
+  </mat-dialog-actions>
+</ng-template>

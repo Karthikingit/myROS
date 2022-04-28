@@ -1,0 +1,118 @@
+.my-info {
+    border-collapse: collapse;
+  }
+  .john2 {
+    font: var(--unnamed-font-style-normal) normal normal 12px/14px
+      var(--unnamed-font-family-roboto);
+    text-align: left;
+    font: normal normal normal 12px/14px Roboto;
+    letter-spacing: 0.01px;
+    color: #000000;
+    opacity: 0.5;
+    margin-left: -25px;
+  }
+  .my-info td {
+    /*add some padding to space it out if you want*/
+    padding: 0 65px;
+    font-size: 14px;
+    padding-top: 6px;
+    font: var(--unnamed-font-style-normal) normal normal 14px/17px
+      var(--unnamed-font-family-roboto);
+    color: var(--unnamed-color-020202);
+    text-align: left;
+    font: normal normal normal 14px/17px Roboto;
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 1;
+    
+    
+    
+  }
+  .my-info th {
+    /*add some padding to space it out if you want*/
+    text-align: left;
+    font: normal normal medium 18px/22px Roboto;
+    
+    
+
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 1;
+    font-weight: bold;
+    padding: 0 65px;
+    
+  }
+  
+  .headtop th {
+    font-size: 5px;
+  }
+  .bottom-border {
+    border-top: 1px solid #c0c0c0;
+    font-size: 12px;
+  }
+  .bottom-top {
+    border-bottom: 1px solid #000000;
+    opacity: 0.1;
+  }
+  
+  .my-info1 {
+    border-collapse: collapse;
+  }
+  .my-info1 td {
+    /*add some padding to space it out if you want*/
+    padding: 0 85px;
+    font-size: 14px;
+    padding-top: 6px;
+    font: var(--unnamed-font-style-normal) normal normal 14px/17px
+      var(--unnamed-font-family-roboto);
+    color: var(--unnamed-color-020202);
+    text-align: left;
+    font: normal normal normal 14px/17px Roboto;
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 1;    
+  }
+  .my-info1 th {
+    /*add some padding to space it out if you want*/
+  
+    padding: 0 85px;
+    text-align: left;
+    font: normal normal medium 18px/22px Roboto;    
+
+    letter-spacing: 0.02px;
+    color: #020202;
+    opacity: 1;
+    font-weight: bold;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #f7f8f9;
+    box-shadow: 0px 20px 40px #c7c7c768;
+    border-radius: 5px;
+    padding: 0 16px;
+  }
+
+
+  .left {
+    padding: 0px;
+  }
+  .john {
+    font: var(--unnamed-font-style-normal) normal normal 15px/18px
+      var(--unnamed-font-family-roboto);
+    text-align: left;
+    font: normal normal normal 15px/18px Roboto;
+    letter-spacing: 0.02px;
+    color: #000000;
+    opacity: 1;
+    margin-left: -25px;
+  }
+   .borderless td, .borderless th {
+    border: none;
+}

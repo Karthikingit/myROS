@@ -1,0 +1,39 @@
+<h4 style="text-align: center">Gross Sales</h4>
+<br />
+
+<chart type="pie" [data]="data" [options]="options"></chart><br />
+<hr />
+<div style="text-align: center" class="row">
+  <div class="col center">
+    <span class="dot" [ngStyle]="{ 'background-color': '#4662A2' }"></span
+    >&nbsp;&nbsp; <span style="font-size: small">Food</span> &nbsp;&nbsp;
+  </div>
+  <div class="col center">
+    <span class="dot" [ngStyle]="{ 'background-color': '#468F49' }"></span
+    >&nbsp;&nbsp; <span style="font-size: small"> Delivery </span>&nbsp;&nbsp;
+  </div>
+  <div class="col center">
+    <span class="dot" [ngStyle]="{ 'background-color': '#A24646' }"></span
+    >&nbsp;&nbsp; <span style="font-size: small"> Drinks </span>
+  </div>
+  <div class="col center">
+    <span class="dot" [ngStyle]="{ 'background-color': '#ECBC0F' }"></span
+    >&nbsp;&nbsp; <span style="font-size: small"> Others </span>
+  </div>
+</div>
+<hr />
+
+<div class="row mt-2" style="text-align: center">
+  <div class="col" style="padding: 0px">
+    <h5 class="text-green" style="font-size: x-large">0%</h5>
+    <p class="text-muted" style="font-size: small">Gross Profit</p>
+  </div>
+  <div class="col" style="padding: 0px">
+    <h5 class="text-green" style="font-size: x-large">0%</h5>
+    <p class="text-muted" style="font-size: small">Wastage</p>
+  </div>
+  <div class="col" style="padding: 0px">
+    <h5 class="text-red" style="font-size: x-large">0%</h5>
+    <p class="text-muted" style="font-size: small">Unexplained</p>
+  </div>
+</div>

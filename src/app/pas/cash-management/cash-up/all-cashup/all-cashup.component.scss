@@ -1,0 +1,17 @@
+@import "../../../../@theme/styles/themes";
+@import "~@nebular/theme/styles/global/breakpoints";
+@import "~bootstrap/scss/mixins/breakpoints";
+
+@include nb-install-component() {
+  ag-grid-angular {
+    .ag-theme-alpine {
+      clear: both;
+      padding-top: 10px;
+    }
+  }
+}
+
+.deleteCard {
+  height: 230px;
+  width: 340px;
+}

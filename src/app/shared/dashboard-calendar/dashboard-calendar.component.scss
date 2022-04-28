@@ -1,0 +1,58 @@
+::ng-deep .day-cell {
+  margin: 3px;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  width: 2.55rem !important;
+  height: 2.55rem !important;
+  border: none !important;
+
+  &:hover {
+    background-color: none !important;
+  }
+}
+::ng-deep .nb-theme-default nb-base-calendar .calendar-navigation {
+  display: none;
+}
+::ng-deep
+  .nb-theme-default
+  nb-calendar-picker
+  .day-cell:not(.disabled):not(.empty).today
+  .cell-content,
+.nb-theme-default
+  nb-calendar-picker
+  .month-cell:not(.disabled):not(.empty).today
+  .cell-content,
+.nb-theme-default
+  nb-calendar-picker
+  .year-cell:not(.disabled):not(.empty).today
+  .cell-content {
+  background-color: #404040;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: #404040;
+  }
+}
+::ng-deep .nb-theme-default nb-base-calendar nb-card {
+  width: 100%;
+  border: none;
+}
+::ng-deep .nb-theme-default nb-calendar-days-names {
+  border: none;
+}
+::ng-deep
+  .nb-theme-default
+  nb-calendar-picker
+  .day-cell:not(.disabled):not(.empty).selected
+  .cell-content {
+  background-color: rgba(109, 108, 108, 0.2) !important;
+  border-color: rgba(109, 108, 108, 0.2) !important;
+  color: black;
+}
+::ng-deep .nb-theme-default nb-calendar-days-names .day {
+  color: black;
+}
+::ng-deep .nb-theme-default nb-calendar-days-names .day.holiday {
+  color: black;
+}
